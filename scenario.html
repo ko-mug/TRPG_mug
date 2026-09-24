@@ -37,6 +37,17 @@
       padding-bottom: 10px;
     }
 
+    /* メイン画像 */
+    .main-image {
+      display: block;
+      width: 100%;
+      max-height: 500px;
+      object-fit: contain;
+      margin: 24px 0;
+      border-radius: 8px;
+    }
+
+    /* 概要 */
     .meta {
       background: #f5f5f5;
       padding: 18px 22px;
@@ -48,6 +59,7 @@
       margin: 3px 0;
     }
 
+    /* 本文 */
     .section {
       margin: 38px 0;
     }
@@ -70,6 +82,7 @@
       margin: 0 0 1.2em;
     }
 
+    /* BOX */
     .box {
       margin: 32px 0;
       padding: 18px 22px;
@@ -83,6 +96,7 @@
       margin-bottom: 8px;
     }
 
+    /* アコーディオン */
     details {
       margin: 32px 0;
       border: 1px solid #ccc;
@@ -105,6 +119,7 @@
       padding: 18px 20px 6px;
     }
 
+    /* 引用 */
     .quote {
       margin: 32px 0;
       padding-left: 20px;
@@ -112,6 +127,7 @@
       font-style: italic;
     }
 
+    /* 本文中の画像 */
     .scenario-image {
       display: block;
       max-width: 100%;
@@ -126,7 +142,7 @@
       color: #777;
     }
 
-    /* 本文内の装飾 */
+    /* 文字装飾 */
     .red {
       color: #c0392b;
     }
@@ -143,16 +159,32 @@
       text-decoration: underline;
     }
 
+    /* ハウスルール */
     .house-rule {
-      margin-top: 60px;
-      padding-top: 20px;
+      margin-top: 64px;
+      padding: 22px 0;
+      border-top: 1px solid #ccc;
     }
 
+    .house-rule-title {
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 0.08em;
+      color: #777;
+      margin-bottom: 8px;
+    }
+
+    .house-rule a {
+      font-weight: bold;
+    }
+
+    /* 権利表記 */
     .copyright {
-      margin-top: 50px;
-      padding-top: 20px;
-      border-top: 1px solid #ccc;
+      margin-top: 30px;
+      padding-top: 22px;
+      border-top: 1px solid #ddd;
       font-size: 12px;
+      line-height: 1.7;
       color: #777;
     }
 
@@ -177,6 +209,10 @@
       .heading {
         font-size: 21px;
       }
+
+      .main-image {
+        max-height: 350px;
+      }
     }
   </style>
 </head>
@@ -195,17 +231,30 @@
   <script>
 
     // ========================================
+    // HTML特殊文字を安全にする
+    // ========================================
+
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    // ========================================
     // 本文内の装飾
     //
-    // **文字**            → 太字
-    // {red:文字}          → 赤
-    // {yellow:文字}       → 黄
-    // {blue:文字}         → 青
-    // {underline:文字}    → 下線
+    // **文字**         → 太字
+    // {red:文字}       → 赤
+    // {yellow:文字}    → 黄
+    // {blue:文字}      → 青
+    // {underline:文字} → 下線
     // ========================================
 
     function formatText(text) {
-
       if (!text) return "";
 
       let result = escapeHtml(text);
@@ -245,26 +294,10 @@
 
 
     // ========================================
-    // HTML特殊文字を安全にする
-    // ========================================
-
-    function escapeHtml(text) {
-
-      return String(text)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/"/g, "&quot;")
-        .replace(/'/g, "&#039;");
-    }
-
-
-    // ========================================
-    // 概要欄の1行を作る
+    // 概要欄
     // ========================================
 
     function createMetaRow(label, value) {
-
       if (!value) return "";
 
       return `
@@ -277,19 +310,15 @@
 
 
     // ========================================
-    // 本文の各パーツを作る
+    // 本文パーツ
     // ========================================
 
     function createSection(section) {
-
       const type = section.type || "text";
       const heading = section.heading || "";
       const body = section.body || "";
 
-
-      // 大見出し
       if (type === "heading") {
-
         return `
           <h2 class="heading">
             ${escapeHtml(heading)}
@@ -297,10 +326,7 @@
         `;
       }
 
-
-      // 小見出し
       if (type === "subheading") {
-
         return `
           <h3 class="subheading">
             ${escapeHtml(heading)}
@@ -308,44 +334,27 @@
         `;
       }
 
-
-      // BOX
       if (type === "box") {
-
         return `
           <div class="box">
-
             ${
               heading
-                ? `
-                  <div class="box-title">
-                    ${escapeHtml(heading)}
-                  </div>
-                `
+                ? `<div class="box-title">${escapeHtml(heading)}</div>`
                 : ""
             }
 
             ${
               body
-                ? `
-                  <div>
-                    ${formatText(body)}
-                  </div>
-                `
+                ? `<div>${formatText(body)}</div>`
                 : ""
             }
-
           </div>
         `;
       }
 
-
-      // アコーディオン
       if (type === "accordion") {
-
         return `
           <details>
-
             <summary>
               ${escapeHtml(heading || "詳細")}
             </summary>
@@ -353,42 +362,27 @@
             <div class="accordion-body">
               ${formatText(body)}
             </div>
-
           </details>
         `;
       }
 
-
-      // 引用
       if (type === "quote") {
-
         return `
           <div class="quote">
-
             ${
               heading
-                ? `
-                  <strong>
-                    ${escapeHtml(heading)}
-                  </strong>
-                  <br>
-                `
+                ? `<strong>${escapeHtml(heading)}</strong><br>`
                 : ""
             }
 
             ${formatText(body)}
-
           </div>
         `;
       }
 
-
-      // リンク
       if (type === "link") {
-
         return `
           <div class="section">
-
             <a
               href="${escapeHtml(body)}"
               target="_blank"
@@ -396,18 +390,13 @@
             >
               ${escapeHtml(heading || body)} ↗
             </a>
-
           </div>
         `;
       }
 
-
-      // 画像
       if (type === "image") {
-
         return `
           <div class="section">
-
             ${
               body
                 ? `
@@ -422,43 +411,26 @@
 
             ${
               heading
-                ? `
-                  <div class="image-caption">
-                    ${escapeHtml(heading)}
-                  </div>
-                `
+                ? `<div class="image-caption">${escapeHtml(heading)}</div>`
                 : ""
             }
-
           </div>
         `;
       }
 
-
-      // 通常本文
       return `
         <div class="section">
-
           ${
             heading
-              ? `
-                <h2 class="heading">
-                  ${escapeHtml(heading)}
-                </h2>
-              `
+              ? `<h2 class="heading">${escapeHtml(heading)}</h2>`
               : ""
           }
 
           ${
             body
-              ? `
-                <div>
-                  ${formatText(body)}
-                </div>
-              `
+              ? `<div>${formatText(body)}</div>`
               : ""
           }
-
         </div>
       `;
     }
@@ -474,7 +446,23 @@
         <h1 class="scenario-title">
           ${escapeHtml(scenario.title)}
         </h1>
+      `;
 
+
+      // メイン画像
+      if (scenario.mainImage) {
+        html += `
+          <img
+            class="main-image"
+            src="${escapeHtml(scenario.mainImage)}"
+            alt="${escapeHtml(scenario.title)}"
+          >
+        `;
+      }
+
+
+      // 概要
+      html += `
         <div class="meta">
 
           ${createMetaRow(
@@ -501,16 +489,13 @@
       `;
 
 
-      // システム固有の情報
+      // システム固有情報
       if (scenario.info) {
-
         scenario.info.forEach(info => {
-
           html += createMetaRow(
             info.label,
             info.value
           );
-
         });
       }
 
@@ -521,20 +506,51 @@
         scenario.note
       );
 
-
-      html += `
-        </div>
-      `;
+      html += `</div>`;
 
 
       // 本文
       if (scenario.sections) {
-
         scenario.sections.forEach(section => {
-
           html += createSection(section);
-
         });
+      }
+
+
+      // HOUSE RULE
+      if (
+        scenario.houseRule &&
+        scenario.houseRule.url
+      ) {
+        html += `
+          <div class="house-rule">
+
+            <div class="house-rule-title">
+              HOUSE RULE
+            </div>
+
+            <a
+              href="${escapeHtml(scenario.houseRule.url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${escapeHtml(
+                scenario.houseRule.name || "ハウスルール"
+              )} ↗
+            </a>
+
+          </div>
+        `;
+      }
+
+
+      // 権利表記
+      if (scenario.copyright) {
+        html += `
+          <div class="copyright">
+            ${formatText(scenario.copyright)}
+          </div>
+        `;
       }
 
 
@@ -549,18 +565,14 @@
 
 
     // ========================================
-    // data.jsonを読み込む
-    //
-    // ?v=現在時刻 を毎回つけることで
-    // 古いdata.jsonのキャッシュを避ける
+    // data.json読み込み
+    // キャッシュ回避付き
     // ========================================
 
     fetch("data.json?v=" + Date.now())
 
       .then(response => {
-
         if (!response.ok) {
-
           throw new Error(
             "data.jsonを読み込めませんでした"
           );
@@ -576,27 +588,21 @@
             window.location.search
           );
 
-
         const scenarioId =
           params.get("id") || "S001";
-
 
         const scenario =
           data.scenarios.find(
             item => item.id === scenarioId
           );
 
-
         if (!scenario) {
-
           throw new Error(
             "指定されたシナリオが見つかりません"
           );
         }
 
-
         renderScenario(scenario);
-
       })
 
       .catch(error => {
@@ -610,7 +616,6 @@
               シナリオを読み込めませんでした。
             </div>
           `;
-
       });
 
   </script>
