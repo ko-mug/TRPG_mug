@@ -1,13 +1,106 @@
 <!DOCTYPE html>
 <html lang="ja">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>TRPG Scenario</title>
+
+  <title>TRPG_mug</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: sans-serif;
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 24px;
+      line-height: 1.7;
+      color: #333;
+      background: #fff;
+    }
+
+    h1 {
+      margin-bottom: 32px;
+    }
+
+    .scenario-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .scenario-card {
+      display: block;
+      padding: 22px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      text-decoration: none;
+      color: inherit;
+      transition: 0.15s;
+    }
+
+    .scenario-card:hover {
+      background: #f7f7f7;
+      transform: translateY(-2px);
+    }
+
+    .scenario-title {
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .system {
+      font-size: 13px;
+      color: #777;
+    }
+
+    .tags {
+      margin-top: 10px;
+      font-size: 13px;
+      color: #555;
+    }
+
+    .info {
+      margin-top: 14px;
+      font-size: 14px;
+    }
+  </style>
 </head>
 
+
 <body>
-  <h1>シナリオ置き場</h1>
-  <p>GitHub Pages表示テストです。</p>
+
+  <h1>シナリオ一覧</h1>
+
+  <div class="scenario-list">
+
+    <a class="scenario-card" href="scenario.html">
+
+      <div class="scenario-title">
+        死者のストンプ
+      </div>
+
+      <div class="system">
+        CoC
+      </div>
+
+      <div class="tags">
+        シティ / 1920s
+      </div>
+
+      <div class="info">
+        <div>人数：3〜5名</div>
+        <div>時間：夜5日</div>
+      </div>
+
+    </a>
+
+  </div>
+
 </body>
+
 </html>
