@@ -25,6 +25,94 @@
       margin-bottom: 32px;
     }
 
+
+    /* ========================================
+       絞り込み
+    ======================================== */
+
+    .filters {
+      margin-bottom: 32px;
+      padding: 20px 22px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      background: #fafafa;
+    }
+
+    .filter-group + .filter-group {
+      margin-top: 18px;
+    }
+
+    .filter-title {
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .filter-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .filter-button {
+      appearance: none;
+      border: 1px solid #ccc;
+      border-radius: 999px;
+      padding: 6px 13px;
+      font: inherit;
+      font-size: 13px;
+      color: #444;
+      background: #fff;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .filter-button:hover {
+      background: #eee;
+    }
+
+    .filter-button.active {
+      color: #fff;
+      background: #333;
+      border-color: #333;
+    }
+
+    .filter-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px solid #ddd;
+    }
+
+    .result-count {
+      font-size: 13px;
+      color: #666;
+    }
+
+    .reset-button {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      font: inherit;
+      font-size: 13px;
+      color: #666;
+      background: none;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    .reset-button:hover {
+      color: #000;
+    }
+
+
+    /* ========================================
+       シナリオ一覧
+    ======================================== */
+
     .scenario-list {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -47,7 +135,9 @@
       transform: translateY(-2px);
     }
 
+
     /* サムネイル */
+
     .thumbnail {
       width: 100%;
       aspect-ratio: 16 / 9;
@@ -56,7 +146,9 @@
       background: #eee;
     }
 
+
     /* カードの文字部分 */
+
     .card-body {
       padding: 20px 22px 22px;
     }
@@ -83,19 +175,50 @@
       font-size: 14px;
     }
 
+
+    /* 0件 */
+
+    .no-results {
+      grid-column: 1 / -1;
+      padding: 30px 20px;
+      text-align: center;
+      color: #777;
+      background: #fafafa;
+      border-radius: 10px;
+    }
+
+
+    /* エラー */
+
     .error {
+      grid-column: 1 / -1;
       padding: 20px;
       background: #fff4f4;
       border: 1px solid #e0b4b4;
       border-radius: 8px;
     }
 
+
+    /* スマホ */
+
     @media (max-width: 600px) {
+
       body {
         margin-top: 24px;
         padding-left: 18px;
         padding-right: 18px;
       }
+
+      .filters {
+        padding: 18px;
+      }
+
+      .filter-footer {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+      }
+
     }
   </style>
 </head>
@@ -104,7 +227,79 @@
 
   <h1>シナリオ一覧</h1>
 
-  <div id="scenario-list" class="scenario-list">
+
+  <!-- ========================================
+       絞り込み
+  ======================================== -->
+
+  <div
+    id="filters"
+    class="filters"
+    hidden
+  >
+
+    <div
+      id="system-filter-group"
+      class="filter-group"
+    >
+
+      <div class="filter-title">
+        システム
+      </div>
+
+      <div
+        id="system-filters"
+        class="filter-buttons"
+      ></div>
+
+    </div>
+
+
+    <div
+      id="tag-filter-group"
+      class="filter-group"
+    >
+
+      <div class="filter-title">
+        タグ
+      </div>
+
+      <div
+        id="tag-filters"
+        class="filter-buttons"
+      ></div>
+
+    </div>
+
+
+    <div class="filter-footer">
+
+      <div
+        id="result-count"
+        class="result-count"
+      ></div>
+
+      <button
+        id="reset-filters"
+        class="reset-button"
+        type="button"
+      >
+        絞り込みを解除
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================
+       シナリオ一覧
+  ======================================== -->
+
+  <div
+    id="scenario-list"
+    class="scenario-list"
+  >
     読み込み中……
   </div>
 
@@ -112,16 +307,29 @@
   <script>
 
     // ========================================
+    // 状態
+    // ========================================
+
+    let allScenarios = [];
+
+    let selectedSystem = "";
+
+    const selectedTags = new Set();
+
+
+    // ========================================
     // HTML特殊文字を安全にする
     // ========================================
 
     function escapeHtml(text) {
+
       return String(text ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
     }
 
 
@@ -131,9 +339,10 @@
 
     function createScenarioCard(scenario) {
 
-      const tags = Array.isArray(scenario.tags)
-        ? scenario.tags.join(" / ")
-        : scenario.tags || "";
+      const tags =
+        Array.isArray(scenario.tags)
+          ? scenario.tags.join(" / ")
+          : scenario.tags || "";
 
 
       return `
@@ -209,7 +418,345 @@
 
         </a>
       `;
+
     }
+
+
+    // ========================================
+    // ボタンを作る
+    // ========================================
+
+    function createFilterButton(
+      text,
+      onClick
+    ) {
+
+      const button =
+        document.createElement("button");
+
+      button.type = "button";
+      button.className = "filter-button";
+      button.textContent = text;
+
+      button.addEventListener(
+        "click",
+        onClick
+      );
+
+      return button;
+
+    }
+
+
+    // ========================================
+    // システム絞り込みを作る
+    // ========================================
+
+    function createSystemFilters() {
+
+      const container =
+        document.getElementById(
+          "system-filters"
+        );
+
+
+      const systems = [
+        ...new Set(
+          allScenarios
+            .map(scenario =>
+              String(
+                scenario.system || ""
+              ).trim()
+            )
+            .filter(Boolean)
+        )
+      ];
+
+
+      systems.forEach(system => {
+
+        const button =
+          createFilterButton(
+            system,
+            () => {
+
+              // 同じボタンを押したら解除
+              if (
+                selectedSystem === system
+              ) {
+                selectedSystem = "";
+              } else {
+                selectedSystem = system;
+              }
+
+              updateFilters();
+
+            }
+          );
+
+
+        button.dataset.value = system;
+
+        container.appendChild(button);
+
+      });
+
+
+      // システムが無い場合は
+      // グループ自体を隠す
+
+      if (systems.length === 0) {
+
+        document
+          .getElementById(
+            "system-filter-group"
+          )
+          .hidden = true;
+
+      }
+
+    }
+
+
+    // ========================================
+    // タグ絞り込みを作る
+    // ========================================
+
+    function createTagFilters() {
+
+      const container =
+        document.getElementById(
+          "tag-filters"
+        );
+
+
+      const tags = [
+        ...new Set(
+          allScenarios.flatMap(
+            scenario =>
+              Array.isArray(scenario.tags)
+                ? scenario.tags
+                    .map(tag =>
+                      String(tag).trim()
+                    )
+                    .filter(Boolean)
+                : []
+          )
+        )
+      ];
+
+
+      tags.forEach(tag => {
+
+        const button =
+          createFilterButton(
+            tag,
+            () => {
+
+              if (
+                selectedTags.has(tag)
+              ) {
+                selectedTags.delete(tag);
+              } else {
+                selectedTags.add(tag);
+              }
+
+              updateFilters();
+
+            }
+          );
+
+
+        button.dataset.value = tag;
+
+        container.appendChild(button);
+
+      });
+
+
+      // タグが無い場合は
+      // グループ自体を隠す
+
+      if (tags.length === 0) {
+
+        document
+          .getElementById(
+            "tag-filter-group"
+          )
+          .hidden = true;
+
+      }
+
+    }
+
+
+    // ========================================
+    // 条件に合うシナリオを取得
+    // ========================================
+
+    function getFilteredScenarios() {
+
+      return allScenarios.filter(
+        scenario => {
+
+          // システム
+
+          if (
+            selectedSystem &&
+            scenario.system !== selectedSystem
+          ) {
+            return false;
+          }
+
+
+          // タグ
+
+          const scenarioTags =
+            Array.isArray(scenario.tags)
+              ? scenario.tags
+              : [];
+
+
+          // 選択したタグを
+          // 全部持っているか
+
+          for (
+            const tag of selectedTags
+          ) {
+
+            if (
+              !scenarioTags.includes(tag)
+            ) {
+              return false;
+            }
+
+          }
+
+
+          return true;
+
+        }
+      );
+
+    }
+
+
+    // ========================================
+    // 一覧を表示
+    // ========================================
+
+    function renderScenarioList() {
+
+      const list =
+        document.getElementById(
+          "scenario-list"
+        );
+
+
+      const scenarios =
+        getFilteredScenarios();
+
+
+      if (scenarios.length === 0) {
+
+        list.innerHTML = `
+          <div class="no-results">
+            条件に合うシナリオがありません。
+          </div>
+        `;
+
+      } else {
+
+        list.innerHTML =
+          scenarios
+            .map(createScenarioCard)
+            .join("");
+
+      }
+
+
+      document
+        .getElementById(
+          "result-count"
+        )
+        .textContent =
+          `${scenarios.length}件表示`;
+
+    }
+
+
+    // ========================================
+    // ボタンの見た目を更新
+    // ========================================
+
+    function updateButtonStates() {
+
+      document
+        .querySelectorAll(
+          "#system-filters .filter-button"
+        )
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            button.dataset.value ===
+              selectedSystem
+          );
+
+        });
+
+
+      document
+        .querySelectorAll(
+          "#tag-filters .filter-button"
+        )
+        .forEach(button => {
+
+          button.classList.toggle(
+            "active",
+            selectedTags.has(
+              button.dataset.value
+            )
+          );
+
+        });
+
+    }
+
+
+    // ========================================
+    // 絞り込み全体を更新
+    // ========================================
+
+    function updateFilters() {
+
+      updateButtonStates();
+
+      renderScenarioList();
+
+    }
+
+
+    // ========================================
+    // 絞り込み解除
+    // ========================================
+
+    document
+      .getElementById(
+        "reset-filters"
+      )
+      .addEventListener(
+        "click",
+        () => {
+
+          selectedSystem = "";
+
+          selectedTags.clear();
+
+          updateFilters();
+
+        }
+      );
 
 
     // ========================================
@@ -217,23 +764,30 @@
     // キャッシュ回避付き
     // ========================================
 
-    fetch("data.json?v=" + Date.now())
+    fetch(
+      "data.json?v=" + Date.now()
+    )
 
       .then(response => {
 
         if (!response.ok) {
+
           throw new Error(
             "data.jsonを読み込めませんでした"
           );
+
         }
 
         return response.json();
+
       })
 
       .then(data => {
 
         const list =
-          document.getElementById("scenario-list");
+          document.getElementById(
+            "scenario-list"
+          );
 
 
         if (
@@ -245,13 +799,31 @@
             "<p>現在公開されているシナリオはありません。</p>";
 
           return;
+
         }
 
 
-        list.innerHTML =
-          data.scenarios
-            .map(createScenarioCard)
-            .join("");
+        allScenarios =
+          data.scenarios;
+
+
+        // 絞り込みUIを作成
+
+        createSystemFilters();
+
+        createTagFilters();
+
+
+        document
+          .getElementById(
+            "filters"
+          )
+          .hidden = false;
+
+
+        // 最初の一覧表示
+
+        updateFilters();
 
       })
 
@@ -260,7 +832,9 @@
         console.error(error);
 
         document
-          .getElementById("scenario-list")
+          .getElementById(
+            "scenario-list"
+          )
           .innerHTML = `
             <div class="error">
               シナリオ一覧を読み込めませんでした。
