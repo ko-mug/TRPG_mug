@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -38,8 +37,6 @@
       padding-bottom: 10px;
     }
 
-    /* 概要 */
-
     .meta {
       background: #f5f5f5;
       padding: 18px 22px;
@@ -50,8 +47,6 @@
     .meta-row {
       margin: 3px 0;
     }
-
-    /* 本文 */
 
     .section {
       margin: 38px 0;
@@ -75,8 +70,6 @@
       margin: 0 0 1.2em;
     }
 
-    /* 囲み */
-
     .box {
       margin: 32px 0;
       padding: 18px 22px;
@@ -89,8 +82,6 @@
       font-weight: bold;
       margin-bottom: 8px;
     }
-
-    /* 折り畳み */
 
     details {
       margin: 32px 0;
@@ -114,16 +105,12 @@
       padding: 18px 20px 6px;
     }
 
-    /* 引用 */
-
     .quote {
       margin: 32px 0;
       padding-left: 20px;
       border-left: 4px solid #aaa;
       font-style: italic;
     }
-
-    /* 画像 */
 
     .scenario-image {
       display: block;
@@ -139,8 +126,7 @@
       color: #777;
     }
 
-    /* 本文装飾 */
-
+    /* 本文内の装飾 */
     .red {
       color: #c0392b;
     }
@@ -156,8 +142,6 @@
     .underline {
       text-decoration: underline;
     }
-
-    /* その他 */
 
     .house-rule {
       margin-top: 60px;
@@ -197,16 +181,12 @@
   </style>
 </head>
 
-
 <body>
 
   <div class="back-link">
-    <a href="index.html">
-      ← シナリオ一覧へ戻る
-    </a>
+    <a href="index.html">← シナリオ一覧へ戻る</a>
   </div>
 
-  <!-- JSONから作った内容がここに入る -->
   <main id="scenario">
     読み込み中……
   </main>
@@ -215,47 +195,50 @@
   <script>
 
     // ========================================
-    // 本文装飾
+    // 本文内の装飾
+    //
+    // **文字**            → 太字
+    // {red:文字}          → 赤
+    // {yellow:文字}       → 黄
+    // {blue:文字}         → 青
+    // {underline:文字}    → 下線
     // ========================================
 
     function formatText(text) {
+
       if (!text) return "";
 
-      // HTMLとして解釈されないようにする
       let result = escapeHtml(text);
 
-      // 太字
       result = result.replace(
         /\*\*(.+?)\*\*/g,
         "<strong>$1</strong>"
       );
 
-      // 赤字
       result = result.replace(
         /\{red:(.+?)\}/g,
         '<span class="red">$1</span>'
       );
 
-      // 黄字
       result = result.replace(
         /\{yellow:(.+?)\}/g,
         '<span class="yellow">$1</span>'
       );
 
-      // 青字
       result = result.replace(
         /\{blue:(.+?)\}/g,
         '<span class="blue">$1</span>'
       );
 
-      // 下線
       result = result.replace(
         /\{underline:(.+?)\}/g,
         '<span class="underline">$1</span>'
       );
 
-      // 改行
-      result = result.replace(/\n/g, "<br>");
+      result = result.replace(
+        /\n/g,
+        "<br>"
+      );
 
       return result;
     }
@@ -266,6 +249,7 @@
     // ========================================
 
     function escapeHtml(text) {
+
       return String(text)
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -276,22 +260,24 @@
 
 
     // ========================================
-    // 概要1行
+    // 概要欄の1行を作る
     // ========================================
 
     function createMetaRow(label, value) {
+
       if (!value) return "";
 
       return `
         <div class="meta-row">
-          <strong>${escapeHtml(label)}：</strong>${formatText(value)}
+          <strong>${escapeHtml(label)}：</strong>
+          ${formatText(value)}
         </div>
       `;
     }
 
 
     // ========================================
-    // セクションを作る
+    // 本文の各パーツを作る
     // ========================================
 
     function createSection(section) {
@@ -303,6 +289,7 @@
 
       // 大見出し
       if (type === "heading") {
+
         return `
           <h2 class="heading">
             ${escapeHtml(heading)}
@@ -313,6 +300,7 @@
 
       // 小見出し
       if (type === "subheading") {
+
         return `
           <h3 class="subheading">
             ${escapeHtml(heading)}
@@ -321,19 +309,30 @@
       }
 
 
-      // 囲み
+      // BOX
       if (type === "box") {
+
         return `
           <div class="box">
 
-            ${heading
-              ? `<div class="box-title">${escapeHtml(heading)}</div>`
-              : ""
+            ${
+              heading
+                ? `
+                  <div class="box-title">
+                    ${escapeHtml(heading)}
+                  </div>
+                `
+                : ""
             }
 
-            ${body
-              ? `<div>${formatText(body)}</div>`
-              : ""
+            ${
+              body
+                ? `
+                  <div>
+                    ${formatText(body)}
+                  </div>
+                `
+                : ""
             }
 
           </div>
@@ -341,8 +340,9 @@
       }
 
 
-      // 折り畳み
+      // アコーディオン
       if (type === "accordion") {
+
         return `
           <details>
 
@@ -361,12 +361,19 @@
 
       // 引用
       if (type === "quote") {
+
         return `
           <div class="quote">
 
-            ${heading
-              ? `<strong>${escapeHtml(heading)}</strong><br>`
-              : ""
+            ${
+              heading
+                ? `
+                  <strong>
+                    ${escapeHtml(heading)}
+                  </strong>
+                  <br>
+                `
+                : ""
             }
 
             ${formatText(body)}
@@ -378,8 +385,10 @@
 
       // リンク
       if (type === "link") {
+
         return `
           <div class="section">
+
             <a
               href="${escapeHtml(body)}"
               target="_blank"
@@ -387,6 +396,7 @@
             >
               ${escapeHtml(heading || body)} ↗
             </a>
+
           </div>
         `;
       }
@@ -394,23 +404,30 @@
 
       // 画像
       if (type === "image") {
+
         return `
           <div class="section">
 
-            ${body
-              ? `
-                <img
-                  class="scenario-image"
-                  src="${escapeHtml(body)}"
-                  alt="${escapeHtml(heading)}"
-                >
-              `
-              : ""
+            ${
+              body
+                ? `
+                  <img
+                    class="scenario-image"
+                    src="${escapeHtml(body)}"
+                    alt="${escapeHtml(heading)}"
+                  >
+                `
+                : ""
             }
 
-            ${heading
-              ? `<div class="image-caption">${escapeHtml(heading)}</div>`
-              : ""
+            ${
+              heading
+                ? `
+                  <div class="image-caption">
+                    ${escapeHtml(heading)}
+                  </div>
+                `
+                : ""
             }
 
           </div>
@@ -418,18 +435,28 @@
       }
 
 
-      // 通常テキスト
+      // 通常本文
       return `
         <div class="section">
 
-          ${heading
-            ? `<h2 class="heading">${escapeHtml(heading)}</h2>`
-            : ""
+          ${
+            heading
+              ? `
+                <h2 class="heading">
+                  ${escapeHtml(heading)}
+                </h2>
+              `
+              : ""
           }
 
-          ${body
-            ? `<div>${formatText(body)}</div>`
-            : ""
+          ${
+            body
+              ? `
+                <div>
+                  ${formatText(body)}
+                </div>
+              `
+              : ""
           }
 
         </div>
@@ -438,7 +465,7 @@
 
 
     // ========================================
-    // シナリオページを作る
+    // シナリオ全体を表示
     // ========================================
 
     function renderScenario(scenario) {
@@ -450,7 +477,11 @@
 
         <div class="meta">
 
-          ${createMetaRow("システム", scenario.system)}
+          ${createMetaRow(
+            "システム",
+            scenario.system
+          )}
+
           ${createMetaRow(
             "タグ",
             Array.isArray(scenario.tags)
@@ -458,40 +489,59 @@
               : scenario.tags
           )}
 
-          ${createMetaRow("人数", scenario.players)}
-          ${createMetaRow("時間", scenario.time)}
+          ${createMetaRow(
+            "人数",
+            scenario.players
+          )}
+
+          ${createMetaRow(
+            "時間",
+            scenario.time
+          )}
       `;
 
 
-      // ScenarioInfo
+      // システム固有の情報
       if (scenario.info) {
+
         scenario.info.forEach(info => {
+
           html += createMetaRow(
             info.label,
             info.value
           );
+
         });
       }
 
 
+      // 備考
       html += createMetaRow(
         "備考",
         scenario.note
       );
 
 
-      html += `</div>`;
+      html += `
+        </div>
+      `;
 
 
       // 本文
       if (scenario.sections) {
+
         scenario.sections.forEach(section => {
+
           html += createSection(section);
+
         });
       }
 
 
-      document.getElementById("scenario").innerHTML = html;
+      document
+        .getElementById("scenario")
+        .innerHTML = html;
+
 
       document.title =
         scenario.title + " | TRPG_mug";
@@ -500,13 +550,20 @@
 
     // ========================================
     // data.jsonを読み込む
+    //
+    // ?v=現在時刻 を毎回つけることで
+    // 古いdata.jsonのキャッシュを避ける
     // ========================================
 
-    fetch("data.json")
+    fetch("data.json?v=" + Date.now())
+
       .then(response => {
 
         if (!response.ok) {
-          throw new Error("data.jsonを読み込めませんでした");
+
+          throw new Error(
+            "data.jsonを読み込めませんでした"
+          );
         }
 
         return response.json();
@@ -514,11 +571,11 @@
 
       .then(data => {
 
-        // URL例：
-        // scenario.html?id=S001
-
         const params =
-          new URLSearchParams(window.location.search);
+          new URLSearchParams(
+            window.location.search
+          );
+
 
         const scenarioId =
           params.get("id") || "S001";
@@ -531,6 +588,7 @@
 
 
         if (!scenario) {
+
           throw new Error(
             "指定されたシナリオが見つかりません"
           );
@@ -545,16 +603,17 @@
 
         console.error(error);
 
-        document.getElementById("scenario").innerHTML = `
-          <div class="error">
-            シナリオを読み込めませんでした。
-          </div>
-        `;
+        document
+          .getElementById("scenario")
+          .innerHTML = `
+            <div class="error">
+              シナリオを読み込めませんでした。
+            </div>
+          `;
 
       });
 
   </script>
 
 </body>
-
 </html>
