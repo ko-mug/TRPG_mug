@@ -82,6 +82,12 @@
       margin: 0 0 1.2em;
     }
 
+    /* 中央揃え本文 */
+    .center {
+      margin: 38px 0;
+      text-align: center;
+    }
+
     /* BOX */
     .box {
       margin: 32px 0;
@@ -331,6 +337,14 @@
           <h3 class="subheading">
             ${escapeHtml(heading)}
           </h3>
+        `;
+      }
+
+      if (type === "center") {
+        return `
+          <div class="center">
+            ${formatText(body)}
+          </div>
         `;
       }
 
