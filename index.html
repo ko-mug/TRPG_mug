@@ -98,7 +98,10 @@
 
   <script>
 
+    // ========================================
     // HTML特殊文字を安全にする
+    // ========================================
+
     function escapeHtml(text) {
       return String(text ?? "")
         .replace(/&/g, "&amp;")
@@ -109,7 +112,10 @@
     }
 
 
+    // ========================================
     // シナリオカードを作る
+    // ========================================
+
     function createScenarioCard(scenario) {
 
       const tags = Array.isArray(scenario.tags)
@@ -176,12 +182,21 @@
     }
 
 
+    // ========================================
     // data.jsonを読み込む
-    fetch("data.json")
+    //
+    // cache: "no-store"
+    // 古いdata.jsonがブラウザに残るのを防ぐ
+    // ========================================
+
+    fetch("data.json", { cache: "no-store" })
+
       .then(response => {
 
         if (!response.ok) {
-          throw new Error("data.jsonを読み込めませんでした");
+          throw new Error(
+            "data.jsonを読み込めませんでした"
+          );
         }
 
         return response.json();
@@ -193,7 +208,10 @@
           document.getElementById("scenario-list");
 
 
-        if (!data.scenarios || data.scenarios.length === 0) {
+        if (
+          !data.scenarios ||
+          data.scenarios.length === 0
+        ) {
 
           list.innerHTML =
             "<p>現在公開されているシナリオはありません。</p>";
@@ -213,11 +231,13 @@
 
         console.error(error);
 
-        document.getElementById("scenario-list").innerHTML = `
-          <div class="error">
-            シナリオ一覧を読み込めませんでした。
-          </div>
-        `;
+        document
+          .getElementById("scenario-list")
+          .innerHTML = `
+            <div class="error">
+              シナリオ一覧を読み込めませんでした。
+            </div>
+          `;
 
       });
 
