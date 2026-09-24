@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>TRPG_mug</title>
+  <title>シナリオ一覧 | TRPG_mug</title>
 
   <style>
     * {
@@ -16,7 +16,7 @@
       font-family: sans-serif;
       max-width: 1000px;
       margin: 40px auto;
-      padding: 0 24px;
+      padding: 0 24px 80px;
       line-height: 1.7;
       color: #333;
       background: #fff;
@@ -68,6 +68,21 @@
       margin-top: 14px;
       font-size: 14px;
     }
+
+    .error {
+      padding: 20px;
+      background: #fff4f4;
+      border: 1px solid #e0b4b4;
+      border-radius: 8px;
+    }
+
+    @media (max-width: 600px) {
+      body {
+        margin-top: 24px;
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
   </style>
 </head>
 
@@ -76,30 +91,137 @@
 
   <h1>シナリオ一覧</h1>
 
-  <div class="scenario-list">
-
-    <a class="scenario-card" href="scenario.html?id=S001">
-
-      <div class="scenario-title">
-        死者のストンプ
-      </div>
-
-      <div class="system">
-        CoC
-      </div>
-
-      <div class="tags">
-        シティ / 1920s
-      </div>
-
-      <div class="info">
-        <div>人数：3〜5名</div>
-        <div>時間：夜5日</div>
-      </div>
-
-    </a>
-
+  <div id="scenario-list" class="scenario-list">
+    読み込み中……
   </div>
+
+
+  <script>
+
+    // HTML特殊文字を安全にする
+    function escapeHtml(text) {
+      return String(text ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+
+    // シナリオカードを作る
+    function createScenarioCard(scenario) {
+
+      const tags = Array.isArray(scenario.tags)
+        ? scenario.tags.join(" / ")
+        : scenario.tags || "";
+
+
+      return `
+        <a
+          class="scenario-card"
+          href="scenario.html?id=${encodeURIComponent(scenario.id)}"
+        >
+
+          <div class="scenario-title">
+            ${escapeHtml(scenario.title)}
+          </div>
+
+          ${
+            scenario.system
+              ? `
+                <div class="system">
+                  ${escapeHtml(scenario.system)}
+                </div>
+              `
+              : ""
+          }
+
+          ${
+            tags
+              ? `
+                <div class="tags">
+                  ${escapeHtml(tags)}
+                </div>
+              `
+              : ""
+          }
+
+          <div class="info">
+
+            ${
+              scenario.players
+                ? `
+                  <div>
+                    人数：${escapeHtml(scenario.players)}
+                  </div>
+                `
+                : ""
+            }
+
+            ${
+              scenario.time
+                ? `
+                  <div>
+                    時間：${escapeHtml(scenario.time)}
+                  </div>
+                `
+                : ""
+            }
+
+          </div>
+
+        </a>
+      `;
+    }
+
+
+    // data.jsonを読み込む
+    fetch("data.json")
+      .then(response => {
+
+        if (!response.ok) {
+          throw new Error("data.jsonを読み込めませんでした");
+        }
+
+        return response.json();
+      })
+
+      .then(data => {
+
+        const list =
+          document.getElementById("scenario-list");
+
+
+        if (!data.scenarios || data.scenarios.length === 0) {
+
+          list.innerHTML =
+            "<p>現在公開されているシナリオはありません。</p>";
+
+          return;
+        }
+
+
+        list.innerHTML =
+          data.scenarios
+            .map(createScenarioCard)
+            .join("");
+
+      })
+
+      .catch(error => {
+
+        console.error(error);
+
+        document.getElementById("scenario-list").innerHTML = `
+          <div class="error">
+            シナリオ一覧を読み込めませんでした。
+          </div>
+        `;
+
+      });
+
+  </script>
 
 </body>
 
