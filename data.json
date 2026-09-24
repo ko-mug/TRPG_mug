@@ -2,7 +2,7 @@
   "scenarios": [
     {
       "id": "S001",
-      "title": "死者のストンプ",
+      "title": "死者のストンプ【JSONテスト】",,
       "system": "CoC",
       "tags": [
         "シティ",
