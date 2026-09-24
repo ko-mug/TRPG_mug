@@ -1,0 +1,66 @@
+{
+  "scenarios": [
+    {
+      "id": "S001",
+      "title": "死者のストンプ",
+      "system": "CoC",
+      "tags": [
+        "シティ",
+        "1920s"
+      ],
+      "players": "3〜5名",
+      "time": "夜5日",
+      "note": "かなり自由度の高いシナリオとなるため、積極的な行動や提案が推奨される。",
+      "info": [
+        {
+          "label": "ロスト率",
+          "value": "？"
+        },
+        {
+          "label": "探索者",
+          "value": "新規OK / 継続OK"
+        },
+        {
+          "label": "推奨",
+          "value": "目星 / 聞き耳 / 交渉技能 / 戦闘技能"
+        },
+        {
+          "label": "準推奨",
+          "value": "オカルト / 運転（自動車） / 音楽系の技能"
+        }
+      ],
+      "sections": [
+        {
+          "type": "heading",
+          "heading": "導入",
+          "body": ""
+        },
+        {
+          "type": "text",
+          "heading": "",
+          "body": "時は1920年代のアメリカ、とある夜の街。"
+        },
+        {
+          "type": "box",
+          "heading": "注意事項",
+          "body": "ここには**重要な注意事項**が入ります。"
+        },
+        {
+          "type": "subheading",
+          "heading": "技能について",
+          "body": ""
+        },
+        {
+          "type": "text",
+          "heading": "",
+          "body": "**目星・聞き耳**などの技能を推奨します。"
+        },
+        {
+          "type": "accordion",
+          "heading": "KP向け情報",
+          "body": "ここでは**太字**や{red:赤字}、{yellow:黄字}、{blue:青字}、{underline:下線}が使えます。"
+        }
+      ]
+    }
+  ]
+}
