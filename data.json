@@ -2,65 +2,287 @@
   "scenarios": [
     {
       "id": "S001",
-      "title": "死者のストンプ【JSONテスト】",
+      "title": "死者のストンプ",
       "system": "CoC",
       "tags": [
-        "シティ",
-        "1920s"
+        "複数人",
+        "1920",
+        "アメリカ"
       ],
-      "players": "3〜5名",
+      "players": "3~5人",
       "time": "夜5日",
       "note": "かなり自由度の高いシナリオとなるため、積極的な行動や提案が推奨される。",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": {
+        "name": "CoC",
+        "url": "https://www.google.com/?hl=ja"
+      },
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
       "info": [
         {
           "label": "ロスト率",
-          "value": "？"
+          "value": "中"
         },
         {
           "label": "探索者",
-          "value": "新規OK / 継続OK"
+          "value": "新規、継続"
         },
         {
           "label": "推奨",
-          "value": "目星 / 聞き耳 / 交渉技能 / 戦闘技能"
+          "value": "目星, 聞き耳, 交渉技能, 戦闘技能"
         },
         {
           "label": "準推奨",
-          "value": "オカルト / 運転（自動車） / 音楽系の技能"
+          "value": "オカルト, 運転(自動車), 音楽系の技能"
         }
       ],
       "sections": [
         {
-          "type": "heading",
-          "heading": "導入",
-          "body": ""
-        },
-        {
           "type": "text",
           "heading": "",
-          "body": "時は1920年代のアメリカ、とある夜の街。"
+          "body": "ようこそ、狂騒の時代へ。"
         },
         {
-          "type": "box",
+          "type": "warning",
           "heading": "注意事項",
-          "body": "ここには**重要な注意事項**が入ります。"
-        },
-        {
-          "type": "subheading",
-          "heading": "技能について",
-          "body": ""
+          "body": "人種差別に触れているシナリオです。避けては通れない要素となるため、これが難しい方はシナリオ参加を辞退していただくことになります。"
         },
         {
           "type": "text",
-          "heading": "",
-          "body": "**目星・聞き耳**などの技能を推奨します。"
+          "heading": "導入",
+          "body": "時は1920年代のアメリカ、とある夜の街。\r\n今、アメリカでは禁酒法が施行されており、酒を飲むことも、提供することも禁止されている。\r\nにも関わらず───\r\n君達は今、「ブルーヘブン・ボールルーム」という酒場で酒を嗜もうと考え、足を運んでいた。"
         },
         {
-          "type": "accordion",
-          "heading": "KP向け情報",
-          "body": "ここでは**太字**や{red:赤字}、{yellow:黄字}、{blue:青字}、{underline:下線}が使えます。"
+          "type": "text",
+          "heading": "探索者について",
+          "body": "この時代は、激しい人種差別の真っ只中にあります。\r\nそのため、黒色人種は推奨されません。もしそれでも連れて行きたいと言うのであれば、\r\nシナリオ内において、その時代らしい扱いを受けることがあるでしょう。\r\n最も推奨されるのは白色人種です。\r\n\r\nまた、一応法に触れる導入のため(あまり守られてはいないようでしたが)\r\nこの禁酒法施行の時代に、酒を嗜めるくらいの探索者を推奨します。\r\n相談次第では別の理由であっても問題ありません。\r\n\r\nキャラクターシートの提出時には「人種」を添えて提出してください。\r\n白色、黒色、黄色…程度の、ざっくりした見た目上の感じで問題ありません。\r\n当時の人たちもおそらく、それくらいざっくりした感じで見ていたでしょう。"
+        },
+        {
+          "type": "text",
+          "heading": "シナリオ進行について",
+          "body": "このシナリオは、1920年代アメリカを舞台としたシティシナリオとなります。\r\nそのため、「街でなにか買い物をしたい」「こういう建物は無いか」という提案があった場合、\r\n基本ルールブックP334-335を参考とし、およそ1ドル=150円で換算することとします。\r\n\r\nまた、KPが現代の人間だということもあって1920年代の人々の常識や生活には疎いため、\r\n実際のものとは異なる可能性があります。\r\n行動に悩んだ場合、現代日本らしい裁定になることがありますが、ご了承ください。\r\n\r\n再度となりますが、1920年代は黒色人種のことを差別していた時代となります。\r\n蔑称は勿論、差別的な発言・扱いが当たり前のようにあるため、ご注意ください。\r\nこちらについてはシナリオ上避けては通れない要素となりますので、\r\nシナリオ側から「出さないようにする」ことは出来ないこともご了承ください。"
         }
       ]
+    },
+    {
+      "id": "S002",
+      "title": "夜暇氷雨",
+      "system": "CoC",
+      "tags": [
+        "タイマン",
+        "現代"
+      ],
+      "players": "タイマン",
+      "time": "夜2日~／RP量による",
+      "note": "RP推奨",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": {
+        "name": "CoC",
+        "url": "https://www.google.com/?hl=ja"
+      },
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "",
+          "body": "真夜中の余暇。\r\n冷たい雨が降り頻る中を歩く。"
+        },
+        {
+          "type": "text",
+          "heading": "導入",
+          "body": "玄関先に置いてあった傘を手に取り、深夜帯に外へ出る。\r\nコンビニへ？散歩へ？眠れなくて？気分転換？理由はなんだっていい。\r\n雨が降り頻る中、傘を開いた。"
+        },
+        {
+          "type": "text",
+          "heading": "その他",
+          "body": "本卓は、多少の改変がアドリブ的に含まれることがあります。\r\nご了承ください。"
+        }
+      ]
+    },
+    {
+      "id": "S003",
+      "title": "The Hog Game",
+      "system": "CoC",
+      "tags": [
+        "タイマン"
+      ],
+      "players": "タイマン",
+      "time": "終1日~／RP量による",
+      "note": "RP推奨、選択によってR18、R18Gとなる可能性有り",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": {
+        "name": "CoC",
+        "url": "https://www.google.com/?hl=ja"
+      },
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": [
+        {
+          "type": "text",
+          "heading": "",
+          "body": "『賽を投げろ。勝者を決めろ』"
+        },
+        {
+          "type": "warning",
+          "heading": "注意事項",
+          "body": "事前に「全年齢版」か「R18G版」かの選択を行うこと。"
+        },
+        {
+          "type": "text",
+          "heading": "導入",
+          "body": "蓄音機から流れるジャズの音色が、意識を揺り戻す。 \r\nあなたは皮張りの黒い椅子に座っていた。\r\n テーブルを挟んだ向かいには、同じく黒い皮張りの椅子に座った誰かがいる。\r\n それはあなたを真っ直ぐに見据えていた。 \r\n挑戦的な瞳は、僅かな期待を孕んでいた。"
+        },
+        {
+          "type": "text",
+          "heading": "その他",
+          "body": "前述のとおり、「全年齢版」か、「R18G版」のどちらかを予め選択していただくことになります。\n「R18G版」は加筆版となり、「全年齢版」でも充分楽しめるかと思われます。\n尚、「R18」の可能性をほんの少し孕んでいますが、おそらくないかと思われます。多分。きっと。\n探索者と選択肢、ちょっとした事故等はあるかもしれません。\n(多分KP側からはR15くらいで留まると思います。多分)\n「R18G」は問題ないが「R18」は困る、と言う場合もお申し付けください。\n立ち絵を用意していただける場合、ドレスコードが似合うかもしれません。"
+        }
+      ]
+    },
+    {
+      "id": "S004",
+      "title": "LaLuLa",
+      "system": "CoC",
+      "tags": [],
+      "players": "",
+      "time": "",
+      "note": "",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S005",
+      "title": "命絶つにはまだ早い",
+      "system": "CoC",
+      "tags": [
+        "タイマン",
+        "2PL",
+        "現代",
+        "クローズド"
+      ],
+      "players": "タイマン/2PL",
+      "time": "夜三日or終日一日",
+      "note": "RPにより時間が大きく変動する可能性がある。",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S006",
+      "title": "幾重なりしモノ",
+      "system": "CoC",
+      "tags": [
+        "ソロ",
+        "タイマン",
+        "現代"
+      ],
+      "players": "ソロ/タイマン",
+      "time": "夜二日",
+      "note": "",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S007",
+      "title": "烏羽色の支配者",
+      "system": "CoC",
+      "tags": [],
+      "players": "",
+      "time": "",
+      "note": "",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S008",
+      "title": "カレーライス",
+      "system": "",
+      "tags": [],
+      "players": "",
+      "time": "",
+      "note": "",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S009",
+      "title": "ハトヴの晩餐",
+      "system": "CoC",
+      "tags": [
+        "タイマン",
+        "2PL",
+        "クローズド"
+      ],
+      "players": "タイマン/2PL",
+      "time": "終日1日+夜2日 or 夜4日",
+      "note": "叶えたい願いがある探索者／ロストPC参加可能",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S010",
+      "title": "欠如が鼓動を掴めるか？",
+      "system": "CoC",
+      "tags": [
+        "タイマン",
+        "現代"
+      ],
+      "players": "タイマン",
+      "time": "終日1日+夜2日 or 夜4日",
+      "note": "継続推奨",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
+    },
+    {
+      "id": "S011",
+      "title": "探索者、モテ期襲来",
+      "system": "CoC",
+      "tags": [
+        "タイマン",
+        "現代",
+        "日本",
+        "シティ"
+      ],
+      "players": "タイマン",
+      "time": "終日1日 or 夜3日",
+      "note": "",
+      "thumbnail": "",
+      "mainImage": "",
+      "houseRule": null,
+      "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
+      "info": [],
+      "sections": []
     }
   ]
 }
