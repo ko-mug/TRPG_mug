@@ -189,7 +189,7 @@
     // 古いdata.jsonがブラウザに残るのを防ぐ
     // ========================================
 
-    fetch("data.json", { cache: "no-store" })
+    fetch("data.json?v=" + Date.now())
 
       .then(response => {
 
