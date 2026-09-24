@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>死者のストンプ | TRPG_mug</title>
+  <title>シナリオ | TRPG_mug</title>
 
   <style>
     * {
@@ -38,10 +38,7 @@
       padding-bottom: 10px;
     }
 
-
-    /* ==============================
-       概要
-       ============================== */
+    /* 概要 */
 
     .meta {
       background: #f5f5f5;
@@ -54,10 +51,7 @@
       margin: 3px 0;
     }
 
-
-    /* ==============================
-       本文
-       ============================== */
+    /* 本文 */
 
     .section {
       margin: 38px 0;
@@ -81,10 +75,7 @@
       margin: 0 0 1.2em;
     }
 
-
-    /* ==============================
-       囲み
-       ============================== */
+    /* 囲み */
 
     .box {
       margin: 32px 0;
@@ -99,10 +90,7 @@
       margin-bottom: 8px;
     }
 
-
-    /* ==============================
-       折り畳み
-       ============================== */
+    /* 折り畳み */
 
     details {
       margin: 32px 0;
@@ -126,10 +114,32 @@
       padding: 18px 20px 6px;
     }
 
+    /* 引用 */
 
-    /* ==============================
-       本文装飾
-       ============================== */
+    .quote {
+      margin: 32px 0;
+      padding-left: 20px;
+      border-left: 4px solid #aaa;
+      font-style: italic;
+    }
+
+    /* 画像 */
+
+    .scenario-image {
+      display: block;
+      max-width: 100%;
+      height: auto;
+      margin-top: 12px;
+      border-radius: 6px;
+    }
+
+    .image-caption {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #777;
+    }
+
+    /* 本文装飾 */
 
     .red {
       color: #c0392b;
@@ -147,10 +157,7 @@
       text-decoration: underline;
     }
 
-
-    /* ==============================
-       フッター
-       ============================== */
+    /* その他 */
 
     .house-rule {
       margin-top: 60px;
@@ -165,13 +172,14 @@
       color: #777;
     }
 
-
-    /* ==============================
-       スマホ
-       ============================== */
+    .error {
+      padding: 20px;
+      background: #fff4f4;
+      border: 1px solid #e0b4b4;
+      border-radius: 8px;
+    }
 
     @media (max-width: 600px) {
-
       body {
         margin-top: 24px;
         padding-left: 18px;
@@ -185,7 +193,6 @@
       .heading {
         font-size: 21px;
       }
-
     }
   </style>
 </head>
@@ -199,218 +206,354 @@
     </a>
   </div>
 
+  <!-- JSONから作った内容がここに入る -->
+  <main id="scenario">
+    読み込み中……
+  </main>
 
-  <h1 class="scenario-title">
-    死者のストンプ
-  </h1>
 
+  <script>
 
-  <!-- 概要 -->
+    // ========================================
+    // 本文装飾
+    // ========================================
+
+    function formatText(text) {
+      if (!text) return "";
+
+      // HTMLとして解釈されないようにする
+      let result = escapeHtml(text);
+
+      // 太字
+      result = result.replace(
+        /\*\*(.+?)\*\*/g,
+        "<strong>$1</strong>"
+      );
+
+      // 赤字
+      result = result.replace(
+        /\{red:(.+?)\}/g,
+        '<span class="red">$1</span>'
+      );
+
+      // 黄字
+      result = result.replace(
+        /\{yellow:(.+?)\}/g,
+        '<span class="yellow">$1</span>'
+      );
 
-  <div class="meta">
+      // 青字
+      result = result.replace(
+        /\{blue:(.+?)\}/g,
+        '<span class="blue">$1</span>'
+      );
+
+      // 下線
+      result = result.replace(
+        /\{underline:(.+?)\}/g,
+        '<span class="underline">$1</span>'
+      );
+
+      // 改行
+      result = result.replace(/\n/g, "<br>");
+
+      return result;
+    }
 
-    <div class="meta-row">
-      <strong>システム：</strong>CoC
-    </div>
 
-    <div class="meta-row">
-      <strong>タグ：</strong>シティ / 1920s
-    </div>
+    // ========================================
+    // HTML特殊文字を安全にする
+    // ========================================
 
-    <div class="meta-row">
-      <strong>人数：</strong>3〜5名
-    </div>
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
 
-    <div class="meta-row">
-      <strong>時間：</strong>夜5日
-    </div>
 
-    <div class="meta-row">
-      <strong>ロスト率：</strong>？
-    </div>
+    // ========================================
+    // 概要1行
+    // ========================================
 
-    <div class="meta-row">
-      <strong>探索者：</strong>新規OK / 継続OK
-    </div>
+    function createMetaRow(label, value) {
+      if (!value) return "";
 
-    <div class="meta-row">
-      <strong>推奨：</strong>目星 / 聞き耳 / 交渉技能 / 戦闘技能
-    </div>
+      return `
+        <div class="meta-row">
+          <strong>${escapeHtml(label)}：</strong>${formatText(value)}
+        </div>
+      `;
+    }
+
+
+    // ========================================
+    // セクションを作る
+    // ========================================
+
+    function createSection(section) {
+
+      const type = section.type || "text";
+      const heading = section.heading || "";
+      const body = section.body || "";
+
+
+      // 大見出し
+      if (type === "heading") {
+        return `
+          <h2 class="heading">
+            ${escapeHtml(heading)}
+          </h2>
+        `;
+      }
+
+
+      // 小見出し
+      if (type === "subheading") {
+        return `
+          <h3 class="subheading">
+            ${escapeHtml(heading)}
+          </h3>
+        `;
+      }
+
+
+      // 囲み
+      if (type === "box") {
+        return `
+          <div class="box">
+
+            ${heading
+              ? `<div class="box-title">${escapeHtml(heading)}</div>`
+              : ""
+            }
+
+            ${body
+              ? `<div>${formatText(body)}</div>`
+              : ""
+            }
+
+          </div>
+        `;
+      }
+
+
+      // 折り畳み
+      if (type === "accordion") {
+        return `
+          <details>
+
+            <summary>
+              ${escapeHtml(heading || "詳細")}
+            </summary>
+
+            <div class="accordion-body">
+              ${formatText(body)}
+            </div>
+
+          </details>
+        `;
+      }
+
+
+      // 引用
+      if (type === "quote") {
+        return `
+          <div class="quote">
+
+            ${heading
+              ? `<strong>${escapeHtml(heading)}</strong><br>`
+              : ""
+            }
+
+            ${formatText(body)}
+
+          </div>
+        `;
+      }
+
+
+      // リンク
+      if (type === "link") {
+        return `
+          <div class="section">
+            <a
+              href="${escapeHtml(body)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ${escapeHtml(heading || body)} ↗
+            </a>
+          </div>
+        `;
+      }
+
+
+      // 画像
+      if (type === "image") {
+        return `
+          <div class="section">
+
+            ${body
+              ? `
+                <img
+                  class="scenario-image"
+                  src="${escapeHtml(body)}"
+                  alt="${escapeHtml(heading)}"
+                >
+              `
+              : ""
+            }
 
-    <div class="meta-row">
-      <strong>準推奨：</strong>オカルト / 運転（自動車） / 音楽系の技能
-    </div>
+            ${heading
+              ? `<div class="image-caption">${escapeHtml(heading)}</div>`
+              : ""
+            }
 
-    <div class="meta-row">
-      <strong>備考：</strong>かなり自由度の高いシナリオとなるため、積極的な行動や提案が推奨される。
-    </div>
+          </div>
+        `;
+      }
 
-  </div>
 
+      // 通常テキスト
+      return `
+        <div class="section">
 
-  <!-- heading のテスト -->
+          ${heading
+            ? `<h2 class="heading">${escapeHtml(heading)}</h2>`
+            : ""
+          }
 
-  <h2 class="heading">
-    導入
-  </h2>
+          ${body
+            ? `<div>${formatText(body)}</div>`
+            : ""
+          }
 
-  <p>
-    時は1920年代のアメリカ、とある夜の街。
-  </p>
+        </div>
+      `;
+    }
 
-  <p>
-    今、アメリカでは禁酒法が施行されており、
-    酒を飲むことも、提供することも禁止されている。
-  </p>
 
-  <p>
-    にも関わらず───<br>
-    君達は今、「ブルーヘブン・ボールルーム」という酒場で
-    酒を嗜もうと考え、足を運んでいた。
-  </p>
+    // ========================================
+    // シナリオページを作る
+    // ========================================
 
+    function renderScenario(scenario) {
 
-  <!-- box のテスト -->
+      let html = `
+        <h1 class="scenario-title">
+          ${escapeHtml(scenario.title)}
+        </h1>
 
-  <div class="box">
+        <div class="meta">
 
-    <div class="box-title">
-      注意事項
-    </div>
+          ${createMetaRow("システム", scenario.system)}
+          ${createMetaRow(
+            "タグ",
+            Array.isArray(scenario.tags)
+              ? scenario.tags.join(" / ")
+              : scenario.tags
+          )}
 
-    <p>
-      このシナリオには
-      <strong>重要な注意事項</strong>
-      が含まれます。
-    </p>
+          ${createMetaRow("人数", scenario.players)}
+          ${createMetaRow("時間", scenario.time)}
+      `;
 
-    <p>
-      ここは通常の「囲み」として表示される部分です。
-    </p>
 
-  </div>
+      // ScenarioInfo
+      if (scenario.info) {
+        scenario.info.forEach(info => {
+          html += createMetaRow(
+            info.label,
+            info.value
+          );
+        });
+      }
 
 
-  <!-- subheading のテスト -->
+      html += createMetaRow(
+        "備考",
+        scenario.note
+      );
 
-  <h2 class="heading">
-    探索者について
-  </h2>
 
-  <p>
-    新規・継続どちらの探索者でも参加できます。
-  </p>
+      html += `</div>`;
 
 
-  <h3 class="subheading">
-    技能について
-  </h3>
+      // 本文
+      if (scenario.sections) {
+        scenario.sections.forEach(section => {
+          html += createSection(section);
+        });
+      }
 
-  <p>
-    <strong>目星・聞き耳</strong>などの技能を推奨します。
-  </p>
 
+      document.getElementById("scenario").innerHTML = html;
 
-  <h3 class="subheading">
-    キャラクターについて
-  </h3>
+      document.title =
+        scenario.title + " | TRPG_mug";
+    }
 
-  <p>
-    シナリオの舞台や時代設定に合った探索者を推奨します。
-  </p>
 
+    // ========================================
+    // data.jsonを読み込む
+    // ========================================
 
-  <!-- 本文装飾テスト -->
+    fetch("data.json")
+      .then(response => {
 
-  <h2 class="heading">
-    本文装飾テスト
-  </h2>
+        if (!response.ok) {
+          throw new Error("data.jsonを読み込めませんでした");
+        }
 
-  <p>
-    これは<strong>太字の文章</strong>です。
-  </p>
+        return response.json();
+      })
 
-  <p>
-    これは<span class="red">赤字の文章</span>です。
-  </p>
+      .then(data => {
 
-  <p>
-    これは<span class="yellow">黄字の文章</span>です。
-  </p>
+        // URL例：
+        // scenario.html?id=S001
 
-  <p>
-    これは<span class="blue">青字の文章</span>です。
-  </p>
+        const params =
+          new URLSearchParams(window.location.search);
 
-  <p>
-    これは<span class="underline">下線付きの文章</span>です。
-  </p>
+        const scenarioId =
+          params.get("id") || "S001";
 
 
-  <!-- accordion のテスト -->
+        const scenario =
+          data.scenarios.find(
+            item => item.id === scenarioId
+          );
 
-  <h2 class="heading">
-    折り畳みテスト
-  </h2>
 
-  <details>
+        if (!scenario) {
+          throw new Error(
+            "指定されたシナリオが見つかりません"
+          );
+        }
 
-    <summary>
-      KP向け情報
-    </summary>
 
-    <div class="accordion-body">
+        renderScenario(scenario);
 
-      <p>
-        ここが折り畳みの中身です。
-      </p>
+      })
 
-      <p>
-        折り畳みの中でも
-        <strong>太字</strong>、
-        <span class="red">赤字</span>、
-        <span class="yellow">黄字</span>、
-        <span class="blue">青字</span>、
-        <span class="underline">下線</span>
-        が使えます。
-      </p>
+      .catch(error => {
 
-    </div>
+        console.error(error);
 
-  </details>
+        document.getElementById("scenario").innerHTML = `
+          <div class="error">
+            シナリオを読み込めませんでした。
+          </div>
+        `;
 
+      });
 
-  <!-- ハウスルール -->
-
-  <div class="house-rule">
-
-    <h2 class="heading">
-      HOUSE RULE
-    </h2>
-
-    <p>
-      ここには後ほどスプレッドシートで選択した
-      ハウスルールへのリンクが入ります。
-    </p>
-
-  </div>
-
-
-  <!-- 権利表記 -->
-
-  <footer class="copyright">
-
-    本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する
-    『クトゥルフ神話TRPG』の二次創作物。
-
-    <br><br>
-
-    Call of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc.;
-    all rights reserved. Arranged by Arclight Inc.<br>
-    Call of Cthulhu is a registered trademark of Chaosium Inc.<br>
-    PUBLISHED BY KADOKAWA CORPORATION
-
-  </footer>
+  </script>
 
 </body>
 
