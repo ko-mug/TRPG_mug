@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,17 +33,32 @@
 
     .scenario-card {
       display: block;
-      padding: 22px;
       border: 1px solid #ddd;
       border-radius: 10px;
+      overflow: hidden;
       text-decoration: none;
       color: inherit;
+      background: #fff;
       transition: 0.15s;
     }
 
     .scenario-card:hover {
       background: #f7f7f7;
       transform: translateY(-2px);
+    }
+
+    /* サムネイル */
+    .thumbnail {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      object-fit: cover;
+      display: block;
+      background: #eee;
+    }
+
+    /* カードの文字部分 */
+    .card-body {
+      padding: 20px 22px 22px;
     }
 
     .scenario-title {
@@ -85,7 +99,6 @@
     }
   </style>
 </head>
-
 
 <body>
 
@@ -129,51 +142,68 @@
           href="scenario.html?id=${encodeURIComponent(scenario.id)}"
         >
 
-          <div class="scenario-title">
-            ${escapeHtml(scenario.title)}
-          </div>
-
           ${
-            scenario.system
+            scenario.thumbnail
               ? `
-                <div class="system">
-                  ${escapeHtml(scenario.system)}
-                </div>
+                <img
+                  class="thumbnail"
+                  src="${escapeHtml(scenario.thumbnail)}"
+                  alt="${escapeHtml(scenario.title)}"
+                  loading="lazy"
+                >
               `
               : ""
           }
 
-          ${
-            tags
-              ? `
-                <div class="tags">
-                  ${escapeHtml(tags)}
-                </div>
-              `
-              : ""
-          }
+          <div class="card-body">
 
-          <div class="info">
+            <div class="scenario-title">
+              ${escapeHtml(scenario.title)}
+            </div>
 
             ${
-              scenario.players
+              scenario.system
                 ? `
-                  <div>
-                    人数：${escapeHtml(scenario.players)}
+                  <div class="system">
+                    ${escapeHtml(scenario.system)}
                   </div>
                 `
                 : ""
             }
 
             ${
-              scenario.time
+              tags
                 ? `
-                  <div>
-                    時間：${escapeHtml(scenario.time)}
+                  <div class="tags">
+                    ${escapeHtml(tags)}
                   </div>
                 `
                 : ""
             }
+
+            <div class="info">
+
+              ${
+                scenario.players
+                  ? `
+                    <div>
+                      人数：${escapeHtml(scenario.players)}
+                    </div>
+                  `
+                  : ""
+              }
+
+              ${
+                scenario.time
+                  ? `
+                    <div>
+                      時間：${escapeHtml(scenario.time)}
+                    </div>
+                  `
+                  : ""
+              }
+
+            </div>
 
           </div>
 
@@ -184,9 +214,7 @@
 
     // ========================================
     // data.jsonを読み込む
-    //
-    // cache: "no-store"
-    // 古いdata.jsonがブラウザに残るのを防ぐ
+    // キャッシュ回避付き
     // ========================================
 
     fetch("data.json?v=" + Date.now())
@@ -244,5 +272,4 @@
   </script>
 
 </body>
-
 </html>
