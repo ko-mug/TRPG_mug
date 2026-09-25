@@ -8,6 +8,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
   <link
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap"
     rel="stylesheet"
@@ -16,7 +17,7 @@
   <style>
 
     /* ========================================
-       基本カラー・サイズ
+       基本設定
     ======================================== */
 
     :root {
@@ -32,24 +33,22 @@
       --magicalogia: #16a39a;
       --unknown-system: #8d8177;
 
-      /*
-        左：前より広め
-        右：前より広め
-      */
       --left-width: 365px;
-      --right-width: 175px;
+
+      /*
+        右ナビ用の空間。
+        スクロールバーとナビを離す。
+      */
+      --right-width: 205px;
 
       --header-height: 180px;
     }
 
 
-    /* ========================================
-       基本
-    ======================================== */
-
     * {
       box-sizing: border-box;
     }
+
 
     html,
     body {
@@ -57,6 +56,7 @@
       height: 100%;
       margin: 0;
     }
+
 
     body {
       overflow: hidden;
@@ -69,10 +69,12 @@
         sans-serif;
     }
 
+
     button,
     input {
       font: inherit;
     }
+
 
     a {
       color: inherit;
@@ -93,8 +95,6 @@
 
     /* ========================================
        ヘッダー
-
-       一本の青い帯のまま
     ======================================== */
 
     .hero {
@@ -113,16 +113,13 @@
 
 
     /* ========================================
-       SCENARIO LIST 荷札
+       SCENARIO LIST
     ======================================== */
 
     .page-label {
       position: absolute;
 
-      /*
-        前より左へ
-      */
-      right: 155px;
+      right: 175px;
       top: 36px;
 
       display: flex;
@@ -143,6 +140,7 @@
 
       font-size: 43px;
       font-weight: 500;
+
       letter-spacing: 0.02em;
 
       transform: rotate(7deg);
@@ -218,8 +216,9 @@
     /* ========================================
        もどる
 
-       SCENARIO LISTと同じ荷札型。
-       サイズ感は小さいまま。
+       ・傾けない
+       ・小さい荷札
+       ・ボタンらしい影
     ======================================== */
 
     .back-area {
@@ -250,16 +249,19 @@
       font-size: 14px;
       font-weight: 700;
 
-      transform: rotate(-2deg);
+      /*
+        傾けない
+      */
+      transform: none;
 
       box-shadow:
-        0 3px 0 rgba(0, 0, 0, 0.05);
+        0 4px 0 rgba(80, 55, 48, 0.24);
+
+      transition:
+        transform 0.12s,
+        box-shadow 0.12s;
     }
 
-
-    /*
-      荷札の丸い先端
-    */
 
     .back-ticket::after {
       content: "";
@@ -276,10 +278,6 @@
       background: var(--red);
     }
 
-
-    /*
-      荷札の穴
-    */
 
     .back-ticket::before {
       content: "";
@@ -299,13 +297,33 @@
     }
 
 
+    .back-ticket:hover {
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 6px 0 rgba(80, 55, 48, 0.20);
+    }
+
+
+    .back-ticket:active {
+      transform:
+        translateY(3px);
+
+      box-shadow:
+        0 1px 0 rgba(80, 55, 48, 0.20);
+    }
+
+
     /* ========================================
        SYSTEM
 
-       ・青ベース
-       ・黄色線なし
-       ・SYSTEM部分だけベース色
-       ・右中央に半円の切り欠き
+       元絵：
+       ・外側は青い紙
+       ・内側に白い長方形
+       ・SYSTEM文字はその中
+       ・右中央に半円の欠け
+       ・ボタン部分も青背景
     ======================================== */
 
     .system-panel {
@@ -317,10 +335,10 @@
       margin-bottom: 44px;
 
       padding:
-        20px
+        18px
         38px
-        26px
-        22px;
+        22px
+        18px;
 
       background: var(--blue);
 
@@ -329,7 +347,7 @@
 
 
     /*
-      右中央の大きな半円の切り欠き
+      右中央の半円
     */
 
     .system-panel::after {
@@ -337,13 +355,13 @@
 
       position: absolute;
 
-      z-index: 4;
+      z-index: 5;
 
       top: 50%;
-      right: -38px;
+      right: -40px;
 
-      width: 76px;
-      height: 76px;
+      width: 80px;
+      height: 80px;
 
       border-radius: 50%;
 
@@ -355,10 +373,13 @@
 
 
     /*
-      SYSTEM文字部分だけベース色
+      元絵の白い見出し領域
     */
 
     .system-panel-title {
+      position: relative;
+
+      width: 100%;
       height: 60px;
 
       display: flex;
@@ -374,13 +395,13 @@
 
       font-size: 30px;
       font-weight: 500;
+
       letter-spacing: 0.05em;
     }
 
 
     /*
-      ボタン部分は青のまま。
-      SYSTEM見出しから少し離す。
+      ボタンは青地の上
     */
 
     .system-buttons {
@@ -394,8 +415,8 @@
       align-content: flex-start;
 
       padding:
-        27px
-        5px
+        28px
+        12px
         0;
     }
 
@@ -410,19 +431,11 @@
       width: 100%;
       height: 455px;
 
-      /*
-        黄色枠までの距離を
-        上下左右同じにする
-      */
       padding: 20px;
 
       background: var(--red);
     }
 
-
-    /*
-      上下の大きな切り欠き
-    */
 
     .tag-ticket::before,
     .tag-ticket::after {
@@ -456,22 +469,18 @@
     }
 
 
-    /*
-      黄色い内枠。
-
-      前より上下の外側余白を少し縮め、
-      左エリアが広がった分だけ
-      横方向には広くなる。
-    */
-
     .tag-ticket-inner {
       position: relative;
 
       width: 100%;
       height: 100%;
 
+      /*
+        TAG文字とボタンの開始位置を
+        全体的に上へ
+      */
       padding:
-        66px
+        58px
         18px
         24px;
 
@@ -483,18 +492,23 @@
     .tag-ticket-title {
       position: absolute;
 
-      top: 16px;
+      /*
+        前より上へ
+      */
+      top: 7px;
       left: 18px;
       right: 18px;
 
-      height: 36px;
+      height: 39px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       color: var(--yellow);
 
       border-bottom:
         3px solid var(--yellow);
-
-      text-align: center;
 
       font-family:
         "Oswald",
@@ -502,6 +516,7 @@
 
       font-size: 28px;
       font-weight: 500;
+
       letter-spacing: 0.06em;
     }
 
@@ -559,8 +574,6 @@
     }
 
 
-    /* SYSTEM */
-
     .system-panel
     .filter-button {
       color: var(--text);
@@ -574,8 +587,6 @@
       background: var(--red);
     }
 
-
-    /* TAG */
 
     .tag-ticket
     .filter-button {
@@ -593,18 +604,14 @@
 
     /* ========================================
        中央
-
-       ここだけスクロール
     ======================================== */
 
     .main {
       position: fixed;
 
       top: var(--header-height);
-
       left: var(--left-width);
       right: var(--right-width);
-
       bottom: 0;
 
       overflow: hidden;
@@ -613,6 +620,10 @@
     }
 
 
+    /* ========================================
+       スクロール領域
+    ======================================== */
+
     .content-scroll {
       width: 100%;
       height: 100%;
@@ -620,22 +631,8 @@
       overflow-y: auto;
       overflow-x: hidden;
 
-      /*
-        スクロールバー分を確保
-      */
       scrollbar-gutter: stable;
-    }
 
-
-    /* ========================================
-       スクロールバー
-    ======================================== */
-
-    /*
-      Firefox
-    */
-
-    .content-scroll {
       scrollbar-width: thin;
 
       scrollbar-color:
@@ -643,10 +640,6 @@
         #ded8ce;
     }
 
-
-    /*
-      Chrome / Edge / Safari
-    */
 
     .content-scroll::-webkit-scrollbar {
       width: 13px;
@@ -684,7 +677,7 @@
 
       padding:
         42px
-        42px
+        38px
         90px
         48px;
     }
@@ -769,7 +762,7 @@
     /* ========================================
        切手一覧
 
-       サイズ感は前回のまま
+       前回より約1.15倍
     ======================================== */
 
     .scenario-list {
@@ -778,7 +771,7 @@
       grid-template-columns:
         repeat(
           3,
-          minmax(150px, 210px)
+          minmax(180px, 240px)
         );
 
       justify-content: center;
@@ -802,6 +795,10 @@
       display: block;
 
       width: 100%;
+
+      /*
+        縦長比率は維持
+      */
       aspect-ratio: 0.78;
 
       padding: 16px;
@@ -822,10 +819,6 @@
         rotate(-0.5deg);
     }
 
-
-    /* ========================================
-       切手ギザギザ
-    ======================================== */
 
     .scenario-card::before {
       content: "";
@@ -887,10 +880,14 @@
       width: 100%;
       height: 100%;
 
+      min-height: 0;
+
       padding:
         10px
         10px
         12px;
+
+      overflow: hidden;
 
       background: var(--base);
     }
@@ -950,7 +947,7 @@
 
 
     /* ========================================
-       切手文字
+       タイトル
     ======================================== */
 
     .scenario-title {
@@ -960,10 +957,19 @@
       font-weight: 700;
 
       line-height: 1.45;
+
+      /*
+        長いタイトルでも
+        カード外へ出ない
+      */
+      overflow-wrap: anywhere;
+      word-break: break-word;
     }
 
 
     .scenario-system {
+      flex-shrink: 0;
+
       margin-bottom: 8px;
 
       color: var(--stamp-color);
@@ -979,6 +985,10 @@
       letter-spacing: 0.04em;
     }
 
+
+    /* ========================================
+       タグ
+    ======================================== */
 
     .tags {
       display: flex;
@@ -1012,20 +1022,22 @@
     /* ========================================
        人数・時間
 
-       前より太字で目立たせる
+       太字＋少し余裕を増やす
     ======================================== */
 
     .scenario-info {
+      flex-shrink: 0;
+
       display: flex;
       flex-wrap: wrap;
 
       gap:
-        4px
+        5px
         12px;
 
       margin-top: auto;
 
-      padding-top: 8px;
+      padding-top: 9px;
 
       border-top:
         1px solid
@@ -1037,16 +1049,22 @@
 
       font-size: 11px;
       font-weight: 700;
+
+      line-height: 1.45;
     }
 
 
     .info-item {
-      white-space: nowrap;
+      white-space: normal;
+
+      overflow-wrap: anywhere;
     }
 
 
     /* ========================================
        右ナビ
+
+       全体をさらに右へ引っ込める
     ======================================== */
 
     .right-nav {
@@ -1057,7 +1075,7 @@
       top: 285px;
       right: 0;
 
-      width: var(--right-width);
+      width: 160px;
 
       display: flex;
       flex-direction: column;
@@ -1069,13 +1087,6 @@
     }
 
 
-    /*
-      右端からはみ出す長さを持たせる。
-
-      hoverして左に出ても
-      右端に必ず色が残る。
-    */
-
     .nav-ticket {
       position: relative;
 
@@ -1083,20 +1094,20 @@
       align-items: center;
       justify-content: center;
 
-      width: calc(
-        var(--right-width) + 42px
-      );
-
+      /*
+        実体は画面外まで続いている
+      */
+      width: 220px;
       min-height: 48px;
 
       /*
-        通常時は右に42px隠す
+        前回より右へ引っ込める
       */
-      margin-right: -42px;
+      margin-right: -82px;
 
       padding:
         12px
-        34px
+        48px
         12px
         12px;
 
@@ -1111,6 +1122,7 @@
         sans-serif;
 
       font-size: 17px;
+
       letter-spacing: 0.02em;
 
       box-shadow:
@@ -1125,7 +1137,7 @@
 
 
     /*
-      左側だけ少し切符っぽく
+      左端の半円
     */
 
     .nav-ticket::before {
@@ -1149,35 +1161,32 @@
 
 
     /*
-      hoverすると少し出る。
-      右側は画面外まで色面が続くので
-      浮いて見えない。
+      hoverすると左へ出る。
+      右端の色面は消えない。
     */
 
     .nav-ticket:hover {
       transform:
-        translateX(-12px);
+        translateX(-14px);
     }
 
 
     /*
-      現在地
-
-      見た目は同じ形。
-      色と位置だけ変更。
+      現在ページは
+      色＋引っ込みだけ変える
     */
 
     .nav-ticket.current {
       background: var(--red);
 
       transform:
-        translateX(22px);
+        translateX(20px);
     }
 
 
     .nav-ticket.current:hover {
       transform:
-        translateX(10px);
+        translateX(6px);
     }
 
 
@@ -1206,11 +1215,11 @@
        中くらいのPC
     ======================================== */
 
-    @media (max-width: 1250px) {
+    @media (max-width: 1300px) {
 
       :root {
-        --left-width: 320px;
-        --right-width: 145px;
+        --left-width: 330px;
+        --right-width: 180px;
       }
 
 
@@ -1224,20 +1233,20 @@
         grid-template-columns:
           repeat(
             2,
-            minmax(160px, 210px)
+            minmax(180px, 235px)
           );
       }
 
 
       .page-label {
-        right: 125px;
+        right: 150px;
       }
 
     }
 
 
     /* ========================================
-       スマホ・タブレット
+       スマホ
     ======================================== */
 
     @media (max-width: 760px) {
@@ -1467,7 +1476,7 @@
         grid-template-columns:
           repeat(
             2,
-            minmax(135px, 200px)
+            minmax(145px, 210px)
           );
 
         gap:
@@ -1483,17 +1492,13 @@
     }
 
 
-    /* ========================================
-       小さいスマホ
-    ======================================== */
-
     @media (max-width: 430px) {
 
       .scenario-list {
         grid-template-columns:
           minmax(
-            180px,
-            235px
+            190px,
+            245px
           );
 
         justify-content: center;
@@ -1510,7 +1515,7 @@
   <div class="page">
 
 
-    <!-- 青ヘッダー -->
+    <!-- ヘッダー -->
 
     <header class="hero">
 
@@ -1525,8 +1530,6 @@
 
     <aside class="sidebar">
 
-
-      <!-- もどる -->
 
       <div class="back-area">
 
@@ -1593,8 +1596,6 @@
         <div class="content">
 
 
-          <!-- 検索 -->
-
           <div class="list-tools">
 
             <input
@@ -1624,8 +1625,6 @@
           </div>
 
 
-          <!-- 一覧 -->
-
           <div
             id="scenario-list"
             class="scenario-list"
@@ -1640,7 +1639,7 @@
     </main>
 
 
-    <!-- 右ナビ -->
+    <!-- 右 -->
 
     <nav class="right-nav">
 
@@ -1703,7 +1702,7 @@
 
 
     /* ========================================
-       システム → 色
+       システム色
     ======================================== */
 
     function getSystemClass(system) {
@@ -1736,7 +1735,7 @@
 
 
     /* ========================================
-       切手カード
+       カード
     ======================================== */
 
     function createScenarioCard(
@@ -1801,13 +1800,11 @@
 
 
             <div class="scenario-title">
-
               ${
                 escapeHtml(
                   scenario.title
                 )
               }
-
             </div>
 
 
@@ -1815,13 +1812,11 @@
               scenario.system
                 ? `
                   <div class="scenario-system">
-
                     ${
                       escapeHtml(
                         scenario.system
                       )
                     }
-
                   </div>
                 `
                 : ""
@@ -2127,10 +2122,6 @@
               : [];
 
 
-          /*
-            タグはAND検索
-          */
-
           for (
             const tag
             of selectedTags
@@ -2182,7 +2173,7 @@
 
 
     /* ========================================
-       一覧表示
+       一覧
     ======================================== */
 
     function renderScenarioList() {
