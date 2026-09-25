@@ -317,5 +317,22 @@
       "info": [],
       "sections": []
     }
+  ],
+  "houseRules": [
+    {
+      "system": "CoC",
+      "sections": [
+        {
+          "type": "heading",
+          "heading": "テスト",
+          "body": ""
+        },
+        {
+          "type": "text",
+          "heading": "",
+          "body": "テストテスト"
+        }
+      ]
+    }
   ]
 }
