@@ -15,10 +15,6 @@
 
   <style>
 
-    /* ========================================
-       基本設定
-    ======================================== */
-
     :root {
       --base: #f5f1e9;
       --text: #453d39;
@@ -53,7 +49,6 @@
 
     body {
       overflow: hidden;
-
       color: var(--text);
       background: var(--base);
 
@@ -76,12 +71,9 @@
 
     .page {
       position: relative;
-
       width: 100%;
       height: 100vh;
-
       overflow: hidden;
-
       background: var(--base);
     }
 
@@ -92,7 +84,6 @@
 
     .hero {
       position: fixed;
-
       z-index: 10;
 
       top: 0;
@@ -127,9 +118,7 @@
       color: #fff;
       background: var(--red);
 
-      font-family:
-        "Oswald",
-        sans-serif;
+      font-family: "Oswald", sans-serif;
 
       font-size: 43px;
       font-weight: 500;
@@ -146,14 +135,12 @@
       content: "";
 
       position: absolute;
-
       right: -46px;
 
       width: 92px;
       height: 92px;
 
       border-radius: 50%;
-
       background: var(--red);
     }
 
@@ -162,7 +149,6 @@
       content: "";
 
       position: absolute;
-
       z-index: 2;
 
       right: -25px;
@@ -171,7 +157,6 @@
       height: 23px;
 
       border-radius: 50%;
-
       background: var(--blue);
     }
 
@@ -182,7 +167,6 @@
 
     .sidebar {
       position: fixed;
-
       z-index: 20;
 
       top: 0;
@@ -207,11 +191,6 @@
 
     /* ========================================
        もどる
-
-       ・画面左端から伸びる
-       ・水平
-       ・右端が荷札型
-       ・影あり
     ======================================== */
 
     .back-area {
@@ -275,7 +254,6 @@
       content: "";
 
       position: absolute;
-
       z-index: 2;
 
       right: -11px;
@@ -288,14 +266,12 @@
 
       background: var(--base);
 
-      transform:
-        translateY(-50%);
+      transform: translateY(-50%);
     }
 
 
     .back-ticket:hover {
-      transform:
-        translateY(-2px);
+      transform: translateY(-2px);
 
       box-shadow:
         0 6px 0 rgba(80, 55, 48, 0.20);
@@ -303,8 +279,7 @@
 
 
     .back-ticket:active {
-      transform:
-        translateY(3px);
+      transform: translateY(3px);
 
       box-shadow:
         0 1px 0 rgba(80, 55, 48, 0.20);
@@ -313,13 +288,6 @@
 
     /* ========================================
        SYSTEM
-
-       元画像の構造：
-       ・青いチケット
-       ・ベース色の内枠
-       ・内枠上部をベース色で塗る
-       ・そこにSYSTEM
-       ・右中央に半円切り欠き
     ======================================== */
 
     .system-panel {
@@ -336,15 +304,10 @@
     }
 
 
-    /*
-      ベース色の内枠
-    */
-
     .system-panel::before {
       content: "";
 
       position: absolute;
-
       z-index: 1;
 
       top: 18px;
@@ -359,18 +322,10 @@
     }
 
 
-    /*
-      右中央の半円切り欠き。
-
-      内枠も一緒に欠けるよう
-      一番上に置く。
-    */
-
     .system-panel::after {
       content: "";
 
       position: absolute;
-
       z-index: 10;
 
       top: 50%;
@@ -388,16 +343,8 @@
     }
 
 
-    /*
-      内枠上部のSYSTEM欄。
-
-      別の札ではなく、
-      内枠とつながって見える構造。
-    */
-
     .system-panel-title {
       position: absolute;
-
       z-index: 3;
 
       top: 22px;
@@ -423,14 +370,8 @@
     }
 
 
-    /*
-      黄色いシステムボタン。
-      見出し直下の青い領域に置く。
-    */
-
     .system-buttons {
       position: relative;
-
       z-index: 4;
 
       display: flex;
@@ -451,13 +392,7 @@
 
     /* ========================================
        TAG
-
-       元画像の構造：
-       ・赤い縦長チケット
-       ・上下中央に半円切り欠き
-       ・黄色い内枠
-       ・内枠上部がTAG見出し行
-       ・その直下からタグ
+       ★ 上の半円とTAGが重ならないよう修正
     ======================================== */
 
     .tag-ticket {
@@ -466,7 +401,14 @@
       width: 100%;
       height: 455px;
 
-      padding: 20px;
+      /*
+        上だけ50px。
+        黄色い枠全体を下へ移動する。
+      */
+      padding:
+        50px
+        20px
+        20px;
 
       background: var(--red);
     }
@@ -477,7 +419,6 @@
       content: "";
 
       position: absolute;
-
       z-index: 5;
 
       left: 50%;
@@ -504,10 +445,6 @@
     }
 
 
-    /*
-      黄色い内枠
-    */
-
     .tag-ticket-inner {
       position: relative;
 
@@ -523,11 +460,6 @@
         18px;
     }
 
-
-    /*
-      黄色い枠の一番上が
-      そのままTAG見出し行。
-    */
 
     .tag-ticket-title {
       position: absolute;
@@ -556,10 +488,6 @@
       letter-spacing: 0.06em;
     }
 
-
-    /*
-      見出しのすぐ下からタグ
-    */
 
     .tag-buttons {
       display: flex;
@@ -616,8 +544,6 @@
     }
 
 
-    /* SYSTEM */
-
     .system-panel
     .filter-button {
       color: var(--text);
@@ -631,8 +557,6 @@
       background: var(--red);
     }
 
-
-    /* TAG */
 
     .tag-ticket
     .filter-button {
@@ -858,10 +782,6 @@
         rotate(-0.5deg);
     }
 
-
-    /* ========================================
-       切手のギザギザ
-    ======================================== */
 
     .scenario-card::before {
       content: "";
@@ -1239,11 +1159,6 @@
       }
 
 
-      /*
-        sidebarのpaddingが34→28になるので
-        もどるも画面端へ合わせ直す
-      */
-
       .back-area {
         margin-left: -28px;
       }
@@ -1288,8 +1203,6 @@
         overflow: visible;
       }
 
-
-      /* ヘッダー */
 
       .hero {
         position: relative;
@@ -1403,11 +1316,6 @@
       }
 
 
-      /*
-        スマホでは上にHOMEナビがあるので
-        もどるは非表示
-      */
-
       .back-area {
         display: none;
       }
@@ -1442,10 +1350,19 @@
         );
 
         height: auto;
-        min-height: 330px;
+        min-height: 360px;
 
         margin:
           0 auto;
+
+        /*
+          スマホでも同じく
+          黄色枠を半円より下へ
+        */
+        padding:
+          50px
+          20px
+          20px;
       }
 
 
@@ -1525,10 +1442,6 @@
     }
 
 
-    /* ========================================
-       小さいスマホ
-    ======================================== */
-
     @media (max-width: 430px) {
 
       .scenario-list {
@@ -1552,10 +1465,6 @@
   <div class="page">
 
 
-    <!-- =====================================
-         ヘッダー
-    ====================================== -->
-
     <header class="hero">
 
       <div class="page-label">
@@ -1564,10 +1473,6 @@
 
     </header>
 
-
-    <!-- =====================================
-         左エリア
-    ====================================== -->
 
     <aside class="sidebar">
 
@@ -1630,18 +1535,12 @@
     </aside>
 
 
-    <!-- =====================================
-         中央
-    ====================================== -->
-
     <main class="main">
 
       <div class="content-scroll">
 
         <div class="content">
 
-
-          <!-- 検索 -->
 
           <div class="list-tools">
 
@@ -1672,8 +1571,6 @@
           </div>
 
 
-          <!-- 切手一覧 -->
-
           <div
             id="scenario-list"
             class="scenario-list"
@@ -1688,9 +1585,7 @@
     </main>
 
 
-    <!-- =====================================
-         右ナビ
-    ====================================== -->
+    <!-- 右ナビ -->
 
     <nav class="right-nav">
 
@@ -1722,12 +1617,7 @@
 
   <script>
 
-    /* ========================================
-       状態
-    ======================================== */
-
     let allScenarios = [];
-
     let selectedSystem = "";
 
     const selectedTags =
@@ -1735,10 +1625,6 @@
 
     let searchWord = "";
 
-
-    /* ========================================
-       HTML特殊文字
-    ======================================== */
 
     function escapeHtml(text) {
 
@@ -1820,8 +1706,6 @@
           <div class="stamp-inner">
 
 
-            <!-- サムネイル -->
-
             <div class="thumbnail-frame">
 
               ${
@@ -1852,8 +1736,6 @@
             </div>
 
 
-            <!-- タイトル -->
-
             <div class="scenario-title">
 
               ${
@@ -1864,8 +1746,6 @@
 
             </div>
 
-
-            <!-- システム -->
 
             ${
               scenario.system
@@ -1883,8 +1763,6 @@
                 : ""
             }
 
-
-            <!-- タグ -->
 
             ${
               tags.length
@@ -1912,8 +1790,6 @@
                 : ""
             }
 
-
-            <!-- 人数・時間 -->
 
             ${
               scenario.players ||
@@ -1963,7 +1839,7 @@
 
 
     /* ========================================
-       フィルターボタン生成
+       フィルターボタン
     ======================================== */
 
     function createFilterButton(
@@ -1999,7 +1875,7 @@
 
 
     /* ========================================
-       SYSTEMフィルター
+       SYSTEM
     ======================================== */
 
     function createSystemFilters() {
@@ -2068,7 +1944,7 @@
 
 
     /* ========================================
-       TAGフィルター
+       TAG
     ======================================== */
 
     function createTagFilters() {
@@ -2170,8 +2046,6 @@
         scenario => {
 
 
-          /* SYSTEM */
-
           if (
             selectedSystem &&
             scenario.system !==
@@ -2181,8 +2055,6 @@
           }
 
 
-          /* TAG */
-
           const scenarioTags =
             Array.isArray(
               scenario.tags
@@ -2190,10 +2062,6 @@
               ? scenario.tags
               : [];
 
-
-          /*
-            複数タグはAND検索
-          */
 
           for (
             const tag
@@ -2210,8 +2078,6 @@
 
           }
 
-
-          /* 検索 */
 
           if (
             normalizedSearch
@@ -2296,7 +2162,7 @@
 
 
     /* ========================================
-       ボタン選択状態
+       選択状態
     ======================================== */
 
     function updateButtonStates() {
@@ -2345,7 +2211,6 @@
     function updateFilters() {
 
       updateButtonStates();
-
       renderScenarioList();
 
     }
@@ -2456,9 +2321,7 @@
 
 
           createSystemFilters();
-
           createTagFilters();
-
           updateFilters();
 
         }
