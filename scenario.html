@@ -12,9 +12,6 @@
     href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap"
     rel="stylesheet"
   >
-  <script>
-  document.documentElement.classList.add("theme-loading");
-</script>
 
   <style>
     * {
@@ -50,13 +47,9 @@
     }
 
     html {
-  min-height: 100%;
-  background: #343744;
-}
-
-html.theme-loading body {
-  visibility: hidden;
-}
+      min-height: 100%;
+      background: #343744;
+    }
 
     body {
       font-family:
@@ -78,11 +71,34 @@ html.theme-loading body {
 
       color: var(--text);
       background: var(--base);
+    }
+
+
+    /* ========================================
+       テーマ確定前のカバー
+       ======================================== */
+
+    #theme-cover {
+      position: fixed;
+      inset: 0;
+
+      z-index: 99999;
+
+      background: #343744;
+
+      opacity: 1;
+      visibility: visible;
+    }
+
+    #theme-cover.ready {
+      opacity: 0;
+      visibility: hidden;
 
       transition:
-        background-color 0.2s ease,
-        color 0.2s ease;
+        opacity 0.12s ease,
+        visibility 0.12s ease;
     }
+
 
     a {
       color: var(--blue);
@@ -91,7 +107,6 @@ html.theme-loading body {
 
     /* ========================================
        もどる
-       SCENARIO LISTと同じ左端チケット
        ======================================== */
 
     .back-area {
@@ -100,9 +115,12 @@ html.theme-loading body {
     }
 
     .back-ticket {
-      position: absolute;
+      position: fixed;
+
       top: 40px;
       left: 0;
+
+      z-index: 100;
 
       display: flex;
       align-items: center;
@@ -125,15 +143,19 @@ html.theme-loading body {
       color: #ffffff !important;
       background: var(--red);
 
+      filter:
+        drop-shadow(5px 5px 0 var(--blue));
+
       transition:
         transform 0.15s ease,
-        box-shadow 0.15s ease;
+        filter 0.15s ease;
     }
 
     .back-ticket::after {
       content: "";
 
       position: absolute;
+
       top: 0;
       right: -21px;
 
@@ -151,6 +173,7 @@ html.theme-loading body {
       content: "";
 
       position: absolute;
+
       top: 50%;
       right: -10px;
 
@@ -161,18 +184,16 @@ html.theme-loading body {
 
       background: var(--base);
 
-      transform:
-        translateY(-50%);
+      transform: translateY(-50%);
 
       z-index: 2;
-
-      transition:
-        background-color 0.2s ease;
     }
 
     .back-ticket:hover {
-      transform:
-        translateY(-2px);
+      transform: translateY(-2px);
+
+      filter:
+        drop-shadow(5px 7px 0 var(--blue));
     }
 
 
@@ -237,9 +258,6 @@ html.theme-loading body {
 
       box-shadow:
         5px 5px 0 var(--blue);
-
-      transition:
-        background-color 0.2s ease;
     }
 
     .meta-row {
@@ -289,21 +307,18 @@ html.theme-loading body {
     }
 
     .heading::before {
-      content:
-        "";
+      content: "";
 
       position:
         absolute;
 
       left:
         0;
-
       top:
         0.45em;
 
       width:
         8px;
-
       height:
         8px;
 
@@ -335,7 +350,7 @@ html.theme-loading body {
 
 
     /* ========================================
-       中央揃え本文
+       中央揃え
        ======================================== */
 
     .center {
@@ -366,10 +381,6 @@ html.theme-loading body {
 
       box-shadow:
         4px 4px 0 var(--blue);
-
-      transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
     }
 
     .box-title {
@@ -400,10 +411,6 @@ html.theme-loading body {
 
       overflow:
         hidden;
-
-      transition:
-        background-color 0.2s ease,
-        border-color 0.2s ease;
     }
 
     summary {
@@ -418,9 +425,6 @@ html.theme-loading body {
 
       background:
         var(--surface-2);
-
-      transition:
-        background-color 0.2s ease;
     }
 
     summary:hover {
@@ -462,7 +466,7 @@ html.theme-loading body {
 
 
     /* ========================================
-       本文中の画像
+       本文画像
        ======================================== */
 
     .scenario-image {
@@ -650,18 +654,6 @@ html.theme-loading body {
         height:
           40px;
       }
-      .back-ticket {
-  filter:
-    drop-shadow(5px 5px 0 var(--blue));
-}
-
-.back-ticket:hover {
-  transform:
-    translateY(-2px);
-
-  filter:
-    drop-shadow(5px 7px 0 var(--blue));
-}
 
       .scenario-title {
         font-size:
@@ -695,13 +687,19 @@ html.theme-loading body {
         padding:
           16px 18px;
       }
-      
     }
   </style>
 </head>
 
 
 <body>
+
+  <!--
+    テーマが確定するまで画面全体を覆う。
+    DARKシナリオでLIGHT画面が一瞬見えるのを防ぐ。
+  -->
+  <div id="theme-cover"></div>
+
 
   <div class="back-area">
     <a
@@ -721,10 +719,11 @@ html.theme-loading body {
   <script>
 
     // ========================================
-    // HTML特殊文字を安全にする
+    // HTML特殊文字
     // ========================================
 
     function escapeHtml(text) {
+
       return String(text ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
@@ -735,20 +734,24 @@ html.theme-loading body {
 
 
     // ========================================
-    // 本文内の装飾
+    // 本文内の文字装飾
     //
-    // **文字**         → 太字
-    // {red:文字}       → 赤
-    // {yellow:文字}    → 黄
-    // {blue:文字}      → 青
-    // {underline:文字} → 下線
+    // **文字**         太字
+    // {red:文字}       赤
+    // {yellow:文字}    黄
+    // {blue:文字}      青
+    // {underline:文字} 下線
     // ========================================
 
     function formatText(text) {
-      if (!text) return "";
+
+      if (!text) {
+        return "";
+      }
 
       let result =
         escapeHtml(text);
+
 
       result =
         result.replace(
@@ -756,11 +759,13 @@ html.theme-loading body {
           "<strong>$1</strong>"
         );
 
+
       result =
         result.replace(
           /\{red:(.+?)\}/g,
           '<span class="red">$1</span>'
         );
+
 
       result =
         result.replace(
@@ -768,11 +773,13 @@ html.theme-loading body {
           '<span class="yellow">$1</span>'
         );
 
+
       result =
         result.replace(
           /\{blue:(.+?)\}/g,
           '<span class="blue">$1</span>'
         );
+
 
       result =
         result.replace(
@@ -780,61 +787,113 @@ html.theme-loading body {
           '<span class="underline">$1</span>'
         );
 
+
       result =
         result.replace(
           /\n/g,
           "<br>"
         );
 
+
       return result;
     }
 
 
     // ========================================
-    // テーマ
+    // シナリオごとのテーマ
     //
     // Scenarios L列
     // LIGHT / DARK
     //
-    // 未設定・不明な値はLIGHT
+    // 未入力の場合はLIGHT
     // ========================================
 
     function applyTheme(theme) {
 
-  const normalizedTheme =
-    String(theme || "LIGHT")
-      .trim()
-      .toUpperCase();
+      const normalizedTheme =
+        String(theme || "LIGHT")
+          .trim()
+          .toUpperCase();
 
-  const isDark =
-    normalizedTheme === "DARK";
 
-  document.body.classList.toggle(
-    "dark",
-    isDark
-  );
+      const isDark =
+        normalizedTheme === "DARK";
 
-  document.documentElement.style.background =
-    isDark
-      ? "#343744"
-      : "#f5f1e9";
 
-  document.documentElement.classList.remove(
-    "theme-loading"
-  );
-}
+      document.body.classList.toggle(
+        "dark",
+        isDark
+      );
+
+
+      document.documentElement.style.background =
+        isDark
+          ? "#343744"
+          : "#f5f1e9";
+
+
+      document.body.style.background =
+        isDark
+          ? "#343744"
+          : "#f5f1e9";
+    }
+
+
+    // ========================================
+    // テーマ確定後に画面を表示
+    // ========================================
+
+    function showPage() {
+
+      const themeCover =
+        document.getElementById(
+          "theme-cover"
+        );
+
+
+      if (!themeCover) {
+        return;
+      }
+
+
+      requestAnimationFrame(
+        () => {
+
+          requestAnimationFrame(
+            () => {
+
+              themeCover.classList.add(
+                "ready"
+              );
+
+            }
+          );
+
+        }
+      );
+    }
 
 
     // ========================================
     // 概要欄
     // ========================================
 
-    function createMetaRow(label, value) {
-      if (!value) return "";
+    function createMetaRow(
+      label,
+      value
+    ) {
+
+      if (!value) {
+        return "";
+      }
+
 
       return `
         <div class="meta-row">
-          <strong>${escapeHtml(label)}：</strong>
+          <strong>
+            ${escapeHtml(label)}：
+          </strong>
+
           ${formatText(value)}
         </div>
       `;
@@ -850,14 +909,21 @@ html.theme-loading body {
       const type =
         section.type || "text";
 
+
       const heading =
         section.heading || "";
+
 
       const body =
         section.body || "";
 
 
+      // --------------------------------------
+      // 大見出し
+      // --------------------------------------
+
       if (type === "heading") {
+
         return `
           <h2 class="heading">
             ${escapeHtml(heading)}
@@ -866,7 +932,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // 小見出し
+      // --------------------------------------
+
       if (type === "subheading") {
+
         return `
           <h3 class="subheading">
             ${escapeHtml(heading)}
@@ -875,7 +946,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // 中央揃え
+      // --------------------------------------
+
       if (type === "center") {
+
         return `
           <div class="center">
             ${formatText(body)}
@@ -884,7 +960,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // BOX
+      // --------------------------------------
+
       if (type === "box") {
+
         return `
           <div class="box">
 
@@ -913,7 +994,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // アコーディオン
+      // --------------------------------------
+
       if (type === "accordion") {
+
         return `
           <details>
 
@@ -932,7 +1018,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // 引用
+      // --------------------------------------
+
       if (type === "quote") {
+
         return `
           <div class="quote">
 
@@ -954,7 +1045,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // リンク
+      // --------------------------------------
+
       if (type === "link") {
+
         return `
           <div class="section">
 
@@ -973,7 +1069,12 @@ html.theme-loading body {
       }
 
 
+      // --------------------------------------
+      // 画像
+      // --------------------------------------
+
       if (type === "image") {
+
         return `
           <div class="section">
 
@@ -1003,6 +1104,10 @@ html.theme-loading body {
         `;
       }
 
+
+      // --------------------------------------
+      // 通常本文
+      // --------------------------------------
 
       return `
         <div class="section">
@@ -1038,7 +1143,7 @@ html.theme-loading body {
 
     function renderScenario(scenario) {
 
-      // シナリオごとのテーマを最初に適用
+      // まずテーマを決める。
       applyTheme(
         scenario.theme
       );
@@ -1046,14 +1151,16 @@ html.theme-loading body {
 
       let html = `
         <h1 class="scenario-title">
-          ${escapeHtml(scenario.title)}
+          ${escapeHtml(
+            scenario.title
+          )}
         </h1>
       `;
 
 
-      // ======================================
+      // --------------------------------------
       // メイン画像
-      // ======================================
+      // --------------------------------------
 
       if (scenario.mainImage) {
 
@@ -1071,9 +1178,9 @@ html.theme-loading body {
       }
 
 
-      // ======================================
+      // --------------------------------------
       // 概要
-      // ======================================
+      // --------------------------------------
 
       html += `
         <div class="meta">
@@ -1104,11 +1211,15 @@ html.theme-loading body {
       `;
 
 
-      // ======================================
+      // --------------------------------------
       // システム固有情報
-      // ======================================
+      // --------------------------------------
 
-      if (scenario.info) {
+      if (
+        Array.isArray(
+          scenario.info
+        )
+      ) {
 
         scenario.info.forEach(
           info => {
@@ -1118,14 +1229,15 @@ html.theme-loading body {
                 info.label,
                 info.value
               );
+
           }
         );
       }
 
 
-      // ======================================
+      // --------------------------------------
       // 備考
-      // ======================================
+      // --------------------------------------
 
       html +=
         createMetaRow(
@@ -1133,15 +1245,20 @@ html.theme-loading body {
           scenario.note
         );
 
+
       html +=
         `</div>`;
 
 
-      // ======================================
+      // --------------------------------------
       // 本文
-      // ======================================
+      // --------------------------------------
 
-      if (scenario.sections) {
+      if (
+        Array.isArray(
+          scenario.sections
+        )
+      ) {
 
         scenario.sections.forEach(
           section => {
@@ -1150,14 +1267,15 @@ html.theme-loading body {
               createSection(
                 section
               );
+
           }
         );
       }
 
 
-      // ======================================
+      // --------------------------------------
       // HOUSE RULE
-      // ======================================
+      // --------------------------------------
 
       if (
         scenario.houseRule &&
@@ -1189,11 +1307,13 @@ html.theme-loading body {
       }
 
 
-      // ======================================
+      // --------------------------------------
       // 権利表記
-      // ======================================
+      // --------------------------------------
 
-      if (scenario.copyright) {
+      if (
+        scenario.copyright
+      ) {
 
         html += `
           <div class="copyright">
@@ -1204,6 +1324,10 @@ html.theme-loading body {
         `;
       }
 
+
+      // --------------------------------------
+      // HTML反映
+      // --------------------------------------
 
       document
         .getElementById(
@@ -1216,12 +1340,16 @@ html.theme-loading body {
       document.title =
         scenario.title +
         " | TRPG_mug";
+
+
+      // テーマも本文も完成してから
+      // カバーを外す。
+      showPage();
     }
 
 
     // ========================================
     // data.json読み込み
-    // キャッシュ回避付き
     // ========================================
 
     fetch(
@@ -1239,6 +1367,7 @@ html.theme-loading body {
             );
           }
 
+
           return response.json();
         }
       )
@@ -1251,9 +1380,11 @@ html.theme-loading body {
               window.location.search
             );
 
+
           const scenarioId =
             params.get("id") ||
             "S001";
+
 
           const scenario =
             data.scenarios.find(
@@ -1273,6 +1404,7 @@ html.theme-loading body {
           renderScenario(
             scenario
           );
+
         }
       )
 
@@ -1283,6 +1415,13 @@ html.theme-loading body {
             error
           );
 
+
+          // エラー時はLIGHTで表示
+          applyTheme(
+            "LIGHT"
+          );
+
+
           document
             .getElementById(
               "scenario"
@@ -1292,6 +1431,10 @@ html.theme-loading body {
                 シナリオを読み込めませんでした。
               </div>
             `;
+
+
+          showPage();
+
         }
       );
 
