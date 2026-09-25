@@ -14,62 +14,25 @@
   >
 
   <style>
+    * {
+      box-sizing: border-box;
+    }
 
     :root {
       --base: #f5f1e9;
       --surface: #fbf8f2;
       --surface-2: #eee8dd;
 
-      --text: #453d39;
-      --subtext: #776d67;
+      --text: #000000;
+      --subtext: #5f5752;
       --line: #cfc5b8;
 
       --blue: #579db7;
       --red: #e5483f;
       --yellow: #f4b84e;
       --teal: #16a39a;
-
       --dark: #343744;
     }
-
-
-    * {
-      box-sizing: border-box;
-    }
-
-
-    html {
-      color-scheme: light;
-    }
-
-
-    body {
-      max-width: 800px;
-
-      margin:
-        40px
-        auto;
-
-      padding:
-        0
-        24px
-        80px;
-
-      color: var(--text);
-      background: var(--base);
-
-      font-family:
-        "Zen Kaku Gothic Antique",
-        sans-serif;
-
-      font-size: 14px;
-      line-height: 1.8;
-
-      transition:
-        color 0.2s,
-        background 0.2s;
-    }
-
 
     body.dark {
       --base: #343744;
@@ -83,85 +46,91 @@
       color-scheme: dark;
     }
 
+    html {
+      min-height: 100%;
+    }
+
+    body {
+      font-family:
+        "Zen Kaku Gothic Antique",
+        sans-serif;
+
+      max-width: 800px;
+
+      margin:
+        40px auto;
+
+      padding:
+        0 24px 80px;
+
+      min-height: 100vh;
+
+      font-size: 14px;
+      line-height: 1.8;
+
+      color: var(--text);
+      background: var(--base);
+
+      transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+    }
 
     a {
       color: var(--blue);
-
-      text-underline-offset: 3px;
-    }
-
-
-    body.dark a {
-      color: #7ebbd1;
-    }
-
-
-    /* ========================================
-       上部操作
-    ======================================== */
-
-    .top-tools {
-      position: relative;
-
-      min-height: 54px;
-
-      margin-bottom: 28px;
     }
 
 
     /* ========================================
        もどる
-       SCENARIO LISTと同じ荷札
-    ======================================== */
+       SCENARIO LISTと同じ左端チケット
+       ======================================== */
 
     .back-area {
-      position: absolute;
+      height: 54px;
+      margin-bottom: 28px;
+    }
 
-      top: 0;
+    .back-ticket {
+      position: absolute;
+      top: 40px;
       left: 0;
 
       display: flex;
-      align-items: flex-start;
-    }
-
-
-    .back-ticket {
-      position: relative;
-
-      display: inline-flex;
       align-items: center;
       justify-content: center;
 
       width: 150px;
       height: 42px;
 
-      padding-left: 20px;
-      padding-right: 17px;
+      padding-right: 10px;
 
-      color: #fff;
-      background: var(--red);
-
-      text-decoration: none;
+      font-family:
+        "Zen Kaku Gothic Antique",
+        sans-serif;
 
       font-size: 13px;
       font-weight: 700;
 
+      text-decoration: none;
+
+      color: #ffffff !important;
+      background: var(--red);
+
       box-shadow:
-        0 4px 0 rgba(80, 55, 48, 0.24);
+        5px 5px 0 var(--blue);
 
       transition:
-        transform 0.12s,
-        box-shadow 0.12s;
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
-
 
     .back-ticket::after {
       content: "";
 
       position: absolute;
-
-      right: -21px;
       top: 0;
+      right: -21px;
 
       width: 42px;
       height: 42px;
@@ -169,20 +138,19 @@
       border-radius: 50%;
 
       background: var(--red);
-    }
 
+      z-index: -1;
+    }
 
     .back-ticket::before {
       content: "";
 
       position: absolute;
-      z-index: 2;
-
-      right: -11px;
       top: 50%;
+      right: -10px;
 
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
 
       border-radius: 50%;
 
@@ -191,134 +159,52 @@
       transform:
         translateY(-50%);
 
+      z-index: 2;
+
       transition:
-        background 0.2s;
+        background-color 0.2s ease;
     }
 
-
     .back-ticket:hover {
-      color: #fff;
-
       transform:
         translateY(-2px);
 
       box-shadow:
-        0 6px 0 rgba(80, 55, 48, 0.20);
-    }
-
-
-    .back-ticket:active {
-      transform:
-        translateY(3px);
-
-      box-shadow:
-        0 1px 0 rgba(80, 55, 48, 0.20);
-    }
-
-
-    /* ========================================
-       LIGHT / DARK
-    ======================================== */
-
-    .theme-switcher {
-      position: absolute;
-
-      top: 0;
-      right: 0;
-
-      display: flex;
-
-      padding: 4px;
-
-      background: var(--surface-2);
-
-      border:
-        1px solid var(--line);
-
-      transition:
-        background 0.2s,
-        border-color 0.2s;
-    }
-
-
-    .theme-button {
-      appearance: none;
-
-      min-width: 68px;
-
-      border: 0;
-
-      padding:
-        7px
-        11px;
-
-      color: var(--subtext);
-      background: transparent;
-
-      cursor: pointer;
-
-      font-family:
-        "Oswald",
-        sans-serif;
-
-      font-size: 12px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-
-      transition:
-        color 0.15s,
-        background 0.15s,
-        transform 0.12s;
-    }
-
-
-    .theme-button:hover {
-      transform:
-        translateY(-1px);
-    }
-
-
-    .theme-button.active {
-      color: #fff;
-      background: var(--blue);
-    }
-
-
-    #dark-button.active {
-      background: var(--red);
+        5px 7px 0 var(--blue);
     }
 
 
     /* ========================================
        シナリオタイトル
-    ======================================== */
+       ======================================== */
 
     .scenario-title {
       margin:
-        0
-        0
-        24px;
+        0 0 24px;
 
-      padding-bottom: 10px;
+      padding-bottom:
+        10px;
 
-      color: var(--text);
+      font-size:
+        25px;
+
+      line-height:
+        1.4;
+
+      font-weight:
+        700;
+
+      color:
+        var(--text);
 
       border-bottom:
         2px solid var(--red);
-
-      font-size: 25px;
-      font-weight: 700;
-      line-height: 1.45;
-
-      transition:
-        color 0.2s,
-        border-color 0.2s;
     }
 
 
     /* ========================================
        メイン画像
-    ======================================== */
+       ======================================== */
 
     .main-image {
       display: block;
@@ -329,497 +215,486 @@
       object-fit: contain;
 
       margin:
-        24px
-        0;
-
-      border-radius: 4px;
+        24px 0;
     }
 
 
     /* ========================================
        概要
-    ======================================== */
+       ======================================== */
 
     .meta {
-      position: relative;
+      margin:
+        24px 0 48px;
 
       padding:
-        18px
-        22px;
+        18px 22px;
 
-      margin:
-        24px
-        0
-        48px;
-
-      background: var(--surface);
-
-      border-left:
-        5px solid var(--blue);
+      background:
+        var(--surface);
 
       box-shadow:
-        3px 3px 0 var(--yellow);
+        5px 5px 0 var(--blue);
 
       transition:
-        background 0.2s,
-        box-shadow 0.2s;
+        background-color 0.2s ease;
     }
-
 
     .meta-row {
       margin:
-        3px
-        0;
+        3px 0;
     }
 
-
     .meta-row strong {
-      color: var(--text);
+      font-weight:
+        700;
     }
 
 
     /* ========================================
        本文
-    ======================================== */
+       ======================================== */
 
     .section {
       margin:
-        38px
-        0;
+        38px 0;
     }
 
-
-    /*
-      以前24pxだった大見出しを
-      二回り小さく
-    */
-
     .heading {
-      margin-top: 52px;
-      margin-bottom: 20px;
+      position:
+        relative;
 
-      padding-bottom: 6px;
+      margin-top:
+        52px;
 
-      color: var(--text);
+      margin-bottom:
+        20px;
+
+      padding:
+        0 0 6px 16px;
+
+      font-size:
+        18px;
+
+      line-height:
+        1.5;
+
+      font-weight:
+        700;
 
       border-bottom:
         1px solid var(--line);
-
-      font-size: 18px;
-      font-weight: 700;
-
-      transition:
-        color 0.2s,
-        border-color 0.2s;
     }
-
 
     .heading::before {
-      content: "";
+      content:
+        "";
 
-      display: inline-block;
+      position:
+        absolute;
 
-      width: 8px;
-      height: 8px;
+      left:
+        0;
 
-      margin-right: 9px;
+      top:
+        0.45em;
 
-      background: var(--red);
+      width:
+        8px;
 
-      vertical-align: 2px;
+      height:
+        8px;
+
+      background:
+        var(--red);
     }
-
 
     .subheading {
-      margin-top: 30px;
-      margin-bottom: 10px;
+      margin-top:
+        30px;
 
-      color: var(--blue);
+      margin-bottom:
+        10px;
 
-      font-size: 15px;
-      font-weight: 700;
+      font-size:
+        15px;
+
+      font-weight:
+        700;
+
+      color:
+        var(--blue);
     }
-
 
     p {
       margin:
-        0
-        0
-        1.2em;
+        0 0 1.2em;
     }
 
 
     /* ========================================
        中央揃え本文
-    ======================================== */
+       ======================================== */
 
     .center {
       margin:
-        38px
-        0;
+        38px 0;
 
-      text-align: center;
+      text-align:
+        center;
     }
 
 
     /* ========================================
        BOX
-    ======================================== */
+       ======================================== */
 
     .box {
       margin:
-        32px
-        0;
+        32px 0;
 
       padding:
-        18px
-        22px;
+        18px 22px;
 
       border:
         1px solid var(--line);
 
-      background: var(--surface);
+      background:
+        var(--surface);
 
       box-shadow:
-        4px 4px 0 var(--yellow);
+        4px 4px 0 var(--blue);
 
       transition:
-        background 0.2s,
-        border-color 0.2s;
+        background-color 0.2s ease,
+        border-color 0.2s ease;
     }
 
-
     .box-title {
-      margin-bottom: 8px;
+      margin-bottom:
+        8px;
 
-      color: var(--red);
+      font-weight:
+        700;
 
-      font-weight: 700;
+      color:
+        var(--red);
     }
 
 
     /* ========================================
        アコーディオン
-    ======================================== */
+       ======================================== */
 
     details {
       margin:
-        32px
-        0;
-
-      overflow: hidden;
+        32px 0;
 
       border:
         1px solid var(--line);
 
-      background: var(--surface);
+      background:
+        var(--surface);
+
+      overflow:
+        hidden;
 
       transition:
-        background 0.2s,
-        border-color 0.2s;
+        background-color 0.2s ease,
+        border-color 0.2s ease;
     }
-
 
     summary {
-      cursor: pointer;
+      cursor:
+        pointer;
 
       padding:
-        12px
-        18px;
+        14px 18px;
 
-      color: var(--text);
-      background: var(--surface-2);
+      font-weight:
+        700;
 
-      font-weight: 700;
+      background:
+        var(--surface-2);
 
       transition:
-        background 0.15s;
+        background-color 0.2s ease;
     }
-
 
     summary:hover {
-      background:
-        color-mix(
-          in srgb,
-          var(--blue) 18%,
-          var(--surface)
-        );
+      filter:
+        brightness(0.97);
     }
-
 
     details[open] summary {
       border-bottom:
-        3px solid var(--blue);
+        2px solid var(--blue);
     }
-
 
     .accordion-body {
       padding:
-        18px
-        20px
-        6px;
+        18px 20px 6px;
     }
 
 
     /* ========================================
        引用
-    ======================================== */
+       ======================================== */
 
     .quote {
       margin:
-        32px
-        0;
+        32px 0;
 
-      padding:
-        4px
-        0
-        4px
+      padding-left:
         20px;
-
-      color: var(--subtext);
 
       border-left:
         4px solid var(--teal);
 
-      font-style: italic;
+      color:
+        var(--subtext);
+
+      font-style:
+        italic;
     }
 
 
     /* ========================================
        本文中の画像
-    ======================================== */
+       ======================================== */
 
     .scenario-image {
-      display: block;
+      display:
+        block;
 
-      max-width: 100%;
-      height: auto;
+      max-width:
+        100%;
 
-      margin-top: 12px;
+      height:
+        auto;
 
-      border-radius: 4px;
+      margin-top:
+        12px;
     }
 
-
     .image-caption {
-      margin-top: 6px;
+      margin-top:
+        6px;
 
-      color: var(--subtext);
+      font-size:
+        12px;
 
-      font-size: 11px;
+      color:
+        var(--subtext);
     }
 
 
     /* ========================================
        文字装飾
-    ======================================== */
+       ======================================== */
 
     .red {
-      color: var(--red);
+      color:
+        var(--red);
     }
-
 
     .yellow {
-      color: #b87a00;
+      color:
+        #b87a00;
     }
-
 
     body.dark .yellow {
-      color: var(--yellow);
+      color:
+        var(--yellow);
     }
-
 
     .blue {
-      color: var(--blue);
+      color:
+        var(--blue);
     }
 
-
     .underline {
-      text-decoration: underline;
-
-      text-underline-offset: 3px;
+      text-decoration:
+        underline;
     }
 
 
     /* ========================================
-       ハウスルール
-    ======================================== */
+       HOUSE RULE
+       ======================================== */
 
     .house-rule {
-      margin-top: 64px;
+      margin-top:
+        64px;
 
       padding:
-        22px
-        0;
+        22px 0;
 
       border-top:
         1px solid var(--line);
     }
 
-
     .house-rule-title {
-      margin-bottom: 8px;
-
-      color: var(--red);
+      margin-bottom:
+        8px;
 
       font-family:
         "Oswald",
         sans-serif;
 
-      font-size: 12px;
-      font-weight: 600;
-      letter-spacing: 0.12em;
+      font-size:
+        13px;
+
+      font-weight:
+        600;
+
+      letter-spacing:
+        0.1em;
+
+      color:
+        var(--red);
     }
 
-
     .house-rule a {
-      font-weight: 700;
+      font-weight:
+        700;
     }
 
 
     /* ========================================
        権利表記
-    ======================================== */
+       ======================================== */
 
     .copyright {
-      margin-top: 30px;
+      margin-top:
+        30px;
 
-      padding-top: 22px;
-
-      color: var(--subtext);
+      padding-top:
+        22px;
 
       border-top:
         1px solid var(--line);
 
-      font-size: 10px;
-      line-height: 1.7;
+      font-size:
+        10px;
+
+      line-height:
+        1.7;
+
+      color:
+        var(--subtext);
     }
 
 
     /* ========================================
        エラー
-    ======================================== */
+       ======================================== */
 
     .error {
-      padding: 20px;
-
-      color: var(--text);
-      background: var(--surface);
+      padding:
+        20px;
 
       border:
         1px solid var(--red);
 
-      box-shadow:
-        4px 4px 0 var(--red);
+      background:
+        var(--surface);
     }
 
 
     /* ========================================
        スマホ
-    ======================================== */
+       ======================================== */
 
     @media (max-width: 600px) {
 
       body {
-        margin-top: 24px;
+        margin-top:
+          24px;
 
-        padding-left: 18px;
-        padding-right: 18px;
+        padding:
+          0 18px 60px;
 
-        font-size: 13px;
+        font-size:
+          13px;
       }
-
-
-      .top-tools {
-        min-height: 94px;
-      }
-
 
       .back-area {
-        position: relative;
+        height:
+          58px;
+
+        margin-bottom:
+          20px;
       }
 
+      .back-ticket {
+        top:
+          24px;
 
-      .theme-switcher {
-        top: 54px;
-        left: 0;
-        right: auto;
+        width:
+          140px;
+
+        height:
+          40px;
       }
 
+      .back-ticket::after {
+        right:
+          -20px;
+
+        width:
+          40px;
+
+        height:
+          40px;
+      }
 
       .scenario-title {
-        font-size: 22px;
+        font-size:
+          22px;
       }
-
 
       .heading {
-        font-size: 17px;
+        font-size:
+          17px;
       }
 
+      .subheading {
+        font-size:
+          14px;
+      }
 
       .main-image {
-        max-height: 350px;
+        max-height:
+          350px;
       }
-
 
       .meta {
         padding:
-          16px
-          18px;
+          16px 18px;
+
+        box-shadow:
+          4px 4px 0 var(--blue);
       }
 
+      .box {
+        padding:
+          16px 18px;
+      }
     }
-
   </style>
 </head>
 
 
 <body>
 
-
-  <!-- ========================================
-       上部
-  ======================================== -->
-
-  <div class="top-tools">
-
-
-    <div class="back-area">
-
-      <a
-        class="back-ticket"
-        href="scenarios.html"
-      >
-        ◀ もどる
-      </a>
-
-    </div>
-
-
-    <div
-      class="theme-switcher"
-      aria-label="表示テーマ"
+  <div class="back-area">
+    <a
+      class="back-ticket"
+      href="scenarios.html"
     >
-
-      <button
-        id="light-button"
-        class="theme-button active"
-        type="button"
-      >
-        LIGHT
-      </button>
-
-      <button
-        id="dark-button"
-        class="theme-button"
-        type="button"
-      >
-        DARK
-      </button>
-
-    </div>
-
-
+      ◀ もどる
+    </a>
   </div>
 
 
@@ -830,130 +705,35 @@
 
   <script>
 
-    /* ========================================
-       LIGHT / DARK
-    ======================================== */
-
-    const lightButton =
-      document.getElementById(
-        "light-button"
-      );
-
-    const darkButton =
-      document.getElementById(
-        "dark-button"
-      );
-
-
-    function setTheme(theme) {
-
-      const isDark =
-        theme === "dark";
-
-
-      document.body.classList.toggle(
-        "dark",
-        isDark
-      );
-
-
-      lightButton.classList.toggle(
-        "active",
-        !isDark
-      );
-
-
-      darkButton.classList.toggle(
-        "active",
-        isDark
-      );
-
-
-      try {
-
-        localStorage.setItem(
-          "trpg-mug-theme",
-          theme
-        );
-
-      } catch (error) {
-
-        console.warn(
-          "テーマ設定を保存できませんでした",
-          error
-        );
-
-      }
-
-    }
-
-
-    let savedTheme = "light";
-
-
-    try {
-
-      savedTheme =
-        localStorage.getItem(
-          "trpg-mug-theme"
-        ) || "light";
-
-    } catch (error) {
-
-      savedTheme = "light";
-
-    }
-
-
-    setTheme(savedTheme);
-
-
-    lightButton.addEventListener(
-      "click",
-      () => setTheme("light")
-    );
-
-
-    darkButton.addEventListener(
-      "click",
-      () => setTheme("dark")
-    );
-
-
-    /* ========================================
-       HTML特殊文字を安全にする
-    ======================================== */
+    // ========================================
+    // HTML特殊文字を安全にする
+    // ========================================
 
     function escapeHtml(text) {
-
       return String(text ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
-
     }
 
 
-    /* ========================================
-       本文内の装飾
-
-       **文字**         → 太字
-       {red:文字}       → 赤
-       {yellow:文字}    → 黄
-       {blue:文字}      → 青
-       {underline:文字} → 下線
-    ======================================== */
+    // ========================================
+    // 本文内の装飾
+    //
+    // **文字**         → 太字
+    // {red:文字}       → 赤
+    // {yellow:文字}    → 黄
+    // {blue:文字}      → 青
+    // {underline:文字} → 下線
+    // ========================================
 
     function formatText(text) {
-
       if (!text) return "";
-
 
       let result =
         escapeHtml(text);
-
 
       result =
         result.replace(
@@ -961,13 +741,11 @@
           "<strong>$1</strong>"
         );
 
-
       result =
         result.replace(
           /\{red:(.+?)\}/g,
           '<span class="red">$1</span>'
         );
-
 
       result =
         result.replace(
@@ -975,13 +753,11 @@
           '<span class="yellow">$1</span>'
         );
 
-
       result =
         result.replace(
           /\{blue:(.+?)\}/g,
           '<span class="blue">$1</span>'
         );
-
 
       result =
         result.replace(
@@ -989,47 +765,61 @@
           '<span class="underline">$1</span>'
         );
 
-
       result =
         result.replace(
           /\n/g,
           "<br>"
         );
 
-
       return result;
-
     }
 
 
-    /* ========================================
-       概要欄
-    ======================================== */
+    // ========================================
+    // テーマ
+    //
+    // Scenarios L列
+    // LIGHT / DARK
+    //
+    // 未設定・不明な値はLIGHT
+    // ========================================
 
-    function createMetaRow(
-      label,
-      value
-    ) {
+    function applyTheme(theme) {
 
+      const normalizedTheme =
+        String(theme || "LIGHT")
+          .trim()
+          .toUpperCase();
+
+      const isDark =
+        normalizedTheme === "DARK";
+
+      document.body.classList.toggle(
+        "dark",
+        isDark
+      );
+    }
+
+
+    // ========================================
+    // 概要欄
+    // ========================================
+
+    function createMetaRow(label, value) {
       if (!value) return "";
-
 
       return `
         <div class="meta-row">
-          <strong>
-            ${escapeHtml(label)}：
-          </strong>
-
+          <strong>${escapeHtml(label)}：</strong>
           ${formatText(value)}
         </div>
       `;
-
     }
 
 
-    /* ========================================
-       本文パーツ
-    ======================================== */
+    // ========================================
+    // 本文パーツ
+    // ========================================
 
     function createSection(section) {
 
@@ -1044,40 +834,33 @@
 
 
       if (type === "heading") {
-
         return `
           <h2 class="heading">
             ${escapeHtml(heading)}
           </h2>
         `;
-
       }
 
 
       if (type === "subheading") {
-
         return `
           <h3 class="subheading">
             ${escapeHtml(heading)}
           </h3>
         `;
-
       }
 
 
       if (type === "center") {
-
         return `
           <div class="center">
             ${formatText(body)}
           </div>
         `;
-
       }
 
 
       if (type === "box") {
-
         return `
           <div class="box">
 
@@ -1103,12 +886,10 @@
 
           </div>
         `;
-
       }
 
 
       if (type === "accordion") {
-
         return `
           <details>
 
@@ -1124,12 +905,10 @@
 
           </details>
         `;
-
       }
 
 
       if (type === "quote") {
-
         return `
           <div class="quote">
 
@@ -1148,12 +927,10 @@
 
           </div>
         `;
-
       }
 
 
       if (type === "link") {
-
         return `
           <div class="section">
 
@@ -1169,12 +946,10 @@
 
           </div>
         `;
-
       }
 
 
       if (type === "image") {
-
         return `
           <div class="section">
 
@@ -1202,7 +977,6 @@
 
           </div>
         `;
-
       }
 
 
@@ -1231,15 +1005,20 @@
 
         </div>
       `;
-
     }
 
 
-    /* ========================================
-       シナリオ全体を表示
-    ======================================== */
+    // ========================================
+    // シナリオ全体を表示
+    // ========================================
 
     function renderScenario(scenario) {
+
+      // シナリオごとのテーマを最初に適用
+      applyTheme(
+        scenario.theme
+      );
+
 
       let html = `
         <h1 class="scenario-title">
@@ -1248,22 +1027,29 @@
       `;
 
 
-      /* メイン画像 */
+      // ======================================
+      // メイン画像
+      // ======================================
 
       if (scenario.mainImage) {
 
         html += `
           <img
             class="main-image"
-            src="${escapeHtml(scenario.mainImage)}"
-            alt="${escapeHtml(scenario.title)}"
+            src="${escapeHtml(
+              scenario.mainImage
+            )}"
+            alt="${escapeHtml(
+              scenario.title
+            )}"
           >
         `;
-
       }
 
 
-      /* 概要 */
+      // ======================================
+      // 概要
+      // ======================================
 
       html += `
         <div class="meta">
@@ -1275,7 +1061,9 @@
 
           ${createMetaRow(
             "タグ",
-            Array.isArray(scenario.tags)
+            Array.isArray(
+              scenario.tags
+            )
               ? scenario.tags.join(" / ")
               : scenario.tags
           )}
@@ -1292,7 +1080,9 @@
       `;
 
 
-      /* システム固有情報 */
+      // ======================================
+      // システム固有情報
+      // ======================================
 
       if (scenario.info) {
 
@@ -1304,14 +1094,14 @@
                 info.label,
                 info.value
               );
-
           }
         );
-
       }
 
 
-      /* 備考 */
+      // ======================================
+      // 備考
+      // ======================================
 
       html +=
         createMetaRow(
@@ -1319,13 +1109,13 @@
           scenario.note
         );
 
-
-      html += `
-        </div>
-      `;
+      html +=
+        `</div>`;
 
 
-      /* 本文 */
+      // ======================================
+      // 本文
+      // ======================================
 
       if (scenario.sections) {
 
@@ -1333,15 +1123,17 @@
           section => {
 
             html +=
-              createSection(section);
-
+              createSection(
+                section
+              );
           }
         );
-
       }
 
 
-      /* HOUSE RULE */
+      // ======================================
+      // HOUSE RULE
+      // ======================================
 
       if (
         scenario.houseRule &&
@@ -1370,11 +1162,12 @@
 
           </div>
         `;
-
       }
 
 
-      /* 権利表記 */
+      // ======================================
+      // 権利表記
+      // ======================================
 
       if (scenario.copyright) {
 
@@ -1385,7 +1178,6 @@
             )}
           </div>
         `;
-
       }
 
 
@@ -1393,20 +1185,20 @@
         .getElementById(
           "scenario"
         )
-        .innerHTML = html;
+        .innerHTML =
+          html;
 
 
       document.title =
         scenario.title +
         " | TRPG_mug";
-
     }
 
 
-    /* ========================================
-       data.json読み込み
-       キャッシュ回避付き
-    ======================================== */
+    // ========================================
+    // data.json読み込み
+    // キャッシュ回避付き
+    // ========================================
 
     fetch(
       "data.json?v=" +
@@ -1421,12 +1213,9 @@
             throw new Error(
               "data.jsonを読み込めませんでした"
             );
-
           }
 
-
           return response.json();
-
         }
       )
 
@@ -1438,17 +1227,14 @@
               window.location.search
             );
 
-
           const scenarioId =
             params.get("id") ||
             "S001";
 
-
           const scenario =
             data.scenarios.find(
               item =>
-                item.id ===
-                scenarioId
+                item.id === scenarioId
             );
 
 
@@ -1457,14 +1243,12 @@
             throw new Error(
               "指定されたシナリオが見つかりません"
             );
-
           }
 
 
           renderScenario(
             scenario
           );
-
         }
       )
 
@@ -1475,7 +1259,6 @@
             error
           );
 
-
           document
             .getElementById(
               "scenario"
@@ -1485,7 +1268,6 @@
                 シナリオを読み込めませんでした。
               </div>
             `;
-
         }
       );
 
