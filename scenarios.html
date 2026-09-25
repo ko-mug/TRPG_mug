@@ -6,7 +6,6 @@
 
   <title>シナリオ一覧 | TRPG_mug</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -17,7 +16,7 @@
   <style>
 
     /* ========================================
-       基本カラー
+       基本カラー・サイズ
     ======================================== */
 
     :root {
@@ -31,11 +30,15 @@
 
       --coc: #e5483f;
       --magicalogia: #16a39a;
-
       --unknown-system: #8d8177;
 
-      --left-width: 285px;
-      --right-width: 125px;
+      /*
+        左：前より広め
+        右：前より広め
+      */
+      --left-width: 365px;
+      --right-width: 175px;
+
       --header-height: 180px;
     }
 
@@ -76,10 +79,6 @@
     }
 
 
-    /* ========================================
-       全画面レイアウト
-    ======================================== */
-
     .page {
       position: relative;
 
@@ -93,8 +92,9 @@
 
 
     /* ========================================
-       上部ヘッダー
-       画面右端まで全部青
+       ヘッダー
+
+       一本の青い帯のまま
     ======================================== */
 
     .hero {
@@ -119,7 +119,10 @@
     .page-label {
       position: absolute;
 
-      right: 80px;
+      /*
+        前より左へ
+      */
+      right: 155px;
       top: 36px;
 
       display: flex;
@@ -148,6 +151,7 @@
         0 5px 0 rgba(0, 0, 0, 0.05);
     }
 
+
     .page-label::after {
       content: "";
 
@@ -162,6 +166,7 @@
 
       background: var(--red);
     }
+
 
     .page-label::before {
       content: "";
@@ -198,7 +203,7 @@
 
       padding:
         34px
-        30px
+        34px
         38px;
 
       overflow: hidden;
@@ -211,29 +216,31 @@
 
 
     /* ========================================
-       戻るボタン
+       もどる
+
+       SCENARIO LISTと同じ荷札型。
+       サイズ感は小さいまま。
     ======================================== */
 
     .back-area {
-      height: 70px;
+      height: 78px;
 
       display: flex;
       align-items: flex-start;
     }
+
 
     .back-ticket {
       position: relative;
 
       display: inline-flex;
       align-items: center;
+      justify-content: center;
 
+      width: 116px;
       height: 42px;
 
-      padding:
-        0
-        28px
-        0
-        18px;
+      padding-right: 12px;
 
       color: #fff;
       background: var(--red);
@@ -242,23 +249,37 @@
 
       font-size: 14px;
       font-weight: 700;
+
+      transform: rotate(-2deg);
+
+      box-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.05);
     }
+
+
+    /*
+      荷札の丸い先端
+    */
 
     .back-ticket::after {
       content: "";
 
       position: absolute;
 
-      right: -11px;
-      top: 10px;
+      right: -21px;
 
-      width: 22px;
-      height: 22px;
+      width: 42px;
+      height: 42px;
 
       border-radius: 50%;
 
-      background: var(--base);
+      background: var(--red);
     }
+
+
+    /*
+      荷札の穴
+    */
 
     .back-ticket::before {
       content: "";
@@ -267,121 +288,140 @@
 
       z-index: 2;
 
-      right: -4px;
-      top: 17px;
+      right: -11px;
 
-      width: 8px;
-      height: 8px;
+      width: 10px;
+      height: 10px;
 
       border-radius: 50%;
-
-      background: var(--blue);
-    }
-
-
-    /* ========================================
-       SYSTEM
-    ======================================== */
-
-    .system-panel {
-      position: relative;
-
-      height: 245px;
-
-      margin:
-        0
-        0
-        42px;
-
-      padding:
-        72px
-        22px
-        22px;
-
-      background: var(--blue);
-    }
-
-
-    /*
-      青い紙の中に
-      ベース色の四角が入る
-    */
-
-    .system-inner {
-      position: relative;
-
-      width: 100%;
-      height: 100%;
-
-      padding:
-        42px
-        14px
-        16px;
 
       background: var(--base);
     }
 
 
-    .system-panel-title {
+    /* ========================================
+       SYSTEM
+
+       ・青ベース
+       ・黄色線なし
+       ・SYSTEM部分だけベース色
+       ・右中央に半円の切り欠き
+    ======================================== */
+
+    .system-panel {
+      position: relative;
+
+      width: 100%;
+      height: 230px;
+
+      margin-bottom: 44px;
+
+      padding:
+        20px
+        38px
+        26px
+        22px;
+
+      background: var(--blue);
+
+      overflow: hidden;
+    }
+
+
+    /*
+      右中央の大きな半円の切り欠き
+    */
+
+    .system-panel::after {
+      content: "";
+
       position: absolute;
 
-      z-index: 2;
+      z-index: 4;
 
-      top: 16px;
-      left: 28px;
-      right: 28px;
+      top: 50%;
+      right: -38px;
 
-      padding-bottom: 7px;
+      width: 76px;
+      height: 76px;
 
-      color: var(--base);
+      border-radius: 50%;
 
-      border-bottom:
-        3px solid var(--yellow);
+      background: var(--base);
 
-      text-align: center;
+      transform:
+        translateY(-50%);
+    }
+
+
+    /*
+      SYSTEM文字部分だけベース色
+    */
+
+    .system-panel-title {
+      height: 60px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      color: var(--blue);
+      background: var(--base);
 
       font-family:
         "Oswald",
         sans-serif;
 
-      font-size: 29px;
+      font-size: 30px;
       font-weight: 500;
       letter-spacing: 0.05em;
     }
 
 
     /*
-      ボタンを元絵より
-      少し下へ置く
+      ボタン部分は青のまま。
+      SYSTEM見出しから少し離す。
     */
 
     .system-buttons {
       display: flex;
       flex-wrap: wrap;
 
-      gap: 10px;
+      gap:
+        12px
+        10px;
 
       align-content: flex-start;
+
+      padding:
+        27px
+        5px
+        0;
     }
 
 
     /* ========================================
-       TAGチケット
+       TAG
     ======================================== */
 
     .tag-ticket {
       position: relative;
 
-      height: 430px;
+      width: 100%;
+      height: 455px;
 
-      padding: 28px;
+      /*
+        黄色枠までの距離を
+        上下左右同じにする
+      */
+      padding: 20px;
 
       background: var(--red);
     }
 
 
     /*
-      チケット上下の切り欠き
+      上下の大きな切り欠き
     */
 
     .tag-ticket::before,
@@ -390,10 +430,12 @@
 
       position: absolute;
 
+      z-index: 3;
+
       left: 50%;
 
-      width: 68px;
-      height: 68px;
+      width: 72px;
+      height: 72px;
 
       border-radius: 50%;
 
@@ -403,18 +445,23 @@
         translateX(-50%);
     }
 
+
     .tag-ticket::before {
-      top: -34px;
+      top: -36px;
     }
 
+
     .tag-ticket::after {
-      bottom: -34px;
+      bottom: -36px;
     }
 
 
     /*
-      黄色い四角。
-      上下左右を全部28pxで統一。
+      黄色い内枠。
+
+      前より上下の外側余白を少し縮め、
+      左エリアが広がった分だけ
+      横方向には広くなる。
     */
 
     .tag-ticket-inner {
@@ -424,8 +471,8 @@
       height: 100%;
 
       padding:
-        64px
-        16px
+        66px
+        18px
         24px;
 
       border:
@@ -436,11 +483,11 @@
     .tag-ticket-title {
       position: absolute;
 
-      top: 17px;
-      left: 16px;
-      right: 16px;
+      top: 16px;
+      left: 18px;
+      right: 18px;
 
-      height: 34px;
+      height: 36px;
 
       color: var(--yellow);
 
@@ -453,7 +500,7 @@
         "Oswald",
         sans-serif;
 
-      font-size: 27px;
+      font-size: 28px;
       font-weight: 500;
       letter-spacing: 0.06em;
     }
@@ -512,28 +559,30 @@
     }
 
 
-    /* SYSTEMボタン */
+    /* SYSTEM */
 
     .system-panel
     .filter-button {
-      color: var(--blue);
+      color: var(--text);
       background: var(--yellow);
     }
+
 
     .system-panel
     .filter-button.active {
       color: #fff;
-      background: var(--blue);
+      background: var(--red);
     }
 
 
-    /* TAGボタン */
+    /* TAG */
 
     .tag-ticket
     .filter-button {
       color: var(--red);
       background: var(--base);
     }
+
 
     .tag-ticket
     .filter-button.active {
@@ -543,15 +592,19 @@
 
 
     /* ========================================
-       中央エリア
+       中央
+
+       ここだけスクロール
     ======================================== */
 
     .main {
       position: fixed;
 
       top: var(--header-height);
+
       left: var(--left-width);
       right: var(--right-width);
+
       bottom: 0;
 
       overflow: hidden;
@@ -560,10 +613,6 @@
     }
 
 
-    /*
-      スクロールするのはここだけ
-    */
-
     .content-scroll {
       width: 100%;
       height: 100%;
@@ -571,7 +620,62 @@
       overflow-y: auto;
       overflow-x: hidden;
 
+      /*
+        スクロールバー分を確保
+      */
       scrollbar-gutter: stable;
+    }
+
+
+    /* ========================================
+       スクロールバー
+    ======================================== */
+
+    /*
+      Firefox
+    */
+
+    .content-scroll {
+      scrollbar-width: thin;
+
+      scrollbar-color:
+        var(--blue)
+        #ded8ce;
+    }
+
+
+    /*
+      Chrome / Edge / Safari
+    */
+
+    .content-scroll::-webkit-scrollbar {
+      width: 13px;
+    }
+
+
+    .content-scroll::-webkit-scrollbar-track {
+      background: #ded8ce;
+
+      border-radius: 999px;
+
+      margin:
+        14px
+        0;
+    }
+
+
+    .content-scroll::-webkit-scrollbar-thumb {
+      background: var(--blue);
+
+      border:
+        3px solid #ded8ce;
+
+      border-radius: 999px;
+    }
+
+
+    .content-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--teal);
     }
 
 
@@ -580,8 +684,9 @@
 
       padding:
         42px
-        52px
-        90px;
+        42px
+        90px
+        48px;
     }
 
 
@@ -616,6 +721,7 @@
 
       outline: none;
     }
+
 
     .search-box:focus {
       border-color: var(--red);
@@ -662,6 +768,8 @@
 
     /* ========================================
        切手一覧
+
+       サイズ感は前回のまま
     ======================================== */
 
     .scenario-list {
@@ -693,10 +801,6 @@
 
       display: block;
 
-      /*
-        元絵の縦長切手へ修正
-      */
-
       width: 100%;
       aspect-ratio: 0.78;
 
@@ -720,7 +824,7 @@
 
 
     /* ========================================
-       切手のギザギザ
+       切手ギザギザ
     ======================================== */
 
     .scenario-card::before {
@@ -772,12 +876,6 @@
     }
 
 
-    /*
-      内側はベース色。
-      外周色そのものが
-      四角い縁になる。
-    */
-
     .stamp-inner {
       position: relative;
 
@@ -806,6 +904,7 @@
       --stamp-color:
         var(--coc);
     }
+
 
     .system-magicalogia {
       --stamp-color:
@@ -851,7 +950,7 @@
 
 
     /* ========================================
-       切手の文字
+       切手文字
     ======================================== */
 
     .scenario-title {
@@ -910,9 +1009,11 @@
     }
 
 
-    /*
-      人数・時間を一番下へ
-    */
+    /* ========================================
+       人数・時間
+
+       前より太字で目立たせる
+    ======================================== */
 
     .scenario-info {
       display: flex;
@@ -934,7 +1035,8 @@
           transparent
         );
 
-      font-size: 10px;
+      font-size: 11px;
+      font-weight: 700;
     }
 
 
@@ -967,14 +1069,36 @@
     }
 
 
-    .nav-ticket {
-      display: block;
+    /*
+      右端からはみ出す長さを持たせる。
 
-      width: 118px;
+      hoverして左に出ても
+      右端に必ず色が残る。
+    */
+
+    .nav-ticket {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: calc(
+        var(--right-width) + 42px
+      );
+
+      min-height: 48px;
+
+      /*
+        通常時は右に42px隠す
+      */
+      margin-right: -42px;
 
       padding:
-        13px
-        8px;
+        12px
+        34px
+        12px
+        12px;
 
       color: #fff;
       background: var(--blue);
@@ -986,7 +1110,7 @@
         "Oswald",
         sans-serif;
 
-      font-size: 16px;
+      font-size: 17px;
       letter-spacing: 0.02em;
 
       box-shadow:
@@ -1001,29 +1125,59 @@
 
 
     /*
-      通常付箋は少し画面内へ出ている
+      左側だけ少し切符っぽく
     */
 
-    .nav-ticket:hover {
+    .nav-ticket::before {
+      content: "";
+
+      position: absolute;
+
+      left: -10px;
+      top: 50%;
+
+      width: 20px;
+      height: 20px;
+
+      border-radius: 50%;
+
+      background: var(--base);
+
       transform:
-        translateX(-7px);
+        translateY(-50%);
     }
 
 
     /*
-      現在いるページは赤＋引っ込む
+      hoverすると少し出る。
+      右側は画面外まで色面が続くので
+      浮いて見えない。
+    */
+
+    .nav-ticket:hover {
+      transform:
+        translateX(-12px);
+    }
+
+
+    /*
+      現在地
+
+      見た目は同じ形。
+      色と位置だけ変更。
     */
 
     .nav-ticket.current {
       background: var(--red);
 
       transform:
-        translateX(25px);
+        translateX(22px);
     }
+
 
     .nav-ticket.current:hover {
       transform:
-        translateX(19px);
+        translateX(10px);
     }
 
 
@@ -1052,22 +1206,19 @@
        中くらいのPC
     ======================================== */
 
-    @media (max-width: 1150px) {
+    @media (max-width: 1250px) {
 
       :root {
-        --left-width: 255px;
-        --right-width: 105px;
+        --left-width: 320px;
+        --right-width: 145px;
       }
+
 
       .sidebar {
-        padding-left: 24px;
-        padding-right: 24px;
+        padding-left: 28px;
+        padding-right: 28px;
       }
 
-      .content {
-        padding-left: 34px;
-        padding-right: 34px;
-      }
 
       .scenario-list {
         grid-template-columns:
@@ -1075,6 +1226,11 @@
             2,
             minmax(160px, 210px)
           );
+      }
+
+
+      .page-label {
+        right: 125px;
       }
 
     }
@@ -1091,12 +1247,15 @@
         height: auto;
       }
 
+
       body {
         overflow: auto;
       }
 
+
       .page {
         height: auto;
+
         overflow: visible;
       }
 
@@ -1137,7 +1296,7 @@
       }
 
 
-      /* 右ナビを上へ */
+      /* 右ナビ */
 
       .right-nav {
         position: absolute;
@@ -1157,6 +1316,9 @@
 
       .nav-ticket {
         width: auto;
+        min-height: 0;
+
+        margin: 0;
 
         padding:
           6px
@@ -1165,6 +1327,11 @@
         font-size: 11px;
 
         transform: none;
+      }
+
+
+      .nav-ticket::before {
+        display: none;
       }
 
 
@@ -1201,6 +1368,7 @@
         overflow: visible;
 
         border-right: 0;
+
         border-bottom:
           3px solid var(--blue);
       }
@@ -1217,17 +1385,11 @@
           430px
         );
 
-        height: auto;
-        min-height: 190px;
+        height: 210px;
 
         margin:
           0 auto
           58px;
-      }
-
-
-      .system-inner {
-        min-height: 115px;
       }
 
 
@@ -1238,7 +1400,7 @@
         );
 
         height: auto;
-        min-height: 300px;
+        min-height: 330px;
 
         margin:
           0 auto;
@@ -1246,7 +1408,7 @@
 
 
       .tag-ticket-inner {
-        min-height: 244px;
+        min-height: 290px;
       }
 
 
@@ -1334,8 +1496,7 @@
             235px
           );
 
-        justify-content:
-          center;
+        justify-content: center;
       }
 
     }
@@ -1349,9 +1510,7 @@
   <div class="page">
 
 
-    <!-- =====================================
-         青ヘッダー
-    ====================================== -->
+    <!-- 青ヘッダー -->
 
     <header class="hero">
 
@@ -1362,14 +1521,12 @@
     </header>
 
 
-    <!-- =====================================
-         左
-    ====================================== -->
+    <!-- 左 -->
 
     <aside class="sidebar">
 
 
-      <!-- 戻る -->
+      <!-- もどる -->
 
       <div class="back-area">
 
@@ -1394,14 +1551,10 @@
           SYSTEM
         </div>
 
-        <div class="system-inner">
-
-          <div
-            id="system-filters"
-            class="system-buttons"
-          ></div>
-
-        </div>
+        <div
+          id="system-filters"
+          class="system-buttons"
+        ></div>
 
       </section>
 
@@ -1431,9 +1584,7 @@
     </aside>
 
 
-    <!-- =====================================
-         中央
-    ====================================== -->
+    <!-- 中央 -->
 
     <main class="main">
 
@@ -1473,7 +1624,7 @@
           </div>
 
 
-          <!-- 切手一覧 -->
+          <!-- 一覧 -->
 
           <div
             id="scenario-list"
@@ -1489,9 +1640,7 @@
     </main>
 
 
-    <!-- =====================================
-         右ナビ
-    ====================================== -->
+    <!-- 右ナビ -->
 
     <nav class="right-nav">
 
@@ -1523,9 +1672,9 @@
 
   <script>
 
-    // ========================================
-    // 状態
-    // ========================================
+    /* ========================================
+       状態
+    ======================================== */
 
     let allScenarios = [];
 
@@ -1537,9 +1686,9 @@
     let searchWord = "";
 
 
-    // ========================================
-    // HTML特殊文字
-    // ========================================
+    /* ========================================
+       HTML特殊文字
+    ======================================== */
 
     function escapeHtml(text) {
 
@@ -1553,9 +1702,9 @@
     }
 
 
-    // ========================================
-    // システム → 色
-    // ========================================
+    /* ========================================
+       システム → 色
+    ======================================== */
 
     function getSystemClass(system) {
 
@@ -1586,9 +1735,9 @@
     }
 
 
-    // ========================================
-    // 切手カード
-    // ========================================
+    /* ========================================
+       切手カード
+    ======================================== */
 
     function createScenarioCard(
       scenario
@@ -1610,10 +1759,7 @@
 
       return `
         <a
-          class="
-            scenario-card
-            ${systemClass}
-          "
+          class="scenario-card ${systemClass}"
           href="scenario.html?id=${
             encodeURIComponent(
               scenario.id
@@ -1623,8 +1769,6 @@
 
           <div class="stamp-inner">
 
-
-            <!-- サムネイル -->
 
             <div class="thumbnail-frame">
 
@@ -1656,8 +1800,6 @@
             </div>
 
 
-            <!-- タイトル -->
-
             <div class="scenario-title">
 
               ${
@@ -1668,8 +1810,6 @@
 
             </div>
 
-
-            <!-- システム -->
 
             ${
               scenario.system
@@ -1688,8 +1828,6 @@
             }
 
 
-            <!-- タグ -->
-
             ${
               tags.length
                 ? `
@@ -1700,13 +1838,11 @@
                         .map(
                           tag => `
                             <span class="tag">
-
                               ${
                                 escapeHtml(
                                   tag
                                 )
                               }
-
                             </span>
                           `
                         )
@@ -1718,8 +1854,6 @@
                 : ""
             }
 
-
-            <!-- 人数・時間 -->
 
             ${
               scenario.players ||
@@ -1768,9 +1902,9 @@
     }
 
 
-    // ========================================
-    // 絞り込みボタン
-    // ========================================
+    /* ========================================
+       フィルターボタン
+    ======================================== */
 
     function createFilterButton(
       text,
@@ -1804,9 +1938,9 @@
     }
 
 
-    // ========================================
-    // SYSTEM
-    // ========================================
+    /* ========================================
+       SYSTEM
+    ======================================== */
 
     function createSystemFilters() {
 
@@ -1873,9 +2007,9 @@
     }
 
 
-    // ========================================
-    // TAG
-    // ========================================
+    /* ========================================
+       TAG
+    ======================================== */
 
     function createTagFilters() {
 
@@ -1960,9 +2094,9 @@
     }
 
 
-    // ========================================
-    // 絞り込み
-    // ========================================
+    /* ========================================
+       絞り込み
+    ======================================== */
 
     function getFilteredScenarios() {
 
@@ -1976,8 +2110,6 @@
         scenario => {
 
 
-          /* SYSTEM */
-
           if (
             selectedSystem &&
             scenario.system !==
@@ -1987,8 +2119,6 @@
           }
 
 
-          /* TAG */
-
           const scenarioTags =
             Array.isArray(
               scenario.tags
@@ -1996,6 +2126,10 @@
               ? scenario.tags
               : [];
 
+
+          /*
+            タグはAND検索
+          */
 
           for (
             const tag
@@ -2012,8 +2146,6 @@
 
           }
 
-
-          /* 検索 */
 
           if (
             normalizedSearch
@@ -2049,9 +2181,9 @@
     }
 
 
-    // ========================================
-    // 一覧表示
-    // ========================================
+    /* ========================================
+       一覧表示
+    ======================================== */
 
     function renderScenarioList() {
 
@@ -2097,9 +2229,9 @@
     }
 
 
-    // ========================================
-    // 選択状態
-    // ========================================
+    /* ========================================
+       選択状態
+    ======================================== */
 
     function updateButtonStates() {
 
@@ -2153,9 +2285,9 @@
     }
 
 
-    // ========================================
-    // 検索
-    // ========================================
+    /* ========================================
+       検索
+    ======================================== */
 
     document
       .getElementById(
@@ -2174,9 +2306,9 @@
       );
 
 
-    // ========================================
-    // リセット
-    // ========================================
+    /* ========================================
+       リセット
+    ======================================== */
 
     document
       .getElementById(
@@ -2204,9 +2336,9 @@
       );
 
 
-    // ========================================
-    // data.json
-    // ========================================
+    /* ========================================
+       data.json
+    ======================================== */
 
     fetch(
       "data.json?v=" +
