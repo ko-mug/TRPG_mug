@@ -4,19 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- 一覧から渡された theme を、最初の描画より前に反映 -->
-  <script>
-    (() => {
-      const params = new URLSearchParams(window.location.search);
-      const theme = String(params.get("theme") || "LIGHT").trim().toUpperCase();
-
-      if (theme === "DARK") {
-        document.documentElement.classList.add("dark");
-      }
-    })();
-  </script>
-
-  <title>シナリオ | TRPG_mug</title>
+  <title>ハウスルール | TRPG_mug</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -43,56 +31,133 @@
       --red: #e5483f;
       --yellow: #f4b84e;
       --teal: #16a39a;
-      --dark: #343744;
+
+      --header-height: 180px;
+      --right-width: 205px;
     }
 
-    html.dark,
-    body.dark {
-      --base: #343744;
-      --surface: #3d404e;
-      --surface-2: #454957;
-
-      --text: #f5f1e9;
-      --subtext: #c8c3bb;
-      --line: #626674;
-
-      color-scheme: dark;
-    }
-
-    html {
-      min-height: 100%;
-      background: #f5f1e9;
-    }
-
-    html.dark {
-      background: #343744;
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
     }
 
     body {
+      overflow: hidden;
+
+      color: var(--text);
+      background: var(--base);
+
       font-family:
         "Zen Kaku Gothic Antique",
         sans-serif;
 
-      max-width: 800px;
-
-      margin:
-        40px auto;
-
-      padding:
-        0 24px 80px;
-
-      min-height: 100vh;
-
       font-size: 14px;
       line-height: 1.8;
+    }
 
-      color: var(--text);
+    a {
+      color: var(--blue);
+    }
+
+    .page {
+      position: relative;
+
+      width: 100%;
+      height: 100vh;
+
+      overflow: hidden;
+
       background: var(--base);
     }
 
 
-    a {
-      color: var(--blue);
+    /* ========================================
+       青ヘッダー
+       ======================================== */
+
+    .hero {
+      position: fixed;
+
+      z-index: 10;
+
+      top: 0;
+      left: 0;
+      right: 0;
+
+      height: var(--header-height);
+
+      background: var(--blue);
+    }
+
+
+    /* ========================================
+       HOUSE RULE 荷札
+       ======================================== */
+
+    .page-label {
+      position: absolute;
+
+      right: 175px;
+      top: 36px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 335px;
+      height: 92px;
+
+      padding-right: 30px;
+
+      color: #ffffff;
+      background: var(--red);
+
+      font-family:
+        "Oswald",
+        sans-serif;
+
+      font-size: 43px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+
+      transform: rotate(7deg);
+
+      box-shadow:
+        0 5px 0 rgba(0, 0, 0, 0.05);
+    }
+
+    .page-label::after {
+      content: "";
+
+      position: absolute;
+
+      right: -46px;
+
+      width: 92px;
+      height: 92px;
+
+      border-radius: 50%;
+
+      background: var(--red);
+    }
+
+    .page-label::before {
+      content: "";
+
+      position: absolute;
+
+      z-index: 2;
+
+      right: -25px;
+
+      width: 23px;
+      height: 23px;
+
+      border-radius: 50%;
+
+      background: var(--blue);
     }
 
 
@@ -100,18 +165,13 @@
        もどる
        ======================================== */
 
-    .back-area {
-      height: 54px;
-      margin-bottom: 28px;
-    }
-
     .back-ticket {
       position: fixed;
 
-      top: 40px;
-      left: 0;
+      z-index: 40;
 
-      z-index: 100;
+      top: 54px;
+      left: 0;
 
       display: flex;
       align-items: center;
@@ -122,17 +182,13 @@
 
       padding-right: 10px;
 
-      font-family:
-        "Zen Kaku Gothic Antique",
-        sans-serif;
+      color: #ffffff;
+      background: var(--red);
 
       font-size: 13px;
       font-weight: 700;
 
       text-decoration: none;
-
-      color: #ffffff !important;
-      background: var(--red);
 
       filter:
         drop-shadow(5px 5px 0 var(--blue));
@@ -147,6 +203,8 @@
 
       position: absolute;
 
+      z-index: -1;
+
       top: 0;
       right: -21px;
 
@@ -156,14 +214,14 @@
       border-radius: 50%;
 
       background: var(--red);
-
-      z-index: -1;
     }
 
     .back-ticket::before {
       content: "";
 
       position: absolute;
+
+      z-index: 2;
 
       top: 50%;
       right: -10px;
@@ -173,15 +231,15 @@
 
       border-radius: 50%;
 
-      background: var(--base);
+      background: var(--blue);
 
-      transform: translateY(-50%);
-
-      z-index: 2;
+      transform:
+        translateY(-50%);
     }
 
     .back-ticket:hover {
-      transform: translateY(-2px);
+      transform:
+        translateY(-2px);
 
       filter:
         drop-shadow(5px 7px 0 var(--blue));
@@ -189,81 +247,128 @@
 
 
     /* ========================================
-       シナリオタイトル
+       本文エリア
        ======================================== */
 
-    .scenario-title {
+    .main {
+      position: fixed;
+
+      top: var(--header-height);
+      left: 0;
+      right: var(--right-width);
+      bottom: 0;
+
+      overflow: hidden;
+
+      background: var(--base);
+    }
+
+    .content-scroll {
+      width: 100%;
+      height: 100%;
+
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      scrollbar-gutter: stable;
+
+      scrollbar-width: thin;
+
+      scrollbar-color:
+        var(--blue)
+        #ded8ce;
+    }
+
+    .content-scroll::-webkit-scrollbar {
+      width: 13px;
+    }
+
+    .content-scroll::-webkit-scrollbar-track {
+      background: #ded8ce;
+
+      border-radius: 999px;
+
       margin:
-        0 0 24px;
+        14px
+        0;
+    }
+
+    .content-scroll::-webkit-scrollbar-thumb {
+      background: var(--blue);
+
+      border:
+        3px solid #ded8ce;
+
+      border-radius: 999px;
+    }
+
+    .content-scroll::-webkit-scrollbar-thumb:hover {
+      background: var(--teal);
+    }
+
+    .content {
+      width: min(
+        800px,
+        calc(100% - 48px)
+      );
+
+      min-height: 100%;
+
+      margin:
+        0 auto;
+
+      padding:
+        38px
+        24px
+        90px;
+    }
+
+
+    /* ========================================
+       ページ内タイトル
+       ======================================== */
+
+    .house-rule-heading {
+      display: flex;
+      align-items: baseline;
+
+      gap: 28px;
+
+      margin:
+        0 0 28px;
 
       padding-bottom:
         10px;
 
-      font-size:
-        25px;
-
-      line-height:
-        1.4;
-
-      font-weight:
-        700;
-
-      color:
-        var(--text);
-
       border-bottom:
-        2px solid var(--red);
+        2px solid var(--text);
+
+      line-height: 1.4;
     }
 
+    .house-rule-label {
+      font-family:
+        "Oswald",
+        sans-serif;
 
-    /* ========================================
-       メイン画像
-       ======================================== */
-
-    .main-image {
-      display: block;
-
-      width: 100%;
-      max-height: 500px;
-
-      object-fit: contain;
-
-      margin:
-        24px 0;
+      font-size: 25px;
+      font-weight: 600;
     }
 
+    .house-rule-system {
+      font-family:
+        "Oswald",
+        "Zen Kaku Gothic Antique",
+        sans-serif;
 
-    /* ========================================
-       概要
-       ======================================== */
-
-    .meta {
-      margin:
-        24px 0 48px;
-
-      padding:
-        18px 22px;
-
-      background:
-        var(--surface);
-
-      box-shadow:
-        5px 5px 0 var(--blue);
-    }
-
-    .meta-row {
-      margin:
-        3px 0;
-    }
-
-    .meta-row strong {
-      font-weight:
-        700;
+      font-size: 22px;
+      font-weight: 600;
     }
 
 
     /* ========================================
        本文
+       scenario.html と同じ
        ======================================== */
 
     .section {
@@ -272,8 +377,7 @@
     }
 
     .heading {
-      position:
-        relative;
+      position: relative;
 
       margin-top:
         52px;
@@ -300,21 +404,15 @@
     .heading::before {
       content: "";
 
-      position:
-        absolute;
+      position: absolute;
 
-      left:
-        0;
-      top:
-        0.45em;
+      left: 0;
+      top: 0.45em;
 
-      width:
-        8px;
-      height:
-        8px;
+      width: 8px;
+      height: 8px;
 
-      background:
-        var(--red);
+      background: var(--red);
     }
 
     .subheading {
@@ -339,11 +437,6 @@
         0 0 1.2em;
     }
 
-
-    /* ========================================
-       中央揃え
-       ======================================== */
-
     .center {
       margin:
         38px 0;
@@ -351,11 +444,6 @@
       text-align:
         center;
     }
-
-
-    /* ========================================
-       BOX
-       ======================================== */
 
     .box {
       margin:
@@ -384,11 +472,6 @@
       color:
         var(--red);
     }
-
-
-    /* ========================================
-       アコーディオン
-       ======================================== */
 
     details {
       margin:
@@ -433,11 +516,6 @@
         18px 20px 6px;
     }
 
-
-    /* ========================================
-       引用
-       ======================================== */
-
     .quote {
       margin:
         32px 0;
@@ -454,11 +532,6 @@
       font-style:
         italic;
     }
-
-
-    /* ========================================
-       本文画像
-       ======================================== */
 
     .scenario-image {
       display:
@@ -500,11 +573,6 @@
         #b87a00;
     }
 
-    body.dark .yellow {
-      color:
-        var(--yellow);
-    }
-
     .blue {
       color:
         var(--blue);
@@ -517,69 +585,106 @@
 
 
     /* ========================================
-       HOUSE RULE
+       右 SYSTEM タグ
        ======================================== */
 
-    .house-rule {
-      margin-top:
-        64px;
+    .system-nav {
+      position: fixed;
 
-      padding:
-        22px 0;
+      z-index: 30;
 
-      border-top:
-        1px solid var(--line);
+      top: 280px;
+      right: 0;
+
+      width: 160px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      gap: 11px;
+
+      pointer-events: none;
     }
 
-    .house-rule-title {
-      margin-bottom:
-        8px;
+    .system-ticket {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 220px;
+      min-height: 48px;
+
+      margin-right:
+        -82px;
+
+      padding:
+        12px
+        48px
+        12px
+        12px;
+
+      color: #ffffff;
+      background: var(--blue);
+
+      text-align: center;
+      text-decoration: none;
 
       font-family:
         "Oswald",
+        "Zen Kaku Gothic Antique",
         sans-serif;
 
-      font-size:
-        13px;
+      font-size: 17px;
+      letter-spacing: 0.02em;
 
-      font-weight:
-        600;
+      box-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.12);
 
-      letter-spacing:
-        0.1em;
+      transition:
+        transform 0.15s,
+        background 0.15s;
 
-      color:
+      pointer-events: auto;
+    }
+
+    .system-ticket::before {
+      content: "";
+
+      position: absolute;
+
+      left: -10px;
+      top: 50%;
+
+      width: 20px;
+      height: 20px;
+
+      border-radius: 50%;
+
+      background: var(--base);
+
+      transform:
+        translateY(-50%);
+    }
+
+    .system-ticket:hover {
+      transform:
+        translateX(-14px);
+    }
+
+    .system-ticket.current {
+      background:
         var(--red);
+
+      transform:
+        translateX(20px);
     }
 
-    .house-rule a {
-      font-weight:
-        700;
-    }
-
-
-    /* ========================================
-       権利表記
-       ======================================== */
-
-    .copyright {
-      margin-top:
-        30px;
-
-      padding-top:
-        22px;
-
-      border-top:
-        1px solid var(--line);
-
-      font-size:
-        10px;
-
-      line-height:
-        1.7;
-
-      color:
-        var(--subtext);
+    .system-ticket.current:hover {
+      transform:
+        translateX(6px);
     }
 
 
@@ -600,39 +705,91 @@
 
 
     /* ========================================
-       スマホ
+       スマホ・タブレット
        ======================================== */
 
-    @media (max-width: 600px) {
+    @media (max-width: 760px) {
+
+      :root {
+        --header-height:
+          125px;
+      }
+
+      html,
+      body {
+        height: auto;
+      }
 
       body {
-        margin-top:
-          24px;
-
-        padding:
-          0 18px 60px;
+        overflow: auto;
 
         font-size:
           13px;
       }
 
-      .back-area {
-        height:
-          58px;
+      .page {
+        height: auto;
 
-        margin-bottom:
-          20px;
+        overflow:
+          visible;
+      }
+
+      .hero {
+        position:
+          relative;
+      }
+
+      .page-label {
+        right:
+          28px;
+
+        top:
+          32px;
+
+        width:
+          230px;
+
+        height:
+          62px;
+
+        font-size:
+          29px;
+      }
+
+      .page-label::after {
+        right:
+          -31px;
+
+        width:
+          62px;
+
+        height:
+          62px;
+      }
+
+      .page-label::before {
+        right:
+          -18px;
+
+        width:
+          17px;
+
+        height:
+          17px;
       }
 
       .back-ticket {
         top:
-          24px;
+          20px;
 
         width:
-          140px;
+          130px;
 
         height:
           40px;
+
+        font-size:
+          12px;
       }
 
       .back-ticket::after {
@@ -646,9 +803,133 @@
           40px;
       }
 
-      .scenario-title {
+      .main {
+        position:
+          relative;
+
+        top:
+          auto;
+
+        left:
+          auto;
+
+        right:
+          auto;
+
+        bottom:
+          auto;
+
+        overflow:
+          visible;
+      }
+
+      .content-scroll {
+        height:
+          auto;
+
+        overflow:
+          visible;
+      }
+
+      .content {
+        width:
+          min(
+            100%,
+            800px
+          );
+
+        padding:
+          34px
+          20px
+          70px;
+      }
+
+      .system-nav {
+        position:
+          absolute;
+
+        top:
+          132px;
+
+        left:
+          10px;
+
+        right:
+          auto;
+
+        width:
+          calc(100% - 20px);
+
+        flex-direction:
+          row;
+
+        flex-wrap:
+          wrap;
+
+        align-items:
+          center;
+
+        gap:
+          6px;
+      }
+
+      .system-ticket {
+        width:
+          auto;
+
+        min-height:
+          0;
+
+        margin:
+          0;
+
+        padding:
+          6px
+          9px;
+
+        font-size:
+          11px;
+
+        transform:
+          none;
+      }
+
+      .system-ticket::before {
+        display:
+          none;
+      }
+
+      .system-ticket:hover,
+      .system-ticket.current,
+      .system-ticket.current:hover {
+        transform:
+          none;
+      }
+
+      .system-ticket.current {
+        position:
+          relative;
+
+        top:
+          4px;
+      }
+
+      .house-rule-heading {
+        margin-top:
+          30px;
+
+        gap:
+          18px;
+      }
+
+      .house-rule-label {
         font-size:
           22px;
+      }
+
+      .house-rule-system {
+        font-size:
+          19px;
       }
 
       .heading {
@@ -661,43 +942,63 @@
           14px;
       }
 
-      .main-image {
-        max-height:
-          350px;
-      }
-
-      .meta {
-        padding:
-          16px 18px;
-
-        box-shadow:
-          4px 4px 0 var(--blue);
-      }
-
       .box {
         padding:
-          16px 18px;
+          16px
+          18px;
       }
     }
+
   </style>
 </head>
 
 
 <body>
 
-  <div class="back-area">
-    <a
-      class="back-ticket"
-      href="scenarios.html"
-    >
-      ◀ もどる
-    </a>
+  <div class="page">
+
+    <header class="hero">
+
+      <a
+        class="back-ticket"
+        href="index.html"
+      >
+        ◀ もどる
+      </a>
+
+      <div class="page-label">
+        HOUSE RULE
+      </div>
+
+    </header>
+
+
+    <main class="main">
+
+      <div
+        id="content-scroll"
+        class="content-scroll"
+      >
+
+        <div
+          id="house-rule"
+          class="content"
+        >
+          読み込み中……
+        </div>
+
+      </div>
+
+    </main>
+
+
+    <nav
+      id="system-nav"
+      class="system-nav"
+      aria-label="ハウスルールのシステム切り替え"
+    ></nav>
+
   </div>
-
-
-  <main id="scenario">
-    読み込み中……
-  </main>
 
 
   <script>
@@ -784,67 +1085,8 @@
 
 
     // ========================================
-    // シナリオごとのテーマ
-    //
-    // Scenarios L列
-    // LIGHT / DARK
-    //
-    // 未入力の場合はLIGHT
-    // ========================================
-
-    function applyTheme(theme) {
-
-      const normalizedTheme =
-        String(theme || "LIGHT")
-          .trim()
-          .toUpperCase();
-
-
-      const isDark =
-        normalizedTheme === "DARK";
-
-
-      document.documentElement.classList.toggle(
-        "dark",
-        isDark
-      );
-
-
-      document.body.classList.toggle(
-        "dark",
-        isDark
-      );
-    }
-
-
-    // ========================================
-    // 概要欄
-    // ========================================
-
-    function createMetaRow(
-      label,
-      value
-    ) {
-
-      if (!value) {
-        return "";
-      }
-
-
-      return `
-        <div class="meta-row">
-          <strong>
-            ${escapeHtml(label)}：
-          </strong>
-
-          ${formatText(value)}
-        </div>
-      `;
-    }
-
-
-    // ========================================
     // 本文パーツ
+    // scenario.html と同じ
     // ========================================
 
     function createSection(section) {
@@ -861,10 +1103,6 @@
         section.body || "";
 
 
-      // --------------------------------------
-      // 大見出し
-      // --------------------------------------
-
       if (type === "heading") {
 
         return `
@@ -874,10 +1112,6 @@
         `;
       }
 
-
-      // --------------------------------------
-      // 小見出し
-      // --------------------------------------
 
       if (type === "subheading") {
 
@@ -889,10 +1123,6 @@
       }
 
 
-      // --------------------------------------
-      // 中央揃え
-      // --------------------------------------
-
       if (type === "center") {
 
         return `
@@ -902,10 +1132,6 @@
         `;
       }
 
-
-      // --------------------------------------
-      // BOX
-      // --------------------------------------
 
       if (type === "box") {
 
@@ -937,10 +1163,6 @@
       }
 
 
-      // --------------------------------------
-      // アコーディオン
-      // --------------------------------------
-
       if (type === "accordion") {
 
         return `
@@ -960,10 +1182,6 @@
         `;
       }
 
-
-      // --------------------------------------
-      // 引用
-      // --------------------------------------
 
       if (type === "quote") {
 
@@ -988,10 +1206,6 @@
       }
 
 
-      // --------------------------------------
-      // リンク
-      // --------------------------------------
-
       if (type === "link") {
 
         return `
@@ -1011,10 +1225,6 @@
         `;
       }
 
-
-      // --------------------------------------
-      // 画像
-      // --------------------------------------
 
       if (type === "image") {
 
@@ -1048,10 +1258,6 @@
       }
 
 
-      // --------------------------------------
-      // 通常本文
-      // --------------------------------------
-
       return `
         <div class="section">
 
@@ -1081,129 +1287,87 @@
 
 
     // ========================================
-    // シナリオ全体を表示
+    // システム切り替えタグ
     // ========================================
 
-    function renderScenario(scenario) {
+    function renderSystemNav(
+      houseRules,
+      currentSystem
+    ) {
 
-      // まずテーマを決める。
-      applyTheme(
-        scenario.theme
-      );
+      const nav =
+        document.getElementById(
+          "system-nav"
+        );
 
+
+      nav.innerHTML =
+        houseRules
+          .map(
+            rule => {
+
+              const system =
+                String(
+                  rule.system || ""
+                ).trim();
+
+
+              const isCurrent =
+                system === currentSystem;
+
+
+              return `
+                <a
+                  class="system-ticket${
+                    isCurrent
+                      ? " current"
+                      : ""
+                  }"
+                  href="houserule.html?system=${
+                    encodeURIComponent(
+                      system
+                    )
+                  }"
+                >
+                  ${escapeHtml(system)}
+                </a>
+              `;
+            }
+          )
+          .join("");
+    }
+
+
+    // ========================================
+    // ハウスルール本文
+    // ========================================
+
+    function renderHouseRule(rule) {
 
       let html = `
-        <h1 class="scenario-title">
-          ${escapeHtml(
-            scenario.title
-          )}
-        </h1>
+        <div class="house-rule-heading">
+
+          <span class="house-rule-label">
+            HOUSE RULE
+          </span>
+
+          <span class="house-rule-system">
+            ${escapeHtml(
+              rule.system
+            )}
+          </span>
+
+        </div>
       `;
 
 
-      // --------------------------------------
-      // メイン画像
-      // --------------------------------------
-
-      if (scenario.mainImage) {
-
-        html += `
-          <img
-            class="main-image"
-            src="${escapeHtml(
-              scenario.mainImage
-            )}"
-            alt="${escapeHtml(
-              scenario.title
-            )}"
-          >
-        `;
-      }
-
-
-      // --------------------------------------
-      // 概要
-      // --------------------------------------
-
-      html += `
-        <div class="meta">
-
-          ${createMetaRow(
-            "システム",
-            scenario.system
-          )}
-
-          ${createMetaRow(
-            "タグ",
-            Array.isArray(
-              scenario.tags
-            )
-              ? scenario.tags.join(" / ")
-              : scenario.tags
-          )}
-
-          ${createMetaRow(
-            "人数",
-            scenario.players
-          )}
-
-          ${createMetaRow(
-            "時間",
-            scenario.time
-          )}
-      `;
-
-
-      // --------------------------------------
-      // システム固有情報
-      // --------------------------------------
-
       if (
         Array.isArray(
-          scenario.info
+          rule.sections
         )
       ) {
 
-        scenario.info.forEach(
-          info => {
-
-            html +=
-              createMetaRow(
-                info.label,
-                info.value
-              );
-
-          }
-        );
-      }
-
-
-      // --------------------------------------
-      // 備考
-      // --------------------------------------
-
-      html +=
-        createMetaRow(
-          "備考",
-          scenario.note
-        );
-
-
-      html +=
-        `</div>`;
-
-
-      // --------------------------------------
-      // 本文
-      // --------------------------------------
-
-      if (
-        Array.isArray(
-          scenario.sections
-        )
-      ) {
-
-        scenario.sections.forEach(
+        rule.sections.forEach(
           section => {
 
             html +=
@@ -1216,74 +1380,17 @@
       }
 
 
-      // --------------------------------------
-      // HOUSE RULE
-      // --------------------------------------
-
-      if (
-        scenario.houseRule &&
-        scenario.houseRule.url
-      ) {
-
-        html += `
-          <div class="house-rule">
-
-            <div class="house-rule-title">
-              HOUSE RULE
-            </div>
-
-            <a
-              href="${escapeHtml(
-                scenario.houseRule.url
-              )}"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ${escapeHtml(
-                scenario.houseRule.name ||
-                "ハウスルール"
-              )} ↗
-            </a>
-
-          </div>
-        `;
-      }
-
-
-      // --------------------------------------
-      // 権利表記
-      // --------------------------------------
-
-      if (
-        scenario.copyright
-      ) {
-
-        html += `
-          <div class="copyright">
-            ${formatText(
-              scenario.copyright
-            )}
-          </div>
-        `;
-      }
-
-
-      // --------------------------------------
-      // HTML反映
-      // --------------------------------------
-
       document
         .getElementById(
-          "scenario"
+          "house-rule"
         )
         .innerHTML =
           html;
 
 
       document.title =
-        scenario.title +
-        " | TRPG_mug";
-
+        rule.system +
+        " ハウスルール | TRPG_mug";
     }
 
 
@@ -1314,34 +1421,64 @@
       .then(
         data => {
 
+          const houseRules =
+            Array.isArray(
+              data.houseRules
+            )
+              ? data.houseRules
+                  .filter(
+                    rule =>
+                      rule &&
+                      String(
+                        rule.system || ""
+                      ).trim()
+                  )
+              : [];
+
+
+          if (
+            houseRules.length === 0
+          ) {
+
+            throw new Error(
+              "ハウスルールが登録されていません"
+            );
+          }
+
+
           const params =
             new URLSearchParams(
               window.location.search
             );
 
 
-          const scenarioId =
-            params.get("id") ||
-            "S001";
+          const requestedSystem =
+            String(
+              params.get("system") || ""
+            ).trim();
 
 
-          const scenario =
-            data.scenarios.find(
+          const rule =
+            houseRules.find(
               item =>
-                item.id === scenarioId
-            );
+                String(
+                  item.system || ""
+                ).trim() ===
+                requestedSystem
+            ) ||
+            houseRules[0];
 
 
-          if (!scenario) {
+          renderSystemNav(
+            houseRules,
+            String(
+              rule.system || ""
+            ).trim()
+          );
 
-            throw new Error(
-              "指定されたシナリオが見つかりません"
-            );
-          }
 
-
-          renderScenario(
-            scenario
+          renderHouseRule(
+            rule
           );
 
         }
@@ -1355,19 +1492,13 @@
           );
 
 
-          // エラー時はLIGHTで表示
-          applyTheme(
-            "LIGHT"
-          );
-
-
           document
             .getElementById(
-              "scenario"
+              "house-rule"
             )
             .innerHTML = `
               <div class="error">
-                シナリオを読み込めませんでした。
+                ハウスルールを読み込めませんでした。
               </div>
             `;
 
