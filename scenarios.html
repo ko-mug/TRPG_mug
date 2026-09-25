@@ -1697,10 +1697,16 @@
         <a
           class="scenario-card ${systemClass}"
           href="scenario.html?id=${
-            encodeURIComponent(
-              scenario.id
-            )
-          }"
+  encodeURIComponent(
+    scenario.id
+  )
+}&theme=${
+  encodeURIComponent(
+    String(
+      scenario.theme || "LIGHT"
+    ).toUpperCase()
+  )
+}"
         >
 
           <div class="stamp-inner">
