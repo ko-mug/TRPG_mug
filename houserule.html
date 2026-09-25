@@ -585,15 +585,116 @@
 
 
     /* ========================================
-       右 SYSTEM タグ
+       右 共通ナビ
        ======================================== */
 
-    .system-nav {
+    .right-nav {
       position: fixed;
 
       z-index: 30;
 
-      top: 280px;
+      top: 285px;
+      right: 0;
+
+      width: 160px;
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+
+      gap: 11px;
+
+      pointer-events: none;
+    }
+
+    .nav-ticket {
+      position: relative;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 220px;
+      min-height: 48px;
+
+      margin-right: -82px;
+
+      padding:
+        12px
+        48px
+        12px
+        12px;
+
+      color: #ffffff;
+      background: var(--blue);
+
+      text-align: center;
+      text-decoration: none;
+
+      font-family:
+        "Oswald",
+        sans-serif;
+
+      font-size: 17px;
+      letter-spacing: 0.02em;
+
+      box-shadow:
+        0 3px 0 rgba(0, 0, 0, 0.12);
+
+      transition:
+        transform 0.15s,
+        background 0.15s;
+
+      pointer-events: auto;
+    }
+
+    .nav-ticket::before {
+      content: "";
+
+      position: absolute;
+
+      left: -10px;
+      top: 50%;
+
+      width: 20px;
+      height: 20px;
+
+      border-radius: 50%;
+
+      background: var(--base);
+
+      transform:
+        translateY(-50%);
+    }
+
+    .nav-ticket:hover {
+      transform:
+        translateX(-14px);
+    }
+
+    .nav-ticket.current {
+      background: var(--red);
+
+      transform:
+        translateX(20px);
+    }
+
+    .nav-ticket.current:hover {
+      transform:
+        translateX(6px);
+    }
+
+
+    /* ========================================
+       右 SYSTEM タグ
+       ======================================== */
+
+    .house-system-nav {
+      position: fixed;
+
+      z-index: 30;
+
+      top: 475px;
       right: 0;
 
       width: 160px;
@@ -844,7 +945,74 @@
           70px;
       }
 
-      .system-nav {
+      .right-nav {
+        position:
+          absolute;
+
+        top:
+          10px;
+
+        left:
+          10px;
+
+        right:
+          auto;
+
+        width:
+          auto;
+
+        flex-direction:
+          row;
+
+        align-items:
+          center;
+
+        gap:
+          6px;
+      }
+
+      .nav-ticket {
+        width:
+          auto;
+
+        min-height:
+          0;
+
+        margin:
+          0;
+
+        padding:
+          6px
+          9px;
+
+        font-size:
+          11px;
+
+        transform:
+          none;
+      }
+
+      .nav-ticket::before {
+        display:
+          none;
+      }
+
+      .nav-ticket:hover,
+      .nav-ticket.current,
+      .nav-ticket.current:hover {
+        transform:
+          none;
+      }
+
+      .nav-ticket.current {
+        position:
+          relative;
+
+        top:
+          4px;
+      }
+
+      .house-system-nav {
         position:
           absolute;
 
@@ -993,8 +1161,37 @@
 
 
     <nav
+      class="right-nav"
+      aria-label="サイトナビゲーション"
+    >
+
+      <a
+        class="nav-ticket"
+        href="index.html"
+      >
+        HOME
+      </a>
+
+      <a
+        class="nav-ticket current"
+        href="houserule.html"
+      >
+        HOUSE RULE
+      </a>
+
+      <a
+        class="nav-ticket"
+        href="scenarios.html"
+      >
+        SCENARIO
+      </a>
+
+    </nav>
+
+
+    <nav
       id="system-nav"
-      class="system-nav"
+      class="house-system-nav"
       aria-label="ハウスルールのシステム切り替え"
     ></nav>
 
