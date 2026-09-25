@@ -6,228 +6,822 @@
 
   <title>シナリオ | TRPG_mug</title>
 
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600&family=Zen+Kaku+Gothic+Antique:wght@400;500;700&display=swap"
+    rel="stylesheet"
+  >
+
   <style>
+
+    :root {
+      --base: #f5f1e9;
+      --surface: #fbf8f2;
+      --surface-2: #eee8dd;
+
+      --text: #453d39;
+      --subtext: #776d67;
+      --line: #cfc5b8;
+
+      --blue: #579db7;
+      --red: #e5483f;
+      --yellow: #f4b84e;
+      --teal: #16a39a;
+
+      --dark: #343744;
+    }
+
+
     * {
       box-sizing: border-box;
     }
 
-    body {
-      font-family: sans-serif;
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 0 24px 80px;
-      line-height: 1.8;
-      color: #333;
-      background: #fff;
+
+    html {
+      color-scheme: light;
     }
+
+
+    body {
+      max-width: 800px;
+
+      margin:
+        40px
+        auto;
+
+      padding:
+        0
+        24px
+        80px;
+
+      color: var(--text);
+      background: var(--base);
+
+      font-family:
+        "Zen Kaku Gothic Antique",
+        sans-serif;
+
+      font-size: 14px;
+      line-height: 1.8;
+
+      transition:
+        color 0.2s,
+        background 0.2s;
+    }
+
+
+    body.dark {
+      --base: #343744;
+      --surface: #3d404e;
+      --surface-2: #454957;
+
+      --text: #f5f1e9;
+      --subtext: #c8c3bb;
+      --line: #626674;
+
+      color-scheme: dark;
+    }
+
 
     a {
-      color: #4776a8;
+      color: var(--blue);
+
+      text-underline-offset: 3px;
     }
 
-    .back-link {
-      margin-bottom: 28px;
-      font-size: 14px;
+
+    body.dark a {
+      color: #7ebbd1;
     }
+
+
+    /* ========================================
+       上部操作
+    ======================================== */
+
+    .top-tools {
+      position: relative;
+
+      min-height: 54px;
+
+      margin-bottom: 28px;
+    }
+
+
+    /* ========================================
+       もどる
+       SCENARIO LISTと同じ荷札
+    ======================================== */
+
+    .back-area {
+      position: absolute;
+
+      top: 0;
+      left: 0;
+
+      display: flex;
+      align-items: flex-start;
+    }
+
+
+    .back-ticket {
+      position: relative;
+
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+
+      width: 150px;
+      height: 42px;
+
+      padding-left: 20px;
+      padding-right: 17px;
+
+      color: #fff;
+      background: var(--red);
+
+      text-decoration: none;
+
+      font-size: 13px;
+      font-weight: 700;
+
+      box-shadow:
+        0 4px 0 rgba(80, 55, 48, 0.24);
+
+      transition:
+        transform 0.12s,
+        box-shadow 0.12s;
+    }
+
+
+    .back-ticket::after {
+      content: "";
+
+      position: absolute;
+
+      right: -21px;
+      top: 0;
+
+      width: 42px;
+      height: 42px;
+
+      border-radius: 50%;
+
+      background: var(--red);
+    }
+
+
+    .back-ticket::before {
+      content: "";
+
+      position: absolute;
+      z-index: 2;
+
+      right: -11px;
+      top: 50%;
+
+      width: 10px;
+      height: 10px;
+
+      border-radius: 50%;
+
+      background: var(--base);
+
+      transform:
+        translateY(-50%);
+
+      transition:
+        background 0.2s;
+    }
+
+
+    .back-ticket:hover {
+      color: #fff;
+
+      transform:
+        translateY(-2px);
+
+      box-shadow:
+        0 6px 0 rgba(80, 55, 48, 0.20);
+    }
+
+
+    .back-ticket:active {
+      transform:
+        translateY(3px);
+
+      box-shadow:
+        0 1px 0 rgba(80, 55, 48, 0.20);
+    }
+
+
+    /* ========================================
+       LIGHT / DARK
+    ======================================== */
+
+    .theme-switcher {
+      position: absolute;
+
+      top: 0;
+      right: 0;
+
+      display: flex;
+
+      padding: 4px;
+
+      background: var(--surface-2);
+
+      border:
+        1px solid var(--line);
+
+      transition:
+        background 0.2s,
+        border-color 0.2s;
+    }
+
+
+    .theme-button {
+      appearance: none;
+
+      min-width: 68px;
+
+      border: 0;
+
+      padding:
+        7px
+        11px;
+
+      color: var(--subtext);
+      background: transparent;
+
+      cursor: pointer;
+
+      font-family:
+        "Oswald",
+        sans-serif;
+
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+
+      transition:
+        color 0.15s,
+        background 0.15s,
+        transform 0.12s;
+    }
+
+
+    .theme-button:hover {
+      transform:
+        translateY(-1px);
+    }
+
+
+    .theme-button.active {
+      color: #fff;
+      background: var(--blue);
+    }
+
+
+    #dark-button.active {
+      background: var(--red);
+    }
+
+
+    /* ========================================
+       シナリオタイトル
+    ======================================== */
 
     .scenario-title {
-      font-size: 32px;
-      line-height: 1.4;
-      border-bottom: 2px solid #333;
+      margin:
+        0
+        0
+        24px;
+
       padding-bottom: 10px;
+
+      color: var(--text);
+
+      border-bottom:
+        2px solid var(--red);
+
+      font-size: 25px;
+      font-weight: 700;
+      line-height: 1.45;
+
+      transition:
+        color 0.2s,
+        border-color 0.2s;
     }
 
-    /* メイン画像 */
+
+    /* ========================================
+       メイン画像
+    ======================================== */
+
     .main-image {
       display: block;
+
       width: 100%;
       max-height: 500px;
+
       object-fit: contain;
-      margin: 24px 0;
-      border-radius: 8px;
+
+      margin:
+        24px
+        0;
+
+      border-radius: 4px;
     }
 
-    /* 概要 */
+
+    /* ========================================
+       概要
+    ======================================== */
+
     .meta {
-      background: #f5f5f5;
-      padding: 18px 22px;
-      margin: 24px 0 48px;
-      border-radius: 8px;
+      position: relative;
+
+      padding:
+        18px
+        22px;
+
+      margin:
+        24px
+        0
+        48px;
+
+      background: var(--surface);
+
+      border-left:
+        5px solid var(--blue);
+
+      box-shadow:
+        3px 3px 0 var(--yellow);
+
+      transition:
+        background 0.2s,
+        box-shadow 0.2s;
     }
+
 
     .meta-row {
-      margin: 3px 0;
+      margin:
+        3px
+        0;
     }
 
-    /* 本文 */
-    .section {
-      margin: 38px 0;
+
+    .meta-row strong {
+      color: var(--text);
     }
+
+
+    /* ========================================
+       本文
+    ======================================== */
+
+    .section {
+      margin:
+        38px
+        0;
+    }
+
+
+    /*
+      以前24pxだった大見出しを
+      二回り小さく
+    */
 
     .heading {
-      font-size: 24px;
       margin-top: 52px;
       margin-bottom: 20px;
+
       padding-bottom: 6px;
-      border-bottom: 1px solid #bbb;
+
+      color: var(--text);
+
+      border-bottom:
+        1px solid var(--line);
+
+      font-size: 18px;
+      font-weight: 700;
+
+      transition:
+        color 0.2s,
+        border-color 0.2s;
     }
+
+
+    .heading::before {
+      content: "";
+
+      display: inline-block;
+
+      width: 8px;
+      height: 8px;
+
+      margin-right: 9px;
+
+      background: var(--red);
+
+      vertical-align: 2px;
+    }
+
 
     .subheading {
-      font-size: 18px;
       margin-top: 30px;
       margin-bottom: 10px;
+
+      color: var(--blue);
+
+      font-size: 15px;
+      font-weight: 700;
     }
+
 
     p {
-      margin: 0 0 1.2em;
+      margin:
+        0
+        0
+        1.2em;
     }
 
-    /* 中央揃え本文 */
+
+    /* ========================================
+       中央揃え本文
+    ======================================== */
+
     .center {
-      margin: 38px 0;
+      margin:
+        38px
+        0;
+
       text-align: center;
     }
 
-    /* BOX */
+
+    /* ========================================
+       BOX
+    ======================================== */
+
     .box {
-      margin: 32px 0;
-      padding: 18px 22px;
-      border: 1px solid #bbb;
-      border-radius: 8px;
-      background: #fafafa;
+      margin:
+        32px
+        0;
+
+      padding:
+        18px
+        22px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--surface);
+
+      box-shadow:
+        4px 4px 0 var(--yellow);
+
+      transition:
+        background 0.2s,
+        border-color 0.2s;
     }
+
 
     .box-title {
-      font-weight: bold;
       margin-bottom: 8px;
+
+      color: var(--red);
+
+      font-weight: 700;
     }
 
-    /* アコーディオン */
+
+    /* ========================================
+       アコーディオン
+    ======================================== */
+
     details {
-      margin: 32px 0;
-      border: 1px solid #ccc;
-      border-radius: 8px;
+      margin:
+        32px
+        0;
+
       overflow: hidden;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--surface);
+
+      transition:
+        background 0.2s,
+        border-color 0.2s;
     }
+
 
     summary {
       cursor: pointer;
-      padding: 14px 18px;
-      font-weight: bold;
-      background: #f5f5f5;
+
+      padding:
+        12px
+        18px;
+
+      color: var(--text);
+      background: var(--surface-2);
+
+      font-weight: 700;
+
+      transition:
+        background 0.15s;
     }
+
 
     summary:hover {
-      background: #eee;
+      background:
+        color-mix(
+          in srgb,
+          var(--blue) 18%,
+          var(--surface)
+        );
     }
+
+
+    details[open] summary {
+      border-bottom:
+        3px solid var(--blue);
+    }
+
 
     .accordion-body {
-      padding: 18px 20px 6px;
+      padding:
+        18px
+        20px
+        6px;
     }
 
-    /* 引用 */
+
+    /* ========================================
+       引用
+    ======================================== */
+
     .quote {
-      margin: 32px 0;
-      padding-left: 20px;
-      border-left: 4px solid #aaa;
+      margin:
+        32px
+        0;
+
+      padding:
+        4px
+        0
+        4px
+        20px;
+
+      color: var(--subtext);
+
+      border-left:
+        4px solid var(--teal);
+
       font-style: italic;
     }
 
-    /* 本文中の画像 */
+
+    /* ========================================
+       本文中の画像
+    ======================================== */
+
     .scenario-image {
       display: block;
+
       max-width: 100%;
       height: auto;
+
       margin-top: 12px;
-      border-radius: 6px;
+
+      border-radius: 4px;
     }
+
 
     .image-caption {
       margin-top: 6px;
-      font-size: 13px;
-      color: #777;
+
+      color: var(--subtext);
+
+      font-size: 11px;
     }
 
-    /* 文字装飾 */
+
+    /* ========================================
+       文字装飾
+    ======================================== */
+
     .red {
-      color: #c0392b;
+      color: var(--red);
     }
+
 
     .yellow {
-      color: #b8860b;
+      color: #b87a00;
     }
 
-    .blue {
-      color: #286090;
+
+    body.dark .yellow {
+      color: var(--yellow);
     }
+
+
+    .blue {
+      color: var(--blue);
+    }
+
 
     .underline {
       text-decoration: underline;
+
+      text-underline-offset: 3px;
     }
 
-    /* ハウスルール */
+
+    /* ========================================
+       ハウスルール
+    ======================================== */
+
     .house-rule {
       margin-top: 64px;
-      padding: 22px 0;
-      border-top: 1px solid #ccc;
+
+      padding:
+        22px
+        0;
+
+      border-top:
+        1px solid var(--line);
     }
+
 
     .house-rule-title {
-      font-size: 13px;
-      font-weight: bold;
-      letter-spacing: 0.08em;
-      color: #777;
       margin-bottom: 8px;
+
+      color: var(--red);
+
+      font-family:
+        "Oswald",
+        sans-serif;
+
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
     }
+
 
     .house-rule a {
-      font-weight: bold;
+      font-weight: 700;
     }
 
-    /* 権利表記 */
+
+    /* ========================================
+       権利表記
+    ======================================== */
+
     .copyright {
       margin-top: 30px;
+
       padding-top: 22px;
-      border-top: 1px solid #ddd;
-      font-size: 12px;
+
+      color: var(--subtext);
+
+      border-top:
+        1px solid var(--line);
+
+      font-size: 10px;
       line-height: 1.7;
-      color: #777;
     }
+
+
+    /* ========================================
+       エラー
+    ======================================== */
 
     .error {
       padding: 20px;
-      background: #fff4f4;
-      border: 1px solid #e0b4b4;
-      border-radius: 8px;
+
+      color: var(--text);
+      background: var(--surface);
+
+      border:
+        1px solid var(--red);
+
+      box-shadow:
+        4px 4px 0 var(--red);
     }
 
+
+    /* ========================================
+       スマホ
+    ======================================== */
+
     @media (max-width: 600px) {
+
       body {
         margin-top: 24px;
+
         padding-left: 18px;
         padding-right: 18px;
+
+        font-size: 13px;
       }
+
+
+      .top-tools {
+        min-height: 94px;
+      }
+
+
+      .back-area {
+        position: relative;
+      }
+
+
+      .theme-switcher {
+        top: 54px;
+        left: 0;
+        right: auto;
+      }
+
 
       .scenario-title {
-        font-size: 27px;
+        font-size: 22px;
       }
 
+
       .heading {
-        font-size: 21px;
+        font-size: 17px;
       }
+
 
       .main-image {
         max-height: 350px;
       }
+
+
+      .meta {
+        padding:
+          16px
+          18px;
+      }
+
     }
+
   </style>
 </head>
 
+
 <body>
 
-  <div class="back-link">
-    <a href="index.html">← シナリオ一覧へ戻る</a>
+
+  <!-- ========================================
+       上部
+  ======================================== -->
+
+  <div class="top-tools">
+
+
+    <div class="back-area">
+
+      <a
+        class="back-ticket"
+        href="scenarios.html"
+      >
+        ◀ もどる
+      </a>
+
+    </div>
+
+
+    <div
+      class="theme-switcher"
+      aria-label="表示テーマ"
+    >
+
+      <button
+        id="light-button"
+        class="theme-button active"
+        type="button"
+      >
+        LIGHT
+      </button>
+
+      <button
+        id="dark-button"
+        class="theme-button"
+        type="button"
+      >
+        DARK
+      </button>
+
+    </div>
+
+
   </div>
+
 
   <main id="scenario">
     読み込み中……
@@ -236,181 +830,354 @@
 
   <script>
 
-    // ========================================
-    // HTML特殊文字を安全にする
-    // ========================================
+    /* ========================================
+       LIGHT / DARK
+    ======================================== */
+
+    const lightButton =
+      document.getElementById(
+        "light-button"
+      );
+
+    const darkButton =
+      document.getElementById(
+        "dark-button"
+      );
+
+
+    function setTheme(theme) {
+
+      const isDark =
+        theme === "dark";
+
+
+      document.body.classList.toggle(
+        "dark",
+        isDark
+      );
+
+
+      lightButton.classList.toggle(
+        "active",
+        !isDark
+      );
+
+
+      darkButton.classList.toggle(
+        "active",
+        isDark
+      );
+
+
+      try {
+
+        localStorage.setItem(
+          "trpg-mug-theme",
+          theme
+        );
+
+      } catch (error) {
+
+        console.warn(
+          "テーマ設定を保存できませんでした",
+          error
+        );
+
+      }
+
+    }
+
+
+    let savedTheme = "light";
+
+
+    try {
+
+      savedTheme =
+        localStorage.getItem(
+          "trpg-mug-theme"
+        ) || "light";
+
+    } catch (error) {
+
+      savedTheme = "light";
+
+    }
+
+
+    setTheme(savedTheme);
+
+
+    lightButton.addEventListener(
+      "click",
+      () => setTheme("light")
+    );
+
+
+    darkButton.addEventListener(
+      "click",
+      () => setTheme("dark")
+    );
+
+
+    /* ========================================
+       HTML特殊文字を安全にする
+    ======================================== */
 
     function escapeHtml(text) {
+
       return String(text ?? "")
         .replace(/&/g, "&amp;")
         .replace(/</g, "&lt;")
         .replace(/>/g, "&gt;")
         .replace(/"/g, "&quot;")
         .replace(/'/g, "&#039;");
+
     }
 
 
-    // ========================================
-    // 本文内の装飾
-    //
-    // **文字**         → 太字
-    // {red:文字}       → 赤
-    // {yellow:文字}    → 黄
-    // {blue:文字}      → 青
-    // {underline:文字} → 下線
-    // ========================================
+    /* ========================================
+       本文内の装飾
+
+       **文字**         → 太字
+       {red:文字}       → 赤
+       {yellow:文字}    → 黄
+       {blue:文字}      → 青
+       {underline:文字} → 下線
+    ======================================== */
 
     function formatText(text) {
+
       if (!text) return "";
 
-      let result = escapeHtml(text);
 
-      result = result.replace(
-        /\*\*(.+?)\*\*/g,
-        "<strong>$1</strong>"
-      );
+      let result =
+        escapeHtml(text);
 
-      result = result.replace(
-        /\{red:(.+?)\}/g,
-        '<span class="red">$1</span>'
-      );
 
-      result = result.replace(
-        /\{yellow:(.+?)\}/g,
-        '<span class="yellow">$1</span>'
-      );
+      result =
+        result.replace(
+          /\*\*(.+?)\*\*/g,
+          "<strong>$1</strong>"
+        );
 
-      result = result.replace(
-        /\{blue:(.+?)\}/g,
-        '<span class="blue">$1</span>'
-      );
 
-      result = result.replace(
-        /\{underline:(.+?)\}/g,
-        '<span class="underline">$1</span>'
-      );
+      result =
+        result.replace(
+          /\{red:(.+?)\}/g,
+          '<span class="red">$1</span>'
+        );
 
-      result = result.replace(
-        /\n/g,
-        "<br>"
-      );
+
+      result =
+        result.replace(
+          /\{yellow:(.+?)\}/g,
+          '<span class="yellow">$1</span>'
+        );
+
+
+      result =
+        result.replace(
+          /\{blue:(.+?)\}/g,
+          '<span class="blue">$1</span>'
+        );
+
+
+      result =
+        result.replace(
+          /\{underline:(.+?)\}/g,
+          '<span class="underline">$1</span>'
+        );
+
+
+      result =
+        result.replace(
+          /\n/g,
+          "<br>"
+        );
+
 
       return result;
+
     }
 
 
-    // ========================================
-    // 概要欄
-    // ========================================
+    /* ========================================
+       概要欄
+    ======================================== */
 
-    function createMetaRow(label, value) {
+    function createMetaRow(
+      label,
+      value
+    ) {
+
       if (!value) return "";
+
 
       return `
         <div class="meta-row">
-          <strong>${escapeHtml(label)}：</strong>
+          <strong>
+            ${escapeHtml(label)}：
+          </strong>
+
           ${formatText(value)}
         </div>
       `;
+
     }
 
 
-    // ========================================
-    // 本文パーツ
-    // ========================================
+    /* ========================================
+       本文パーツ
+    ======================================== */
 
     function createSection(section) {
-      const type = section.type || "text";
-      const heading = section.heading || "";
-      const body = section.body || "";
+
+      const type =
+        section.type || "text";
+
+      const heading =
+        section.heading || "";
+
+      const body =
+        section.body || "";
+
 
       if (type === "heading") {
+
         return `
           <h2 class="heading">
             ${escapeHtml(heading)}
           </h2>
         `;
+
       }
 
+
       if (type === "subheading") {
+
         return `
           <h3 class="subheading">
             ${escapeHtml(heading)}
           </h3>
         `;
+
       }
 
+
       if (type === "center") {
+
         return `
           <div class="center">
             ${formatText(body)}
           </div>
         `;
+
       }
 
+
       if (type === "box") {
+
         return `
           <div class="box">
+
             ${
               heading
-                ? `<div class="box-title">${escapeHtml(heading)}</div>`
+                ? `
+                  <div class="box-title">
+                    ${escapeHtml(heading)}
+                  </div>
+                `
                 : ""
             }
 
             ${
               body
-                ? `<div>${formatText(body)}</div>`
+                ? `
+                  <div>
+                    ${formatText(body)}
+                  </div>
+                `
                 : ""
             }
+
           </div>
         `;
+
       }
 
+
       if (type === "accordion") {
+
         return `
           <details>
+
             <summary>
-              ${escapeHtml(heading || "詳細")}
+              ${escapeHtml(
+                heading || "詳細"
+              )}
             </summary>
 
             <div class="accordion-body">
               ${formatText(body)}
             </div>
+
           </details>
         `;
+
       }
 
+
       if (type === "quote") {
+
         return `
           <div class="quote">
+
             ${
               heading
-                ? `<strong>${escapeHtml(heading)}</strong><br>`
+                ? `
+                  <strong>
+                    ${escapeHtml(heading)}
+                  </strong>
+                  <br>
+                `
                 : ""
             }
 
             ${formatText(body)}
+
           </div>
         `;
+
       }
 
+
       if (type === "link") {
+
         return `
           <div class="section">
+
             <a
               href="${escapeHtml(body)}"
               target="_blank"
               rel="noopener noreferrer"
             >
-              ${escapeHtml(heading || body)} ↗
+              ${escapeHtml(
+                heading || body
+              )} ↗
             </a>
+
           </div>
         `;
+
       }
 
+
       if (type === "image") {
+
         return `
           <div class="section">
+
             ${
               body
                 ? `
@@ -425,34 +1192,52 @@
 
             ${
               heading
-                ? `<div class="image-caption">${escapeHtml(heading)}</div>`
+                ? `
+                  <div class="image-caption">
+                    ${escapeHtml(heading)}
+                  </div>
+                `
                 : ""
             }
+
           </div>
         `;
+
       }
+
 
       return `
         <div class="section">
+
           ${
             heading
-              ? `<h2 class="heading">${escapeHtml(heading)}</h2>`
+              ? `
+                <h2 class="heading">
+                  ${escapeHtml(heading)}
+                </h2>
+              `
               : ""
           }
 
           ${
             body
-              ? `<div>${formatText(body)}</div>`
+              ? `
+                <div>
+                  ${formatText(body)}
+                </div>
+              `
               : ""
           }
+
         </div>
       `;
+
     }
 
 
-    // ========================================
-    // シナリオ全体を表示
-    // ========================================
+    /* ========================================
+       シナリオ全体を表示
+    ======================================== */
 
     function renderScenario(scenario) {
 
@@ -463,8 +1248,10 @@
       `;
 
 
-      // メイン画像
+      /* メイン画像 */
+
       if (scenario.mainImage) {
+
         html += `
           <img
             class="main-image"
@@ -472,10 +1259,12 @@
             alt="${escapeHtml(scenario.title)}"
           >
         `;
+
       }
 
 
-      // 概要
+      /* 概要 */
+
       html += `
         <div class="meta">
 
@@ -503,39 +1292,62 @@
       `;
 
 
-      // システム固有情報
+      /* システム固有情報 */
+
       if (scenario.info) {
-        scenario.info.forEach(info => {
-          html += createMetaRow(
-            info.label,
-            info.value
-          );
-        });
+
+        scenario.info.forEach(
+          info => {
+
+            html +=
+              createMetaRow(
+                info.label,
+                info.value
+              );
+
+          }
+        );
+
       }
 
 
-      // 備考
-      html += createMetaRow(
-        "備考",
-        scenario.note
-      );
+      /* 備考 */
 
-      html += `</div>`;
+      html +=
+        createMetaRow(
+          "備考",
+          scenario.note
+        );
 
 
-      // 本文
+      html += `
+        </div>
+      `;
+
+
+      /* 本文 */
+
       if (scenario.sections) {
-        scenario.sections.forEach(section => {
-          html += createSection(section);
-        });
+
+        scenario.sections.forEach(
+          section => {
+
+            html +=
+              createSection(section);
+
+          }
+        );
+
       }
 
 
-      // HOUSE RULE
+      /* HOUSE RULE */
+
       if (
         scenario.houseRule &&
         scenario.houseRule.url
       ) {
+
         html += `
           <div class="house-rule">
 
@@ -544,93 +1356,138 @@
             </div>
 
             <a
-              href="${escapeHtml(scenario.houseRule.url)}"
+              href="${escapeHtml(
+                scenario.houseRule.url
+              )}"
               target="_blank"
               rel="noopener noreferrer"
             >
               ${escapeHtml(
-                scenario.houseRule.name || "ハウスルール"
+                scenario.houseRule.name ||
+                "ハウスルール"
               )} ↗
             </a>
 
           </div>
         `;
+
       }
 
 
-      // 権利表記
+      /* 権利表記 */
+
       if (scenario.copyright) {
+
         html += `
           <div class="copyright">
-            ${formatText(scenario.copyright)}
+            ${formatText(
+              scenario.copyright
+            )}
           </div>
         `;
+
       }
 
 
       document
-        .getElementById("scenario")
+        .getElementById(
+          "scenario"
+        )
         .innerHTML = html;
 
 
       document.title =
-        scenario.title + " | TRPG_mug";
+        scenario.title +
+        " | TRPG_mug";
+
     }
 
 
-    // ========================================
-    // data.json読み込み
-    // キャッシュ回避付き
-    // ========================================
+    /* ========================================
+       data.json読み込み
+       キャッシュ回避付き
+    ======================================== */
 
-    fetch("data.json?v=" + Date.now())
+    fetch(
+      "data.json?v=" +
+      Date.now()
+    )
 
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(
-            "data.jsonを読み込めませんでした"
-          );
+      .then(
+        response => {
+
+          if (!response.ok) {
+
+            throw new Error(
+              "data.jsonを読み込めませんでした"
+            );
+
+          }
+
+
+          return response.json();
+
         }
+      )
 
-        return response.json();
-      })
+      .then(
+        data => {
 
-      .then(data => {
+          const params =
+            new URLSearchParams(
+              window.location.search
+            );
 
-        const params =
-          new URLSearchParams(
-            window.location.search
+
+          const scenarioId =
+            params.get("id") ||
+            "S001";
+
+
+          const scenario =
+            data.scenarios.find(
+              item =>
+                item.id ===
+                scenarioId
+            );
+
+
+          if (!scenario) {
+
+            throw new Error(
+              "指定されたシナリオが見つかりません"
+            );
+
+          }
+
+
+          renderScenario(
+            scenario
           );
 
-        const scenarioId =
-          params.get("id") || "S001";
-
-        const scenario =
-          data.scenarios.find(
-            item => item.id === scenarioId
-          );
-
-        if (!scenario) {
-          throw new Error(
-            "指定されたシナリオが見つかりません"
-          );
         }
+      )
 
-        renderScenario(scenario);
-      })
+      .catch(
+        error => {
 
-      .catch(error => {
+          console.error(
+            error
+          );
 
-        console.error(error);
 
-        document
-          .getElementById("scenario")
-          .innerHTML = `
-            <div class="error">
-              シナリオを読み込めませんでした。
-            </div>
-          `;
-      });
+          document
+            .getElementById(
+              "scenario"
+            )
+            .innerHTML = `
+              <div class="error">
+                シナリオを読み込めませんでした。
+              </div>
+            `;
+
+        }
+      );
 
   </script>
 
