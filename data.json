@@ -291,7 +291,7 @@
       "note": "継続推奨",
       "theme": "LIGHT",
       "thumbnail": "https://drive.google.com/thumbnail?id=15AeMAelrFTDE60gjVG5yuhV1Ez4kvYqQ&sz=w1600",
-      "mainImage": "",
+      "mainImage": "https://drive.google.com/thumbnail?id=15AeMAelrFTDE60gjVG5yuhV1Ez4kvYqQ&sz=w1600",
       "houseRule": {
         "name": "CoC",
         "url": "https://www.google.com/?hl=ja"
@@ -315,7 +315,7 @@
         {
           "type": "center",
           "heading": "",
-          "body": "＞ ＞ ＞ モ テ 期 襲 来 ！ ？ ＜ ＜ ＜ "
+          "body": "{red:＞ ＞ ＞ モ テ 期 襲 来 ！ ？ ＜ ＜ ＜ }"
         },
         {
           "type": "heading",
