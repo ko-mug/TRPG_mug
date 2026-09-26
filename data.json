@@ -483,7 +483,7 @@
           "body": "(21-[現在POW])*5　の計算値になる。"
         },
         {
-          "type": "text",
+          "type": "heading",
           "heading": "幕間成長",
           "body": ""
         },
