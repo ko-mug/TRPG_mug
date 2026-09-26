@@ -288,14 +288,51 @@
       ],
       "players": "タイマン",
       "time": "終日1日 or 夜3日",
-      "note": "",
+      "note": "継続推奨",
       "theme": "LIGHT",
       "thumbnail": "",
       "mainImage": "",
-      "houseRule": null,
+      "houseRule": {
+        "name": "CoC",
+        "url": "https://www.google.com/?hl=ja"
+      },
       "copyright": "本作は「株式会社アークライト」及び「株式会社KADOKAWA」が権利を有する『クトゥルフ神話TRPG』の二次創作物です。\n\nCall of Cthulhu is copyright ©1981, 2015, 2019 by Chaosium Inc. ;all rights reserved. Arranged by Arclight Inc.\nCall of Cthulhu is a registered trademark of Chaosium Inc.\nPUBLISHED BY KADOKAWA CORPORATION",
-      "info": [],
-      "sections": []
+      "info": [
+        {
+          "label": "ロスト率",
+          "value": "低"
+        },
+        {
+          "label": "探索者",
+          "value": "継続"
+        },
+        {
+          "label": "推奨",
+          "value": "なし"
+        }
+      ],
+      "sections": [
+        {
+          "type": "center",
+          "heading": "",
+          "body": "＞ ＞ ＞ モ テ 期 襲 来 ！ ？ ＜ ＜ ＜ "
+        },
+        {
+          "type": "heading",
+          "heading": "導入",
+          "body": ""
+        },
+        {
+          "type": "text",
+          "heading": "",
+          "body": "とある街、とある場所の廃れた神社。\n縁結びだかなんだか、そういう話があるらしい…？"
+        },
+        {
+          "type": "text",
+          "heading": "その他",
+          "body": "本卓は、多少の改変がアドリブ的に含まれることがあります。\r\nご了承ください。"
+        }
+      ]
     },
     {
       "id": "S012",
@@ -584,8 +621,8 @@
         },
         {
           "type": "subheading",
-          "heading": "",
-          "body": "戦闘時のCFについて"
+          "heading": "戦闘時のCFについて",
+          "body": ""
         },
         {
           "type": "text",
